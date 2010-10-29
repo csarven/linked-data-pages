@@ -1,0 +1,20 @@
+    <head>
+        <title><?php e($title); echo " &#8212; ".$c['site']['name'];?></title>
+
+        <link rel="shortcut icon" href="http://<?php echo $c['site']['server']; ?>/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].'/'.$c['site']['path'].'theme/'.$c['site']['theme'].'/css/display.css?version=0.0.1'; ?>" media="screen, projection, tv, print"/>
+
+        <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
+
+<?php
+    $formats = $this->desc->get_resource_triple_values($this->desc->get_uri(), 'http://purl.org/dc/terms/hasFormat');
+    foreach ($formats as $format_uri) {
+        $media_type = $this->desc->get_first_literal($format_uri, 'http://purl.org/dc/elements/1.1/format');  
+        $label = $this->desc->get_first_literal($format_uri, RDFS_LABEL, $media_type);  
+        echo '        <link rel="alternate" type="' . htmlspecialchars($media_type) . '" href="' . htmlspecialchars($format_uri) . '" title="' . htmlspecialchars($label) . ' version of this document"/>' . "\n";
+    }
+?>
+
+        <style type="text/css">
+        
+        </style>

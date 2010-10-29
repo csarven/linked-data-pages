@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteRule ^$  index.php [L]
+
+RewriteCond %{REQUEST_FILENAME}  -d
+RewriteRule  ^.*$  -  [L]
+
+RewriteCond %{REQUEST_FILENAME}  -f
+RewriteRule  ^.*$  -  [L]
+
+RewriteRule ^.*$  index.php [L]

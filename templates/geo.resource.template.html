@@ -1,0 +1,27 @@
+<?php
+require_once SITE_DIR . 'templates/html.layout.template.html';
+require_once SITE_DIR . 'templates/head.layout.template.html';
+?>
+    </head>
+
+    <body id="<?php echo $sC->getEntityId(); ?>">
+        <div id="wrap">
+<?php require_once SITE_DIR . 'templates/header.layout.template.html'; ?>
+            <div id="core">
+<?php require_once SITE_DIR . 'templates/nav.local.layout.template.html'; ?>
+
+                <div id="content">
+                    <h1><?php e($title);?></h1>
+
+                    <div id="content_inner">
+                        <div id="resource_data">
+                            <p>This resource has a URI of <a href="<?php e($resource_uri);?>"><?php e($resource_uri);?></a></p>
+                            <?php echo $this->render(array('value' => $resource_uri, 'type'=>'uri'), FALSE); ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+<?php require_once SITE_DIR . 'templates/footer.layout.template.html'; ?>
+        </div>
+<?php require_once SITE_DIR . 'templates/foot.layout.template.html'; ?>

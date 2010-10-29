@@ -1,0 +1,26 @@
+            <div id="header">
+                <address id="site_contact" class="vcard">
+                    <a href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/'; ?>" class="url home bookmark">
+                        <img alt="<?php echo $c['site']['name']; ?>'s logo" src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/'.$c['site']['logo']; ?>" class="logo photo"/>
+                        <span class="fn org"><?php echo $c['site']['name']; ?></span>
+                    </a>
+                </address>
+
+                <dl id="site_nav_global_primary">
+                    <dt>Primary site navigation</dt>
+                    <dd>
+                        <ul class="nav">
+                            <li id="nav_home">
+                                <a rel="section" href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/" title="Home page">Home</a>
+                            </li>
+                            <li id="nav_help">
+                                <a rel="section" href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/help" title="Help!">Help</a>
+                            </li>
+                            <li id="nav_search">
+                                <a rel="section" href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/search" title="Search for data">Search</a>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+

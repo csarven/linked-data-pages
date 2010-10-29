@@ -1,0 +1,72 @@
+/** theme:    default
+ *
+ * @package   
+ * @author    Sarven Capadisli <sarven.capadisli@deri.org>
+ * @copyright 2010 Digital Enterprise Research Institute
+ * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
+ * @link      http://deri.org/
+ */
+
+@import url(../../base/css/display.css);
+
+@media screen, projection, tv {
+body,
+a:active {
+background-color:#CFDEE3;
+}
+
+a {
+color:#002FA7;
+}
+
+tr {
+border-bottom:1px solid #EEE;
+}
+
+body {
+font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+font-size:1em;
+}
+address {
+margin-right:5.3%;
+}
+
+
+#content {
+box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
+-moz-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
+-webkit-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
+}
+#content,
+#site_nav_local_sections a,
+#aside_primary {
+border-color:transparent;
+}
+#content,
+#site_nav_local_sections .current a {
+background-color:#FFFFFF;
+}
+
+
+#site_nav_local_sections li.current {
+box-shadow:3px 7px 5px rgba(194, 194, 194, 0.5);
+-moz-box-shadow:3px 7px 5px rgba(194, 194, 194, 0.5);
+-webkit-box-shadow:3px 7px 5px rgba(194, 194, 194, 0.5);
+}
+#site_nav_local_sections a {
+background-color:rgba(194, 194, 194, 0.5);
+}
+#site_nav_local_sections a:hover {
+background-color:rgba(255, 255, 255, 0.7);
+}
+#site_nav_local_sections .current a {
+text-shadow: rgba(194,194,194,0.5) 1px 1px 1px;
+}
+
+
+
+#aside_primary {
+background-color:#EEE;
+}
+
+} /*end of @media screen, projection, tv*/

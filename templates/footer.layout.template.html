@@ -1,0 +1,41 @@
+            <div id="footer">
+                <dl id="site_nav_global_secondary">
+                    <dt>Secondary site navigation</dt>
+                    <dd>
+                        <ul class="nav">
+                            <li>
+                                <a href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/help">Help</a>
+                            </li>
+                            <li>
+                                <a href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/about">About</a>
+                            </li>
+                            <li>
+                                <a href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/faq">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/contact">Contact</a>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl id="resource_data_alternate">
+                    <dt>In alternate data formats</dt>
+                    <dd>
+                        <ul class="nav">
+<?php
+//XXX: Modularize this section
+$formats = $this->desc->get_resource_triple_values($this->desc->get_uri(), 'http://purl.org/dc/terms/hasFormat');
+
+foreach ($formats as $format_uri) {
+    $media_type = $this->desc->get_first_literal($format_uri, 'http://purl.org/dc/elements/1.1/format');  
+    $label = $this->desc->get_first_literal($format_uri, RDFS_LABEL, $media_type);  
+
+    echo "\n".'                            <li><a href="' . htmlspecialchars($format_uri) . '" rel="alternate" title="' . htmlspecialchars($label) . ' version of this document" type="' . htmlspecialchars($media_type) . '">' . htmlspecialchars($label) . '</a></li>';
+}
+?>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+

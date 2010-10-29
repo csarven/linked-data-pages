@@ -1,0 +1,329 @@
+/** theme:    base
+ *
+ * @package   
+ * @author    Sarven Capadisli <sarven.capadisli@deri.org>
+ * @copyright 2010 Digital Enterprise Research Institute
+ * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
+ * @link      http://deri.org/
+ */
+
+@media screen, projection, tv {
+* { margin:0; padding:0; }
+img { display:block; border:0; }
+a abbr { cursor: pointer; border-bottom:0; }
+table { border-collapse:collapse; }
+tr { vertical-align:top; }
+ol { list-style-position:inside; }
+html { font-size: 87.5%; }
+body {
+background-color:#FFFFFF;
+color:#000;
+font-family:sans-serif;
+font-size:1em;
+line-height:1.65;
+position:relative;
+}
+h1,h2,h3,h4,h5,h6 {
+margin-bottom:7px;
+overflow:hidden;
+}
+h1 {
+font-size:1.4em;
+margin-bottom:18px;
+}
+h2 { font-size:1.3em; }
+h3 { font-size:1.2em; }
+h4 { font-size:1.1em; }
+h5 { font-size:1em; }
+h6 { font-size:0.9em; }
+
+caption {
+font-weight:bold;
+}
+legend {
+font-weight:bold;
+font-size:1.3em;
+}
+input, textarea, select, option {
+padding:4px;
+font-family:sans-serif;
+font-size:1em;
+}
+input.submit {
+font-weight:bold;
+cursor:pointer;
+}
+textarea {
+overflow:auto;
+}
+option {
+padding-bottom:0;
+}
+fieldset {
+padding:0;
+border:0;
+}
+form ul li {
+list-style-type:none;
+margin:0 0 18px 0;
+}
+form label {
+font-weight:bold;
+}
+input.checkbox,
+input.radio {
+position:relative;
+top:2px;
+left:auto;
+border:0;
+}
+
+.error,
+.success {
+padding:4px 1.55%;
+border-radius:4px;
+-moz-border-radius:4px;
+-webkit-border-radius:4px;
+margin-bottom:18px;
+}
+
+
+
+thead tr {
+border-bottom:0;
+}
+th, td {
+padding-top:1em;
+padding-bottom:1em;
+padding-right:1em;
+}
+th {
+text-align:left;
+}
+
+
+address {
+float:left;
+margin-bottom:18px;
+margin-left:18px;
+}
+address.vcard img.logo {
+margin-right:0;
+}
+address .fn {
+font-weight:bold;
+}
+address img + .fn {
+display:none;
+}
+address a {
+text-decoration:none;
+}
+
+#header {
+width:100%;
+position:relative;
+float:left;
+padding-top:18px;
+margin-bottom:29px;
+}
+
+#site_nav_global_primary {
+float:right;
+margin-right:18px;
+margin-bottom:11px;
+margin-left:18px;
+}
+#site_nav_global_primary li {
+display:inline;
+margin-left:18px;
+}
+
+
+#footer {
+float:left;
+width:64%;
+padding:18px;
+}
+
+#site_nav_local_sections {
+width:100%;
+float:left;
+}
+#site_nav_local_sections dt {
+display:none;
+}
+#site_nav_local_sections li {
+float:left;
+margin-right:18px;
+list-style-type:none;
+}
+#site_nav_local_sections a {
+float:left;
+text-decoration:none;
+padding:4px 11px;
+border-radius-topleft:4px;
+border-radius-topright:4px;
+-moz-border-radius-topleft:4px;
+-moz-border-radius-topright:4px;
+-webkit-border-top-left-radius:4px;
+-webkit-border-top-right-radius:4px;
+border-radius-topleft:0;
+border-radius-topright:0;
+border-width:1px;
+border-style:solid;
+border-bottom:0;
+font-weight:bold;
+}
+#site_nav_local_sections .nav {
+float:left;
+width:100%;
+}
+
+#site_nav_global_primary dt,
+#site_nav_global_secondary dt {
+display:none;
+}
+
+#site_nav_global_secondary {
+margin-bottom:11px;
+}
+
+#site_nav_global_secondary ul li {
+display:inline;
+margin-right:18px;
+}
+
+
+#wrap {
+margin:0 auto;
+width:100%;
+min-width:760px;
+max-width:1003px;
+overflow:hidden;
+}
+
+#core {
+position:relative;
+width:100%;
+float:left;
+margin-bottom:1em;
+}
+
+#content {
+width:63.311%;
+min-height:259px;
+padding:1.795%;
+float:left;
+border-radius:7px;
+-moz-border-radius:7px;
+-moz-border-radius-topleft:0;
+-webkit-border-radius:7px;
+-webkit-border-top-left-radius:0;
+border-width:1px;
+border-style:solid;
+}
+
+#content_inner {
+position:relative;
+width:100%;
+float:left;
+}
+
+#aside_primary {
+width:27.917%;
+min-height:259px;
+float:left;
+margin-left:0.699%;
+padding:1.795%;
+border-radius:7px;
+-moz-border-radius:7px;
+-webkit-border-radius:7px;
+border-width:1px;
+border-style:solid;
+}
+
+
+#resource #content {
+width:96.2%;
+}
+
+
+
+
+
+
+/*
+dl.propertiesobjects {
+float:left;
+width:100%;
+clear:both;
+}
+
+dl.propertiesobjects dt,
+dl.propertiesobjects dd {
+float:left;
+margin-bottom:1em;
+word-break:break-word;
+}
+
+dl.propertiesobjects dt {
+width:35%;
+margin-right:3%;
+clear:both;
+font-weight:bold;
+text-align:right;
+}
+dl.propertiesobjects dd {
+width:62%;
+overflow:hidden;
+}
+dl.propertiesobjects dd:hover {
+overflow:visible;
+}
+*/
+
+
+#resource_data_alternate {
+float:right;
+}
+
+#resource_data_alternate li {
+list-style-type:none;
+display:inline;
+margin-right:18px;
+}
+
+
+
+
+} /*end of screen, projection, tv*/
+
+
+
+
+
+
+
+
+
+@media print {
+a:after { background-color:#FFFFFF; }
+a:not([href^="#"]):after { content:" <"attr(href)"> "; }
+img { border:none; }
+p { orphans: 2; widows: 1; }
+
+#site_nav_global_primary,
+#site_nav_local_sections,
+#form_notice,
+.pagination,
+#site_nav_global_secondary,
+#aside_primary,
+.form_subscription_edit .submit {
+display:none;
+}
+.timestamp dt, .timestamp dd {
+display:inline;
+}
+
+}/*end of @media print*/
