@@ -45,8 +45,6 @@ require_once LATC_DIR . 'latc.php';
  */
 class SITE_Config extends LATC_Config
 {
-    var $remoteServer = 'dbpedia.org';       /* used for mapping between $siteServer and $remoteServer */
-
     /**
      * Base constructor extends default configuration
      */
@@ -66,8 +64,93 @@ class SITE_Config extends LATC_Config
             $this->config['entity']['dbpr']['path']     = '/resource';
             $this->config['entity']['dbpr']['query']    = '';
             $this->config['entity']['dbpr']['template'] = 'default.resource.template.html';
+
+         * Properties found in the dataset
+            $this->config['property']['city']        = 'http://dbpedia.org/property/city';
          */
     }
+}
+
+
+/**
+ * Methods that handle the data in the query result. Usually called from templates.
+ */
+class SITE_Template extends LATC_Template {
+    var $siteConfig;
+
+    function __construct($template_filename, $desc, $urispace, $request, $sC)
+    {
+        //XXX: Beginning of DO NOT MODIFY
+        $this->siteConfig = $sC;
+        parent::__construct($template_filename, $desc, $urispace, $request, $sC);
+        //XXX: End of DO NOT MODIFY
+    }
+
+    /**
+     * Add site specific methods here e.g.,
+        function renderMaritalStatusAgePopulation()
+        {
+            $c = $this->siteConfig->getConfig();
+
+            $p['city'] = 'http://'.$c['server']['dbpedia.org'].'/property/city';
+            $p['foo']  = 'http://'.$c['server']['dbpedia.org'].'/property/foo';
+
+            $resource_uri = $this->desc->get_primary_resource_uri();
+            $subjects = $this->desc->get_subjects_where_resource($p['city'], $resource_uri);
+            $triples = $this->getTriples($subjects, array($p['foo']));
+        }
+     */
+}
+
+
+/**
+ * Controls which SPARQL query to use
+ */
+class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
+{
+    var $siteConfig;
+
+    function __construct($tu, $tc, $trq, $sC)
+    {
+        //XXX: Beginning of DO NOT MODIFY
+        $this->siteConfig = $sC;
+        parent::__construct($tu, $tc, $trq, $sC);
+        //XXX: End of DO NOT MODIFY
+    }
+
+
+    /**
+     * Allows site specific queries. If non provided, it will use LATC's default
+        case 'city':
+     */
+    function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
+    {
+        switch($type) {
+            //XXX: Beginning of DO NOT MODIFY
+            default:
+                return parent::describe($uri, $type, $output);
+                break;
+            //XXX: End of DO NOT MODIFY
+
+            /**
+             * Add more cases here e.g.,
+                case 'city':
+
+                $c = $this->siteConfig->getConfig();
+
+                $query = "DESCRIBE ?s
+                          WHERE {
+                              GRAPH ?g {
+                                  ?s <{$c['property']['city']}> <$uri> .
+                              }
+                         }";
+                break;
+             */
+        }
+
+        return $this->graph($query, $output);
+    }
+
 }
 
 

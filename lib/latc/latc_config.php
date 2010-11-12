@@ -41,14 +41,14 @@ class LATC_Config
     var $entityQuery    = '';                /* query to use for this resource. Default should be DESCRIBE <uri> */
     var $entityTemplate = 'default.resource.template.html';    /* HTML template */
 
-    var $remoteServer = 'dbpedia.org';       /* Default. Used for mapping between $siteServer and $remoteServer */
-
     var $requestURI = '';
 
     var $currentRequest = array();
 
     function __construct()
     {
+        $this->config['server']['dbpedia.org'] = 'site';
+
         $this->config['site']['name']      = $this->siteName;
         $this->config['site']['server']    = $this->siteServer = $_SERVER['SERVER_NAME'];
         $this->config['site']['path']      = $this->sitePath;
@@ -108,6 +108,15 @@ class LATC_Config
 
 
     /**
+     * Returns the query type based on the current request.
+     */
+    function getEntityQuery()
+    {
+        return $this->config['entity'][$this->getEntityId()]['query'];
+    }
+
+
+    /**
      * Returns all of the entity paths that was set in site and LATC configuration
      */
     function getEntityPaths()
@@ -126,23 +135,13 @@ class LATC_Config
 
 
     /**
-     * Returns the server name that was set for URI mapping.
-     */
-    function getRemoteServer()
-    {
-        return $this->remoteServer;
-    }
-
-
-    /**
      * Transforms the current request URI to the URI found in the RDF store.
      */
     function getRemoteURIFromCurrentRequest()
     {
         $cR = $this->currentRequest;
 
-        return $cR[1].$this->remoteServer.$cR[3].$cR[4].$cR[5];
-
+        return $cR[1].array_search($cR[2], $this->config['server']).$cR[3].$cR[4].$cR[5];
     }
 
 

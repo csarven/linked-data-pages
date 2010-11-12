@@ -1,15 +1,9 @@
 <?php
-//var_dump($this->desc);exit;
-//print_r($this);exit; //this is huge. don't bother unless you need to glance around
-
-
     $resource_uri = $this->desc->get_primary_resource_uri();
     $title = $this->get_title($resource_uri);
 
-
     $sC = $this->siteConfig;
-//print_r($sC);exit;
-    $c = $this->siteConfig->getConfig();
+    $c  = $sC->getConfig();
 
     echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
 ?>

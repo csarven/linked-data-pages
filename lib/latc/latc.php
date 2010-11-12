@@ -139,8 +139,13 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
          * 'foo' is a bit hacky. Double check with Store::describe().
          * While making sure it is a DESCRIBE. do we want to use scbd?
          * We might control this value from site config.
+         *
+         * I'm not sure if the above FIXME still applies. I'll check later. :)
          */
-        return array(new LATC_StoreDescribeGenerator(STORE_URI, 'foo'));
+
+        $eQ = $this->siteConfig->getEntityQuery();
+
+        return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->siteConfig));
     }
 
 
@@ -161,7 +166,7 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
             $tmpl = SITE_DIR . 'templates/' . $sC['entity'][$entityId]['template'];
         }
 
-        $template = new LATC_Template($tmpl, $this, $urispace, $request, $this->siteConfig);
+        $template = new SITE_Template($tmpl, $this, $urispace, $request, $this->siteConfig);
 
         return $template->execute();
     }
@@ -176,8 +181,10 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
     {
         if (isset($_SERVER["HTTP_HOST"])) {
             if (preg_match('#http://([^/]+)/#i', $uri, $m)) {
-                if ( $_SERVER["HTTP_HOST"] != $m[1] && $m[1] == $this->siteConfig->remoteServer) {
-                    $r = str_replace($m[1], $_SERVER["HTTP_HOST"], $uri);
+                $c = $this->siteConfig->getConfig();
+
+                if ( $_SERVER["HTTP_HOST"] != $m[1] && isset($c['server'][$m[1]])) {
+                    $r = str_replace($m[1], $c['server'][$m[1]], $uri);
                     return $r;
                 } else {
                     return $uri;
@@ -216,7 +223,9 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
                 $generator->add_triples($resources[$key], $this);
             }
 
-            if ( array_key_exists($resources_mapped[$key], $this->get_index())) {
+            //XXX: Is this hackish?
+            if (array_key_exists($resources_mapped[$key], $this->get_index())
+                || array_key_exists($resources_mapped[$key], $this->get_inverse_index())) {
                 $this->_is_valid = true;
             }
         }
@@ -236,12 +245,20 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
  */
 class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 {
+    var $siteConfig;
+
+    function __construct($su, $eQ, $sC)
+    {
+        $this->siteConfig = $sC;
+        parent::__construct($su, $eQ);
+    }
+
     /**
     * XXX: Should we always ask for rdf(/xml) response?
     */
     function add_triples($resource_uri, &$desc)
     {
-        $store = new LATC_Store($this->_store_uri);
+        $store = new LATC_Store($this->_store_uri, $this->siteConfig);
 
         $response = $store->describe($resource_uri, $this->_type, 'rdf');
 
@@ -267,9 +284,71 @@ class LATC_Template extends PAGET_Template
     {
         $this->siteConfig = $sC;
         parent::__construct($template_filename, $desc, $urispace, $request);
+
         $this->table_widget = new LATC_TableDataWidget($this->desc, $this, $urispace);
     }
+
+
+    function getTriples($subjects = null, $properties = null, $objects = null)
+    {
+        $triples = array();
+
+        $index = $this->desc->get_index();
+
+        if ($subjects == null) {
+            //TODO: [null, *, *]
+            return $index;
+        } else if (!is_array($subjects)) {
+            $subjects = array($subjects);
+        }
+
+        if ($properties == null) {
+            foreach ($index as $s) {
+                $triples[] = $s;
+            }
+
+            //TODO: [*, null, *]
+
+            return $triples;
+        } else if (!is_array($properties)) {
+            $properties = array($properties);
+        }
+
+        foreach ($subjects as $subject) {
+            $values = array();
+            if (array_key_exists($subject, $index) ) {
+                $po_candidates = array();
+                $p_count = 0;
+
+                foreach ($properties as $property) {
+                    if (array_key_exists($property, $index[$subject])) {
+                        $p_count += 1;
+
+                        if (count($index[$subject][$property] > 0)) {
+                            foreach ($index[$subject][$property] as $value) {
+                                $po_candidates[$property] = $value;
+                            }
+                        }
+                    }
+                }
+
+                if ($p_count == count($properties)) {
+                    $triples[$subject] = $po_candidates;
+                }
+            }
+        }
+
+        asort($triples);
+        return $triples;
+    }
+
+
+    function indexToRDFXML()
+    {
+        return $this->desc->to_rdfxml();
+    }
 }
+
 
 
 /**
@@ -306,6 +385,15 @@ class LATC_TableDataWidget extends PAGET_TableDataWidget
  */
 class LATC_Store extends Store
 {
+    var $siteConfig;
+
+    function __construct($su, $sC)
+    {
+        $this->siteConfig = $sC;
+        parent::__construct($su);
+    }
+
+
    /**
     * Obtain a reference to this store's sparql service
     *
@@ -313,7 +401,7 @@ class LATC_Store extends Store
     */
     function get_sparql_service()
     {
-        return new LATC_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory);
+        return new SITE_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->siteConfig);
     }
 }
 
@@ -325,6 +413,14 @@ class LATC_Store extends Store
  */
 class LATC_SparqlServiceBase extends SparqlServiceBase
 {
+    var $siteConfig;
+
+    function __construct($tu, $tc, $trq, $sC)
+    {
+        $this->siteConfig = $sC;
+        parent::__construct($tu, $tc, $trq);
+    }
+
 
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {

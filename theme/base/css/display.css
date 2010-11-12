@@ -144,6 +144,8 @@ margin-left:18px;
 float:left;
 width:64%;
 padding:18px;
+
+width:96.42%;
 }
 
 #site_nav_local_sections {
@@ -186,7 +188,9 @@ display:none;
 }
 
 #site_nav_global_secondary {
+width:64%;
 margin-bottom:11px;
+float:left;
 }
 
 #site_nav_global_secondary ul li {
@@ -249,8 +253,39 @@ width:96.2%;
 }
 
 
+#resource_data .related {
+margin-bottom:2em;
+}
 
 
+#resource_data table td {
+padding-top:0.5em;
+padding-bottom:0.5em;
+}
+
+
+dt {
+font-weight:bold;
+}
+
+dl ul {
+list-style-position:inside;
+}
+
+#resource_data dl li {
+margin-bottom:0.5em;
+}
+
+#this_uri {
+margin-bottom:3em;
+}
+
+
+h1 img {
+float:left;
+margin-right:2em;
+width:12%;
+}
 
 
 /*
