@@ -27,37 +27,37 @@
 class LATC_Config
 {
     var $config = array();
-    /**
-     * XXX: These variables could be moved to construct
-     */
-    var $siteName   = 'My LATC site';        /* Name of your site. Appears in page title, address etc. */
-    var $siteServer = 'site';                /* "site" in http://site */
-    var $sitePath   = '';                    /* "/foo" in http://site/foo. Leave bllank if there isn't one. */
-    var $siteTheme  = 'default';             /* "default" in /var/www/site/theme/default */
-    var $siteLogo   = 'logo.png';            /* "logo.png" in /var/www/site/theme/default/images/logo.jpg */
-
-    var $entityId       = 'resource';        /* Name of the entity set */
-    var $entityPath     = '/resource';       /* URI path e.g., resource */
-    var $entityQuery    = '';                /* query to use for this resource. Default should be DESCRIBE <uri> */
-    var $entityTemplate = 'default.resource.template.html';    /* HTML template */
-
     var $requestURI = '';
-
     var $currentRequest = array();
 
     function __construct()
     {
+        /* Name of your site. Appears in page title, address etc. */
+        $this->config['site']['name']      = 'My LATC site';
+
+        /* "site" in http://site */
+        $this->config['site']['server']    = $_SERVER['SERVER_NAME'];
+
+        /* "/foo" in http://site/foo. Leave bllank if there isn't one. */
+        $this->config['site']['path']      = '';
+
+        /* "default" in /var/www/site/theme/default */
+        $this->config['site']['theme']     = 'default';
+
+        /* "logo.png" in /var/www/site/theme/default/images/logo.jpg */
+        $this->config['site']['logo']      = 'logo.png';
+
+        /* URI maps e.g., http://dbpedia.org/resource/Montreal in the store would become http://site/resource/Montreal */
         $this->config['server']['dbpedia.org'] = 'site';
 
-        $this->config['site']['name']      = $this->siteName;
-        $this->config['site']['server']    = $this->siteServer = $_SERVER['SERVER_NAME'];
-        $this->config['site']['path']      = $this->sitePath;
-        $this->config['site']['theme']     = $this->siteTheme;
-        $this->config['site']['logo']      = $this->siteLogo;
+        /* URI path e.g., resource */
+        $this->config['entity']['resource']['path']     = 'resource';
 
-        $this->config['entity'][$this->entityId]['path']     = $this->entityPath;
-        $this->config['entity'][$this->entityId]['query']    = $this->entityQuery;
-        $this->config['entity'][$this->entityId]['template'] = $this->entityTemplate;
+        /* query to use for this resource. Default should be DESCRIBE <uri> */
+        $this->config['entity']['resource']['query']    = '';
+
+        /* HTML template */
+        $this->config['entity']['resource']['template'] = 'default.resource.template.html';
 
         $this->config['entity']['class']['path']     = '/class';
         $this->config['entity']['class']['query']    = '';
@@ -74,7 +74,7 @@ class LATC_Config
         /**
          * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */
-        $this->requestURI = "http://".$this->siteServer.$_SERVER['REQUEST_URI'];
+        $this->requestURI = "http://".$this->config['site']['server'].$_SERVER['REQUEST_URI'];
     }
 
 
