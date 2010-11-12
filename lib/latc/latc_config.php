@@ -44,7 +44,7 @@ class LATC_Config
         /* "default" in /var/www/site/theme/default */
         $this->config['site']['theme']     = 'default';
 
-        /* "logo.png" in /var/www/site/theme/default/images/logo.jpg */
+        /* "logo.png" in /var/www/site/theme/default/images/logo.png */
         $this->config['site']['logo']      = 'logo.png';
 
         /* URI maps e.g., http://dbpedia.org/resource/Montreal in the store would become http://site/resource/Montreal */
@@ -154,7 +154,8 @@ class LATC_Config
     }
 
 
-    function getKeyFromValue($needle, $a) {
+    function getKeyFromValue($needle, $a)
+    {
         foreach ($a as $key => $subArray) {
             foreach ($subArray as $value) {
                 $b[$value] = $key;
