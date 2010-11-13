@@ -289,52 +289,53 @@ class LATC_Template extends PAGET_Template
     }
 
 
+    /**
+     * Grab triples from the index
+     */
     function getTriples($subjects = null, $properties = null, $objects = null)
     {
         $triples = array();
 
         $index = $this->desc->get_index();
 
-        if ($subjects == null) {
-            //TODO: [null, *, *]
-            return $index;
-        } else if (!is_array($subjects)) {
+        if ($subjects != null && !is_array($subjects)) {
             $subjects = array($subjects);
         }
-
-        if ($properties == null) {
-            foreach ($index as $s) {
-                $triples[] = $s;
-            }
-
-            //TODO: [*, null, *]
-
-            return $triples;
-        } else if (!is_array($properties)) {
+        if ($properties != null && !is_array($properties)) {
             $properties = array($properties);
         }
+        if ($objects != null && !is_array($objects)) {
+            $objects = array($objects);
+        }
 
-        foreach ($subjects as $subject) {
-            $values = array();
-            if (array_key_exists($subject, $index) ) {
-                $po_candidates = array();
-                $p_count = 0;
+        foreach($index as $s => $po) {
+            if (!is_null($subjects) && !in_array($s, $subjects)) {
+                continue;
+            }
 
-                foreach ($properties as $property) {
-                    if (array_key_exists($property, $index[$subject])) {
-                        $p_count += 1;
+            $po_candidates = array();
+            $p_count = 0;
 
-                        if (count($index[$subject][$property] > 0)) {
-                            foreach ($index[$subject][$property] as $value) {
-                                $po_candidates[$property] = $value;
-                            }
+            foreach ($po as $p => $o) {
+                if (!is_null($properties) && !in_array($p, $properties)) {
+                    continue;
+                }
+
+                $p_count += 1;
+
+                if (count($o > 0)) {
+                    foreach ($o as $o_k) {
+                        if (!is_null($objects) && !in_array($o_k['value'], $objects)) {
+                            continue;
                         }
+
+                        $po_candidates[$p] = $o;
                     }
                 }
+            }
 
-                if ($p_count == count($properties)) {
-                    $triples[$subject] = $po_candidates;
-                }
+            if ($p_count == count($properties)) {
+                $triples[$s] = $po_candidates;
             }
         }
 
