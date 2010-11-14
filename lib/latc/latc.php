@@ -298,6 +298,9 @@ class LATC_Template extends PAGET_Template
 
         $index = $this->desc->get_index();
 
+        /**
+         * We want to use either null or an array
+         */
         if ($subjects != null && !is_array($subjects)) {
             $subjects = array($subjects);
         }
@@ -309,14 +312,23 @@ class LATC_Template extends PAGET_Template
         }
 
         foreach($index as $s => $po) {
+            /**
+             * If the subject we are looking for is not here, skip
+             */
             if (!is_null($subjects) && !in_array($s, $subjects)) {
                 continue;
             }
 
+            /**
+             * Flag property and object as a candidate
+             */
             $po_candidates = array();
             $p_count = 0;
 
             foreach ($po as $p => $o) {
+                /**
+                 * If the property we are looking for is not here, skip
+                 */
                 if (!is_null($properties) && !in_array($p, $properties)) {
                     continue;
                 }
@@ -325,6 +337,9 @@ class LATC_Template extends PAGET_Template
 
                 if (count($o > 0)) {
                     foreach ($o as $o_k) {
+                        /**
+                         * If the object we are looking for is not here, skip
+                         */
                         if (!is_null($objects) && !in_array($o_k['value'], $objects)) {
                             continue;
                         }
@@ -346,8 +361,11 @@ class LATC_Template extends PAGET_Template
 
     /**
      * A generic method to render properties.
-     * XXX: Status: testing
-     * TODO: Output <http://site/property/foo> <rdf:type> <rdf:Property>
+     * XXX: Status: testing.
+     * TODO: Output <http://site/property/foo> <rdf:type> <rdf:Property> at least
+     * Ideally we want to render what the store knows about this property, and
+     * make it more human friendly so the user can understand its purpose and
+     * see example relationships (where it is used).
      */
     function renderProperty()
     {
@@ -373,6 +391,9 @@ class LATC_Template extends PAGET_Template
     }
 
 
+    /**
+     * This method can be used if templates wants to use XSLT for RDF/XML.
+     */
     function indexToRDFXML()
     {
         return $this->desc->to_rdfxml();
