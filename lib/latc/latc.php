@@ -344,6 +344,35 @@ class LATC_Template extends PAGET_Template
     }
 
 
+    /**
+     * A generic method to render properties.
+     * XXX: Status: testing
+     * TODO: Output <http://site/property/foo> <rdf:type> <rdf:Property>
+     */
+    function renderProperty()
+    {
+        $subjects   = null;
+        $properties = $this->desc->get_primary_resource_uri();
+        $objects    = null;
+
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $r = '';
+        $r .= "\n".'<dl id="subjects-with-this-property">';
+        $r .= "\n".'<dt>Some subjects with this property</dt>';
+        $r .= "\n".'<dd>';
+        $r .= "\n".'<ul>';
+        foreach($triples as $triple => $po) {
+            //TODO: Use rdfs:label if available.
+            $r .= "\n".'<li><a href="'.$triple.'">'.$triple.'</a></li>';
+        }
+        $r .= "\n".'</ul>';
+        $r .= "\n".'</dd>';
+        $r .= "\n".'</dl>';
+        return $r;
+    }
+
+
     function indexToRDFXML()
     {
         return $this->desc->to_rdfxml();
