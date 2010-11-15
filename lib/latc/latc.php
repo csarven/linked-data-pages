@@ -354,7 +354,8 @@ class LATC_Template extends PAGET_Template
             }
         }
 
-        asort($triples);
+        array_multisort($triples);
+
         return $triples;
     }
 
