@@ -493,7 +493,12 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
                     break;
 
                 case 'cbd': default:
-                    $query = "DESCRIBE <$uri>";
+                    $query = "DESCRIBE <$uri>
+                              WHERE {
+                                  GRAPH ?g {
+                                      <$uri> ?p ?o .
+                                  }
+                              }";
                     break;
             }
         }

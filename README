@@ -67,7 +67,7 @@ $this->config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbped
 ===== Entity URIs, query types and templates =====
 <nowiki><pre>
 $this->config['entity']['dbpr']['path']     = '/resource';      /* dppr is the entity id, "/resource" is the path to that entity
-$this->config['entity']['dbpr']['query']    = '';               /* defaults to cbd i.e., DESCRIBE <$uri> */
+$this->config['entity']['dbpr']['query']    = '';               /* defaults to cbd i.e., DESCRIBE <$uri> WHERE { GRAPH { <$uri> ?p ?o . } }*/
 $this->config['entity']['dbpr']['template'] = 'default.resource.template.html';    /* template used for this entity set */
 </pre></nowiki>
 
