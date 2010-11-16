@@ -47,8 +47,9 @@ class LATC_Config
         /* "logo.png" in /var/www/site/theme/default/images/logo.png */
         $this->config['site']['logo']      = 'logo.png';
 
-        /* URI maps e.g., http://dbpedia.org/resource/Montreal to http://site/resource/Montreal */
-        $this->config['server']['dbpedia.org'] = 'site';
+        /* URI maps e.g., $this->config['server']['dbpedia.org'] = 'site';
+         * http://dbpedia.org/resource/Montreal to http://site/resource/Montreal
+         */
 
         /* URI path e.g., resource */
         $this->config['entity']['resource']['path']     = 'resource';
