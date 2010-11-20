@@ -1,0 +1,18 @@
+/** theme:    default
+ *
+ * @package   
+ * @author    Sarven Capadisli <sarven.capadisli@deri.org>
+ * @copyright 2010 Digital Enterprise Research Institute
+ * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
+ * @link      http://deri.org/
+ */
+
+@import url(../../default/css/display.css);
+
+@media screen, projection, tv {
+
+#content {
+width:95%;
+}
+
+} /*end of @media screen, projection, tv*/
