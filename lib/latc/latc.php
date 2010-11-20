@@ -354,6 +354,7 @@ class LATC_Template extends PAGET_Template
             }
         }
 
+        //TODO: Sort by natural ordering
         array_multisort($triples);
 
         return $triples;
