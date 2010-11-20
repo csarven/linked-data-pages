@@ -37,9 +37,6 @@ h4 { font-size:1.1em; }
 h5 { font-size:1em; }
 h6 { font-size:0.9em; }
 
-caption {
-font-weight:bold;
-}
 legend {
 font-weight:bold;
 font-size:1.3em;
@@ -88,10 +85,18 @@ margin-bottom:18px;
 }
 
 
-
+caption {
+font-weight:bold;
+font-size:1.3em;
+}
 thead tr {
 border-bottom:0;
 }
+thead td {
+font-size:1.1em;
+font-weight:bold;
+}
+
 th, td {
 padding-top:1em;
 padding-bottom:1em;
@@ -100,6 +105,8 @@ padding-right:1em;
 th {
 text-align:left;
 }
+
+
 
 
 address {
@@ -249,18 +256,12 @@ border-style:solid;
 
 
 #resource #content {
-width:96.2%;
+width:95%;
 }
 
 
 #resource_data .related {
 margin-bottom:2em;
-}
-
-
-#resource_data table td {
-padding-top:0.5em;
-padding-bottom:0.5em;
 }
 
 
