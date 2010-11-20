@@ -27,7 +27,7 @@ if (!defined('MORIARTY_HTTP_CACHE_DIR')  && file_exists(dirname(__FILE__).DIRECT
 define('MORIARTY_HTTP_CACHE_READ_ONLY', true);
 define('MORIARTY_HTTP_CACHE_USE_STALE_ON_FAILURE', true); /* use a cached response if network fails */
 
-define('STORE_URI', 'http://dbpedia.org/sparql');
+define('STORE_URI', 'http://localhost:3030/cso/query');
 
 require_once LATC_DIR . 'latc_config.php';
 require_once LATC_DIR . 'latc.php';
@@ -66,8 +66,78 @@ class SITE_Config extends LATC_Config
             $this->config['entity']['dbpr']['template'] = 'default.resource.template.html';
 
          * Properties found in the dataset
-            $this->config['property']['city']        = 'http://dbpedia.org/property/city';
+            $this->config['ns']['birthplace']     = 'http://dbpedia.org/property/birthplace';
          */
+
+        $this->config['server']['geo.govdata.ie']     = 'geo.site';
+        $this->config['server']['stats.govdata.ie']   = 'stats.site';
+
+        $this->config['site']['theme']     = 'cso';      // 'default' in /var/www/site/theme/cso
+        $this->config['site']['logo']      = 'logo.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
+
+        $this->config['entity']['cso_home']['path']     = '/';
+        $this->config['entity']['cso_home']['query']    = '';
+        $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
+
+        $this->config['entity']['cso_data']['path']     = '/data';
+        $this->config['entity']['cso_data']['query']    = '';
+        $this->config['entity']['cso_data']['template'] = 'default.resource.template.html';
+
+        $this->config['entity']['cso_codelist']['path']     = '/codelist';
+        $this->config['entity']['cso_codelist']['query']    = 'cso_codelist';
+        $this->config['entity']['cso_codelist']['template'] = 'default.resource.template.html';
+
+        $this->config['entity']['cso_codelist-geo']['path']     = '/codelist/geo';
+        $this->config['entity']['cso_codelist-geo']['query']    = 'cso_codelist-geo';
+        $this->config['entity']['cso_codelist-geo']['template'] = 'geo.resource.template.html';
+
+        $this->config['entity']['cso_city']['path']     = '/city';
+        $this->config['entity']['cso_city']['query']    = 'cso_city';
+        $this->config['entity']['cso_city']['template'] = 'geo.resource.template.html';
+
+        $this->config['entity']['cso_county']['path']     = '/county';
+        $this->config['entity']['cso_county']['query']    = 'cso_county';
+        $this->config['entity']['cso_county']['template'] = 'geo.resource.template.html';
+
+        $this->config['entity']['cso_property']['path']     = '/property';
+        $this->config['entity']['cso_property']['query']    = 'cso_property';
+        $this->config['entity']['cso_property']['template'] = 'property.resource.template.html';
+
+        $this->config['entity']['cso_traditional-county']['path']     = '/traditional-county';
+        $this->config['entity']['cso_traditional-county']['query']    = 'cso_traditional-county';
+        $this->config['entity']['cso_traditional-county']['template'] = 'geo.resource.template.html';
+
+
+        /*
+         * Some of the namespaces used in this dataset
+         */
+        $this->config['ns']['rdf'][0]            = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#>';
+        $this->config['ns']['rdfs'][0]           = 'http://www.w3.org/2000/01/rdf-schema#';
+        $this->config['ns']['xsd'][0]            = 'http://www.w3.org/2001/XMLSchema#';
+
+        $this->config['ns']['concept'][0]        = 'http://stats.govdata.ie/concept/';
+
+        $this->config['ns']['codelist'][0]       = 'http://stats.govdata.ie/codelist/';
+
+        $this->config['ns']['prop']['geoArea']        = 'http://stats.govdata.ie/property/geoArea';
+        $this->config['ns']['prop']['maritalStatus']  = 'http://stats.govdata.ie/property/maritalStatus';
+        $this->config['ns']['prop']['age1']           = 'http://stats.govdata.ie/property/age1';
+        $this->config['ns']['prop']['age2']           = 'http://stats.govdata.ie/property/age2';
+        $this->config['ns']['prop']['population']     = 'http://stats.govdata.ie/property/population';
+        $this->config['ns']['prop']['usualResidence'] = 'http://stats.govdata.ie/property/usualResidence';
+        $this->config['ns']['prop']['religion']       = 'http://stats.govdata.ie/property/religion';
+
+        $this->config['ns']['sdmx-concept'][0]   = 'http://purl.org/linked-data/sdmx/2009/concept#';
+        $this->config['ns']['sdmx-dimension'][0] = 'http://purl.org/linked-data/sdmx/2009/dimension#';
+
+        $this->config['ns']['dimension']['refPeriod']      = 'http://purl.org/linked-data/sdmx/2009/dimension#refPeriod';
+        $this->config['ns']['dimension']['sex']            = 'http://purl.org/linked-data/sdmx/2009/dimension#sex';
+
+        $this->config['ns']['qb']             = 'http://purl.org/linked-data/cube#';
+
+        $this->config['ns']['skos'][0]              = 'http://www.w3.org/2004/02/skos/core#';
+        $this->config['ns']['skos']['prefLabel']    = 'http://www.w3.org/2004/02/skos/core#prefLabel';
+        $this->config['ns']['skos']['topConceptOf'] = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
     }
 }
 
@@ -86,20 +156,262 @@ class SITE_Template extends LATC_Template {
         //XXX: End of DO NOT MODIFY
     }
 
-    /**
-     * Add site specific methods here e.g.,
-        function renderMaritalStatusAgePopulation()
-        {
-            $c = $this->siteConfig->getConfig();
 
-            $p['city'] = 'http://'.$c['server']['dbpedia.org'].'/property/city';
-            $p['foo']  = 'http://'.$c['server']['dbpedia.org'].'/property/foo';
-
-            $resource_uri = $this->desc->get_primary_resource_uri();
-            $subjects = $this->desc->get_subjects_where_resource($p['city'], $resource_uri);
-            $triples = $this->getTriples($subjects, array($p['foo']));
-        }
+    /*
+     * TODO: Change bunch of render*() to renderTabularDimensions($object, $dimensions) or renderDimensions()
+     * Perhaps $object is a uri, 
+     * $dimensions is like array($ns['prop']['maritalStatus'], $ns['prop']['age2'], $ns['prop']['population'])
      */
+    function renderMaritalStatusAgePopulation()
+    {
+        $c = $this->siteConfig->getConfig();
+        $ns = array();
+
+        //XXX: Would it be better to use the values from index or the config's ns?
+        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
+        $ns['prop']['maritalStatus']  = $ns_prop.'maritalStatus';
+        $ns['prop']['age2']           = $ns_prop.'age2';
+        $ns['prop']['population']     = $ns_prop.'population';
+
+        $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
+        $c['ns']['codelist']['marital-status'] = $ns_codeList.'marital-status';
+        $c['ns']['codelist']['age2'] = $ns_codeList.'age2';
+
+        $resource_uri = $this->desc->get_primary_resource_uri();
+
+        /**
+         * This will get only the triples that have maritalStatus age2 population geoArea as property
+         */
+        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
+        $properties = array($ns['prop']['maritalStatus'], $ns['prop']['age2'], $ns['prop']['population']);
+        $objects    = null;
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        /**
+         * This will get the prefLabels of marital-status age2
+         */
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['marital-status']);
+        $properties = array($c['ns']['skos']['prefLabel']);
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['age2']);
+        $properties = array($c['ns']['skos']['prefLabel']);
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $maritalStatusAgePopulation = array();
+
+        //TODO: Use both rdfs:label and property value where available
+        foreach($triples as $triple => $po) {
+            if (isset($po[$ns['prop']['maritalStatus']])
+                && isset($triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+
+                && isset($po[$ns['prop']['age2']])
+                && isset($triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+
+                && isset($po[$ns['prop']['population']][0]['value'])) {
+
+                $mSX = $triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $mSA = $triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $mSP = $po[$ns['prop']['population']][0]['value'];
+
+                if (array_key_exists($mSA, $maritalStatusAgePopulation)
+                    && array_key_exists($mSX, $maritalStatusAgePopulation[$mSA])) {
+                    $maritalStatusAgePopulation[$mSA][$mSX] += $mSP;
+                }
+                else {
+                    $maritalStatusAgePopulation[$mSA][$mSX] = $mSP;
+                }
+            }
+        }
+
+        $r = '';
+        $r .= "\n".'<table>';
+        $r .= "\n".'<caption>Marital status and age breakdown</caption>';
+        $r .= "\n".'<thead><tr><td>Age</td><td>Marital status</td></tr></thead>';
+        $r .= "\n".'<tbody>';
+        $r .= "\n".'<tr><th></th>';
+        //FIXME: Looping over just for this is dirty. Revisit.
+        foreach($maritalStatusAgePopulation as $age => $maritalStatusPopulation) {
+            foreach($maritalStatusPopulation as $maritalStatus => $population) {
+                $r .= "\n".'<th>'.$maritalStatus.'</th>';
+            }
+            break;
+        }
+        $r .= "\n".'</tr>';
+
+        foreach($maritalStatusAgePopulation as $age => $maritalStatusPopulation) {
+            $r .= "\n".'<tr>';
+            $r .= "\n".'<th>'.$age.'</th>';
+            foreach($maritalStatusPopulation as $maritalStatus => $population) {
+                $r .= "\n".'<td>'.$population.'</td>';
+            }
+            $r .= "\n".'</tr>';
+        }
+        $r .= "\n".'</tbody>';
+        $r .= "\n".'</table>';
+
+        return $r;
+    }
+
+
+    function renderBirthplace()
+    {
+        $c = $this->siteConfig->getConfig();
+
+        //XXX: Would it be better to use the values from index?
+        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
+        $ns['prop']['birthplace']     = $ns_prop.'birthplace';
+
+        $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
+        $c['ns']['codelist']['birthplace'] = $ns_codeList.'birthplace';
+
+
+        $resource_uri = $this->desc->get_primary_resource_uri();
+
+        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
+        $properties = array($ns['prop']['birthplace']);
+        $objects    = null;
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['birthplace']);
+        $properties = array($c['ns']['skos']['prefLabel']);
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $r = '';
+        $r .= '<dl>';
+        $r .= "\n".'<dt>People\'s birthplace</dt>';
+        $r .= "\n".'<dd>';
+        $r .= "\n".'<ul>';
+        foreach($triples as $triple => $po) {
+            if (isset($po[$ns['prop']['birthplace']])
+                && isset($triples[$po[$ns['prop']['birthplace']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])) {
+                $birthPlaceLabel = $triples[$po[$ns['prop']['birthplace']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+
+                $r .= "\n".'<li><a href="'.$po[$ns['prop']['birthplace']][0]['value'].'">'.$birthPlaceLabel.'</a></li>';
+            }
+        }
+        $r .= "\n".'</ul>';
+        $r .= "\n".'</dd>';
+        $r .= "\n".'</dl>';
+
+        return $r;
+    }
+
+
+    function renderReligionPopulation()
+    {
+        $c = $this->siteConfig->getConfig();
+
+        //XXX: Would it be better to use the values from index?
+        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
+        $ns['prop']['religion']       = $ns_prop.'religion';
+        $ns['prop']['population']     = $ns_prop.'population';
+
+        $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
+        $c['ns']['codelist']['religion']   = $ns_codeList.'religion';
+        $c['ns']['codelist']['population'] = $ns_codeList.'population';
+
+        $resource_uri = $this->desc->get_primary_resource_uri();
+
+        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
+        $properties = array($ns['prop']['religion'], $ns['prop']['population']);
+        $objects    = null;
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['religion']);
+        $properties = array($c['ns']['skos']['prefLabel']);
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $r = '';
+        $r .= "\n".'<table>';
+        $r .= "\n".'<caption>What are people\'s religion?</caption>';
+        $r .= "\n".'<tbody>';
+        $r .= "\n".'<tr><th>Religion</th><th># of people</th></tr>';
+
+        foreach($triples as $triple => $po) {
+            if (isset($po[$ns['prop']['religion']])
+                && isset($triples[$po[$ns['prop']['religion']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+                && isset($po[$ns['prop']['population']][0]['value'])) {
+
+                $religionLabel = $triples[$po[$ns['prop']['religion']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $religion      = $po[$ns['prop']['religion']][0]['value'];
+                $population    = $po[$ns['prop']['population']][0]['value'];
+
+                $r .= "\n".'<tr><td><a href="'.$religion.'">'.$religionLabel.'</a></td><td>'.$population.'</td></tr>';
+            }
+        }
+
+        $r .= "\n".'</tbody>';
+        $r .= "\n".'</table>';
+
+        return $r;
+    }
+
+
+    function renderUsualResidencePopulation()
+    {
+        $c = $this->siteConfig->getConfig();
+
+        //XXX: Would it be better to use the values from index?
+        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
+        $ns['prop']['usualResidence'] = $ns_prop.'usualResidence';
+        $ns['prop']['population']     = $ns_prop.'population';
+
+        $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
+        $c['ns']['codelist']['usual-residence']   = $ns_codeList.'usual-residence';
+        $c['ns']['codelist']['population'] = $ns_codeList.'population';
+
+        $resource_uri = $this->desc->get_primary_resource_uri();
+
+        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
+        $properties = array($ns['prop']['usualResidence'], $ns['prop']['population']);
+        $objects    = null;
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['usual-residence']);
+        $properties = array($c['ns']['skos']['prefLabel']);
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $r = '';
+        $r .= "\n".'<table>';
+        $r .= "\n".'<caption>Where do people usually reside?</caption>';
+        $r .= "\n".'<tbody>';
+        $r .= "\n".'<tr><th>Location</th><th># of people</th></tr>';
+
+        foreach($triples as $triple => $po) {
+            if (isset($po[$ns['prop']['usualResidence']])
+                && isset($triples[$po[$ns['prop']['usualResidence']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+                && isset($po[$ns['prop']['population']][0]['value'])) {
+
+                $usualResidenceLabel = $triples[$po[$ns['prop']['usualResidence']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $usualResidence      = $po[$ns['prop']['usualResidence']][0]['value'];
+                $population    = $po[$ns['prop']['population']][0]['value'];
+
+                $r .= "\n".'<tr><td><a href="'.$usualResidence.'">'.$usualResidenceLabel.'</a></td><td>'.$population.'</td></tr>';
+            }
+        }
+
+        $r .= "\n".'</tbody>';
+        $r .= "\n".'</table>';
+
+        return $r;
+    }
+
+
 }
 
 
@@ -125,6 +437,8 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
      */
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
+        $c = $this->siteConfig->getConfig();
+
         switch($type) {
             //XXX: Beginning of DO NOT MODIFY
             default:
@@ -141,11 +455,63 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                 $query = "DESCRIBE ?s
                           WHERE {
                               GRAPH ?g {
-                                  ?s <{$c['property']['city']}> <$uri> .
+                                  ?s <{$c['ns']['city']}> <$uri> .
                               }
-                         }";
+                          }";
                 break;
              */
+
+            case 'cso_city': case 'cso_county': case 'cso_traditional-county':
+/*
+    XXX: We should probably use DESCRIBE
+    but Fuseki doesn't play along for a query along these lines
+
+                $query = "DESCRIBE ?s ?codeList
+                          WHERE {
+                              GRAPH ?g {
+                                  ?s ?p <$uri> .
+                                  OPTIONAL {
+                                      ?s ?p2 ?codeList .
+                                      ?codeList ?p3 ?o3 .
+                                  }
+                              }
+                          }";
+*/
+                $query = "CONSTRUCT {
+                              ?s ?geoArea <$uri> .
+                              ?s ?p ?o .
+
+                              ?o a <{$c['ns']['skos'][0]}Concept> .
+                              ?o <{$c['ns']['skos'][0]}topConceptOf> ?o_topConceptOf .
+                              ?o <{$c['ns']['skos'][0]}prefLabel> ?o_prefLabel .
+                              <$uri> ?p0 ?o0 .
+                          }
+                          WHERE {
+                              {
+                                  ?s ?geoArea <$uri> .
+                                  ?s ?p ?o .
+                                  OPTIONAL {
+                                      ?o a <{$c['ns']['skos'][0]}Concept> .
+                                      ?o <{$c['ns']['skos'][0]}topConceptOf> ?o_topConceptOf .
+                                      ?o <{$c['ns']['skos'][0]}prefLabel> ?o_prefLabel .
+                                  }
+                              }
+                              UNION
+                              {
+                                  <$uri> ?p0 ?o0 .
+                              }
+                          }";
+                break;
+
+            case 'cso_property':
+                $query = "CONSTRUCT { ?s <$uri> ?o }
+                          WHERE {
+                              GRAPH ?g {
+                                  ?s <$uri> ?o .
+                              }
+                          }
+                          LIMIT 10";
+                break;
         }
 
         return $this->graph($query, $output);
@@ -156,7 +522,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
 
 $config = new SITE_Config();    /* Grabs configuration values from this site */
 $config->getCurrentRequest();   /* Sets configuration for current request */
-
+//print_r($config);
 $space = new LATC_UriSpace($config); /* Starts to bulid the request */
 $space->dispatch();                  /* Dispatches the requested URI to appropriate URI */
 ?>
