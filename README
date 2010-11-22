@@ -7,7 +7,7 @@
 === Directory/file structure for templating and themes ===
 Templates go under the templates/ directory. Templates are used to render different requests made by the client. For example, if the client requests the resource http://site/geo/Montreal, we might want to serve the geo.resource.template.html. Templates generally include layout sections like; html, head, header, nav, footer, foot. It is aimed to modularize common components. There is still a lot of flexibility for any template, hence one can include or exclude any component.
 
-Themes go under the theme/<themename> directory. A theme is assigned by $this->config['site']['theme']. See Site configuration below. The ones that are included backage include base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, again in site configuration.
+Themes go under the theme/<themename> directory. A theme is assigned by $this->config['site']['theme']. See Site configuration below. The ones that are included package include base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, again in site configuration.
 
 For now, jQuery minimal library comes with this package.
 
@@ -114,7 +114,7 @@ $this->config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbped
 </pre></nowiki>
 
 ===== Entity URIs, query types and templates =====
-We use entity ids to determine how to respond back to the request. The entity id is identified by the request URI. The example below has 'dppr' as the entity id. The entity id is also reuesed for in HTML templates < body = "dbbr" > The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. See SITE_SparqlServiceBase::describe() in index.php to use your own SPARQL queries. Typically, you would use something like 'site_resource' for $this->config['entity']['dbpr']['query'] here. 'site' being your own prefix, and 'resource' being the particular query you want to invoke. The template setting is used to render the template file you want for this request. See also class PHP Classes - SITE_SparqlServiceBase below.
+We use entity ids to determine how to respond back to the request. The entity id is identified by the request URI. The example below has 'dppr' as the entity id. The entity id is also reused in HTML templates < body = "dbbr" > The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. See SITE_SparqlServiceBase::describe() in index.php to use your own SPARQL queries. Typically, you would use something like 'site_resource' for $this->config['entity']['dbpr']['query'] here. 'site' being your own prefix, and 'resource' being the particular query you want to invoke. The template setting is used to render the template file you want for this request. See also class PHP Classes - SITE_SparqlServiceBase below.
 
 <nowiki><pre>
 $this->config['entity']['dbpr']['path']     = '/resource';      /* '/resource' is the path to entity 'dbpr'
@@ -134,7 +134,7 @@ $this->config['property']['birthplace']     = 'http://dbpedia.org/property/birth
 ===== PHP Classes =====
 class LATC_Config
 * Main configuration
-* Contains base methods for working with the configuration vlaues
+* Contains base methods for working with the configuration values
 * It can be extended for site specific values
 * Allows entity set configuration; entities are identified by id, and contain sub properties for URI path, querying, and the templating to be triggered.
 
