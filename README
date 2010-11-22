@@ -4,7 +4,13 @@
 * Moriarty library
 * ARC2 library
 
-=== Directory/file structure ===
+=== Directory/file structure for templating and themes ===
+Templates go under the templates/ directory. Templates are used to render different requests made by the client. For example, if the client requests the resource http://site/geo/Montreal, we might want to serve the geo.resource.template.html. Templates generally include layout sections like; html, head, header, nav, footer, foot. It is aimed to modularize common components. There is still a lot of flexibility for any template, hence one can include or exclude any component.
+
+Themes go under the theme/<themename> directory. A theme is assigned by $this->config['site']['theme']. See Site configuration below. The ones that are included backage include base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, again in site configuration.
+
+For now, jQuery minimal library comes with this package.
+
 <pre><nowiki>
 favicon.ico
 .htaccess                                   #contains rules for paget's URL dispatching
@@ -17,8 +23,10 @@ templates/default.resource.template.html    #default template that is used to ou
 templates/html.layout.template.html         #starts the document
 templates/head.layout.template.html         #head element
 templates/header.layout.template.html       #header section (e.g., site address, global navigation)
+templates/home.layout.template.html         #home template
 templates/footer.layout.template.html       #footer section (e.g., global navigation)
 templates/foot.layout.template.html         #closes the document
+templates/geo.resource.template.html        #geo template that is used to output demographic stats about a particular location. Geared towards the CSO dataset
 templates/nav.local.layout.template.html    #local navigation (i.e., in context of the viewed page)
 templates/property.resource.template.html   #default template that is used for properties
 
@@ -31,26 +39,65 @@ theme/base/images/icons/icons-01.png        #main icons file (combined into a si
 theme/base/illustrations/
 theme/default/
 theme/default/css/display.css               #imports base stylesheet, and contains background images and colour rules
+theme/cso/
+theme/cso/css/display.css                   #imports default stylesheet and adds CSO specific styles
 </nowiki></pre>
 
 
 === Configuration ===
-==== Fuseki setup and RDF dump import ====
+==== Server setup ====
 <nowiki><pre>
-svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk fuseki
-cd fuseki
-mvn clean package
-nano tdb.ttl                                #uncomment: tdb:unionDefaultGraph true ;
-./fuseki-server --desc tdb.ttl /site
+//XXX: Review each line before running!
 
-./s-put --verbose http://localhost:3030/dataset graphnname data.ttl
+$sudo aptitude install maven2
+$sudo aptitude install ruby
+$sudo aptitude install git
+$sudo aptitude install subversion
+
+$cd /etc
+$sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk fuseki
+$cd fuseki
+$sudo mvn clean package
+
+$sudo cp src-dev/dev/BackwardForwardDescribeFactory.java src/main/java/org/openjena/fuseki/
+$sudo nano src/main/java/org/openjena/fuseki/BackwardForwardDescribeFactory.java   #Use org.openjena.fuseki instead of dev for package
+$sudo nano tdb2.ttl   #Use the same path for BackwardForwardDescribeFactory. Uncomment tdb:unionDefaultGraph true ;. Use <#site> instead of <#dataset>
+$sudo mvn install
+
+$sudo ./fuseki-server --desc tdb2.ttl /cso
+
+$sudo ./s-put http://localhost:3030/site/data default books.ttl
+$sudo ./s-get http://localhost:3030/site/data default
+$sudo ./s-query --service http://localhost:3030/site/query 'SELECT * {?s ?p ?o .}'
+$sudo ./s-update --service http://localhost:3030/site/update 'CLEAR default'
+
+
+
+$cd /var/www
+$sudo mkdir site
+$chown -R csarven site
+$git clone git://github.com/csarven/LiDRC_Paget.git site
+
+$cd site/lib
+$svn checkout http://moriarty.googlecode.com/svn/trunk/ moriarty
+$svn checkout http://paget.googlecode.com/svn/branches/2.0/ paget
+$git clone git://github.com/semsol/arc2.git arc2
+
+$cd ..
+$cp -R patches/moriarty/ lib/moriarty/
+$cp -R patches/paget/ lib/paget/
+
+$sudo nano /var/www/site/index.php
 </pre></nowiki>
+
 
 
 ==== Site configuration ====
 index.php contains the site settings:
 
 ===== Site settings =====
+The settings extend the base LATC config site settings. These values are used throughout the site, therefore make sure to configure them for your own needs.
+
 <nowiki><pre>
 $this->config['site']['name']      = 'My LATC site'
 $this->config['site']['server']    = 'site';      /* 'site' in http://site */
@@ -60,18 +107,25 @@ $this->config['site']['logo']      = 'logo.png';  /* logo.png in /var/www/site/t
 </pre></nowiki>
 
 ===== Server URI mapping =====
+This setting is used for mapping server names that are found in the dataset and the ones that are requested by the client. For example, if the user requests http://site/resource/Montreal, you might want to actually look for http://dbpedia.org/resource/Montreal in your dataset.
+
 <nowiki><pre>
 $this->config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbpedia.org/resource/Montreal to http://site/resource/Montreal */
 </pre></nowiki>
 
 ===== Entity URIs, query types and templates =====
+We use entity ids to determine how to respond back to the request. The entity id is identified by the request URI. The example below has 'dppr' as the entity id. The entity id is also reuesed for in HTML templates < body = "dbbr" > The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. See SITE_SparqlServiceBase::describe() in index.php to use your own SPARQL queries. Typically, you would use something like 'site_resource' for $this->config['entity']['dbpr']['query'] here. 'site' being your own prefix, and 'resource' being the particular query you want to invoke. The template setting is used to render the template file you want for this request. See also class PHP Classes - SITE_SparqlServiceBase below.
+
 <nowiki><pre>
-$this->config['entity']['dbpr']['path']     = '/resource';      /* dppr is the entity id, "/resource" is the path to that entity
+$this->config['entity']['dbpr']['path']     = '/resource';      /* '/resource' is the path to entity 'dbpr'
 $this->config['entity']['dbpr']['query']    = '';               /* defaults to cbd i.e., DESCRIBE <$uri> WHERE { GRAPH { <$uri> ?p ?o . } }*/
 $this->config['entity']['dbpr']['template'] = 'default.resource.template.html';    /* template used for this entity set */
 </pre></nowiki>
 
+
 ===== Property URI =====
+These settings are used for your own needs. They are not required.
+
 <nowiki><pre>
 $this->config['property']['birthplace']     = 'http://dbpedia.org/property/birthplace';
 </pre></nowiki>
@@ -108,6 +162,9 @@ class SITE_Config
 * extends LATC_Config
 * Site specific configuration
 
+class SITE_SparqlServiceBase
+* extends LATC_SparqlServiceBase
+* This is where site specific SPARQL queries can be managed. It initiates the value that is set in $this->config['site']['dbbr']['query'].
 
 
 class LATC_UriSpace extends PAGET_StoreBackedUriSpace
