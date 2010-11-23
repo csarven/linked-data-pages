@@ -113,6 +113,10 @@ class LATC_Config
      */
     function getEntityQuery()
     {
+        if (!isset($this->config['entity'][$this->getEntityId()]['query'])) {
+            return $this->config['entity']['resource']['query'];
+        }
+
         return $this->config['entity'][$this->getEntityId()]['query'];
     }
 
@@ -161,6 +165,10 @@ class LATC_Config
             foreach ($subArray as $value) {
                 $b[$value] = $key;
             }
+        }
+
+        if (!isset($b[$needle])) {
+            return 'resource';
         }
 
         return $b[$needle];
