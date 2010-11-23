@@ -69,14 +69,15 @@ class SITE_Config extends LATC_Config
             $this->config['ns']['birthplace']     = 'http://dbpedia.org/property/birthplace';
          */
 
+        $this->config['server']['govdata.ie']   = 'site';
         $this->config['server']['geo.govdata.ie']     = 'geo.site';
         $this->config['server']['stats.govdata.ie']   = 'stats.site';
 
         $this->config['site']['theme']     = 'cso';      // 'default' in /var/www/site/theme/cso
         $this->config['site']['logo']      = 'logo.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
 
-        $this->config['entity']['cso_home']['path']     = '/';
-        $this->config['entity']['cso_home']['query']    = '';
+        $this->config['entity']['cso_home']['path']     = '/home';
+        $this->config['entity']['cso_home']['query']    = 'cso_home';
         $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
 
         $this->config['entity']['cso_data']['path']     = '/data';
@@ -89,7 +90,11 @@ class SITE_Config extends LATC_Config
 
         $this->config['entity']['cso_codelist-geo']['path']     = '/codelist/geo';
         $this->config['entity']['cso_codelist-geo']['query']    = 'cso_codelist-geo';
-        $this->config['entity']['cso_codelist-geo']['template'] = 'geo.resource.template.html';
+        $this->config['entity']['cso_codelist-geo']['template'] = 'default.resource.template.html';
+
+        $this->config['entity']['cso_class_city']['path']     = '/City';
+        $this->config['entity']['cso_class_city']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_city']['template'] = 'class.resource.template.html';
 
         $this->config['entity']['cso_city']['path']     = '/city';
         $this->config['entity']['cso_city']['query']    = 'cso_city';
@@ -111,13 +116,17 @@ class SITE_Config extends LATC_Config
         /*
          * Some of the namespaces used in this dataset
          */
-        $this->config['ns']['rdf'][0]            = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#>';
-        $this->config['ns']['rdfs'][0]           = 'http://www.w3.org/2000/01/rdf-schema#';
-        $this->config['ns']['xsd'][0]            = 'http://www.w3.org/2001/XMLSchema#';
+        $this->config['ns']['rdf'][0]                 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+        $this->config['ns']['rdf']['type']            = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+        $this->config['ns']['rdfs'][0]                = 'http://www.w3.org/2000/01/rdf-schema#';
+        $this->config['ns']['rdfs']['label']          = 'http://www.w3.org/2000/01/rdf-schema#label';
+        $this->config['ns']['rdfs']['comment']        = 'http://www.w3.org/2000/01/rdf-schema#comment';
 
-        $this->config['ns']['concept'][0]        = 'http://stats.govdata.ie/concept/';
+        $this->config['ns']['xsd'][0]                 = 'http://www.w3.org/2001/XMLSchema#';
 
-        $this->config['ns']['codelist'][0]       = 'http://stats.govdata.ie/codelist/';
+        $this->config['ns']['concept'][0]             = 'http://stats.govdata.ie/concept/';
+
+        $this->config['ns']['codelist'][0]            = 'http://stats.govdata.ie/codelist/';
 
         $this->config['ns']['prop']['geoArea']        = 'http://stats.govdata.ie/property/geoArea';
         $this->config['ns']['prop']['maritalStatus']  = 'http://stats.govdata.ie/property/maritalStatus';
@@ -127,17 +136,29 @@ class SITE_Config extends LATC_Config
         $this->config['ns']['prop']['usualResidence'] = 'http://stats.govdata.ie/property/usualResidence';
         $this->config['ns']['prop']['religion']       = 'http://stats.govdata.ie/property/religion';
 
-        $this->config['ns']['sdmx-concept'][0]   = 'http://purl.org/linked-data/sdmx/2009/concept#';
-        $this->config['ns']['sdmx-dimension'][0] = 'http://purl.org/linked-data/sdmx/2009/dimension#';
+        $this->config['ns']['sdmx-concept'][0]        = 'http://purl.org/linked-data/sdmx/2009/concept#';
+        $this->config['ns']['sdmx-dimension'][0]      = 'http://purl.org/linked-data/sdmx/2009/dimension#';
 
-        $this->config['ns']['dimension']['refPeriod']      = 'http://purl.org/linked-data/sdmx/2009/dimension#refPeriod';
-        $this->config['ns']['dimension']['sex']            = 'http://purl.org/linked-data/sdmx/2009/dimension#sex';
+        $this->config['ns']['dimension']['refPeriod'] = 'http://purl.org/linked-data/sdmx/2009/dimension#refPeriod';
+        $this->config['ns']['dimension']['sex']       = 'http://purl.org/linked-data/sdmx/2009/dimension#sex';
 
-        $this->config['ns']['qb']             = 'http://purl.org/linked-data/cube#';
+        $this->config['ns']['qb']                     = 'http://purl.org/linked-data/cube#';
 
-        $this->config['ns']['skos'][0]              = 'http://www.w3.org/2004/02/skos/core#';
-        $this->config['ns']['skos']['prefLabel']    = 'http://www.w3.org/2004/02/skos/core#prefLabel';
-        $this->config['ns']['skos']['topConceptOf'] = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
+        $this->config['ns']['skos'][0]                = 'http://www.w3.org/2004/02/skos/core#';
+        $this->config['ns']['skos']['prefLabel']      = 'http://www.w3.org/2004/02/skos/core#prefLabel';
+        $this->config['ns']['skos']['topConceptOf']   = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
+
+        $this->config['ns']['class'][0]                 = 'http://geo.govdata.ie/';
+        $this->config['ns']['class']['City']            = 'http://geo.govdata.ie/City';
+
+        $this->config['ns']['concept'][0]                 = 'http://stats.govdata.ie/concept/';
+        $this->config['ns']['concept']['birthplace']      = 'http://stats.govdata.ie/concept/birthplace';
+        $this->config['ns']['concept']['ethnic-group']    = 'http://stats.govdata.ie/concept/ethnic-group';
+        $this->config['ns']['concept']['geo-area']        = 'http://stats.govdata.ie/concept/geo-area';
+        $this->config['ns']['concept']['nationality']     = 'http://stats.govdata.ie/concept/nationality';
+        $this->config['ns']['concept']['marital-status']  = 'http://stats.govdata.ie/concept/marital-status';
+        $this->config['ns']['concept']['religion']        = 'http://stats.govdata.ie/concept/religion';
+        $this->config['ns']['concept']['usual-residence'] = 'http://stats.govdata.ie/concept/usual-residence';
     }
 }
 
@@ -460,6 +481,28 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                           }";
                 break;
              */
+
+            case 'cso_class':
+                $query = "CONSTRUCT {
+                              <$uri> ?p1 ?o1 .
+
+                              ?s2 a <$uri> .
+                              ?s2 <{$c['ns']['skos'][0]}prefLabel> ?o3 .
+                          }
+                          WHERE {
+                              {
+                                  <$uri> ?p1 ?o1 .
+                              }
+                              UNION
+                              {
+                                  ?s2 a <$uri> .
+                                  OPTIONAL {
+                                      ?s2 <{$c['ns']['skos'][0]}prefLabel> ?o3 .
+                                  }
+                              }
+                          }
+                         ";
+                break;
 
             case 'cso_city': case 'cso_county': case 'cso_traditional-county':
 /*
