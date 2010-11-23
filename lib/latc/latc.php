@@ -325,32 +325,37 @@ class LATC_Template extends PAGET_Template
             $po_candidates = array();
             $p_count = 0;
 
-            foreach ($po as $p => $o) {
-                /**
-                 * If the property we are looking for is not here, skip
-                 */
-                if (!is_null($properties) && !in_array($p, $properties)) {
-                    continue;
-                }
+            if (count($properties) > 0) {
+                foreach ($po as $p => $o) {
+                    /**
+                     * If the property we are looking for is not here, skip
+                     */
+                    if (!is_null($properties) && !in_array($p, $properties)) {
+                        continue;
+                    }
 
-                $p_count += 1;
+                    $p_count += 1;
 
-                if (count($o > 0)) {
-                    foreach ($o as $o_k) {
-                        /**
-                         * If the object we are looking for is not here, skip
-                         */
-                        if (!is_null($objects) && !in_array($o_k['value'], $objects)) {
-                            continue;
+                    if (count($o > 0)) {
+                        foreach ($o as $o_k) {
+                            /**
+                             * If the object we are looking for is not here, skip
+                             */
+                            if (!is_null($objects) && !in_array($o_k['value'], $objects)) {
+                                continue;
+                            }
+
+                            $po_candidates[$p] = $o;
                         }
-
-                        $po_candidates[$p] = $o;
                     }
                 }
-            }
 
-            if ($p_count == count($properties)) {
-                $triples[$s] = $po_candidates;
+                if ($p_count == count($properties)) {
+                    $triples[$s] = $po_candidates;
+                }
+            }
+            else {
+                $triples[$s] = $po;
             }
         }
 
