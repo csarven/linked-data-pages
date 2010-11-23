@@ -116,14 +116,6 @@ class SITE_Config extends LATC_Config
         /*
          * Some of the namespaces used in this dataset
          */
-        $this->config['ns']['rdf'][0]                 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-        $this->config['ns']['rdf']['type']            = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-        $this->config['ns']['rdfs'][0]                = 'http://www.w3.org/2000/01/rdf-schema#';
-        $this->config['ns']['rdfs']['label']          = 'http://www.w3.org/2000/01/rdf-schema#label';
-        $this->config['ns']['rdfs']['comment']        = 'http://www.w3.org/2000/01/rdf-schema#comment';
-
-        $this->config['ns']['xsd'][0]                 = 'http://www.w3.org/2001/XMLSchema#';
-
         $this->config['ns']['concept'][0]             = 'http://stats.govdata.ie/concept/';
 
         $this->config['ns']['codelist'][0]            = 'http://stats.govdata.ie/codelist/';
@@ -135,18 +127,6 @@ class SITE_Config extends LATC_Config
         $this->config['ns']['prop']['population']     = 'http://stats.govdata.ie/property/population';
         $this->config['ns']['prop']['usualResidence'] = 'http://stats.govdata.ie/property/usualResidence';
         $this->config['ns']['prop']['religion']       = 'http://stats.govdata.ie/property/religion';
-
-        $this->config['ns']['sdmx-concept'][0]        = 'http://purl.org/linked-data/sdmx/2009/concept#';
-        $this->config['ns']['sdmx-dimension'][0]      = 'http://purl.org/linked-data/sdmx/2009/dimension#';
-
-        $this->config['ns']['dimension']['refPeriod'] = 'http://purl.org/linked-data/sdmx/2009/dimension#refPeriod';
-        $this->config['ns']['dimension']['sex']       = 'http://purl.org/linked-data/sdmx/2009/dimension#sex';
-
-        $this->config['ns']['qb']                     = 'http://purl.org/linked-data/cube#';
-
-        $this->config['ns']['skos'][0]                = 'http://www.w3.org/2004/02/skos/core#';
-        $this->config['ns']['skos']['prefLabel']      = 'http://www.w3.org/2004/02/skos/core#prefLabel';
-        $this->config['ns']['skos']['topConceptOf']   = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
 
         $this->config['ns']['class'][0]                 = 'http://geo.govdata.ie/';
         $this->config['ns']['class']['City']            = 'http://geo.govdata.ie/City';
