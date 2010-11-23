@@ -92,9 +92,35 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_codelist-geo']['query']    = 'cso_codelist-geo';
         $this->config['entity']['cso_codelist-geo']['template'] = 'default.resource.template.html';
 
+
+        $this->config['entity']['cso_class_administrative-county']['path']     = '/AdministrativeCounty';
+        $this->config['entity']['cso_class_administrative-county']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_administrative-county']['template'] = 'class.resource.template.html';
+
         $this->config['entity']['cso_class_city']['path']     = '/City';
         $this->config['entity']['cso_class_city']['query']    = 'cso_class';
         $this->config['entity']['cso_class_city']['template'] = 'class.resource.template.html';
+
+        $this->config['entity']['cso_class_electoral-division']['path']     = '/ElectoralDivision';
+        $this->config['entity']['cso_class_electoral-division']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_electoral-division']['template'] = 'class.resource.template.html';
+
+        $this->config['entity']['cso_class_enumeration-area']['path']     = '/EnumerationArea';
+        $this->config['entity']['cso_class_enumeration-area']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_enumeration-area']['template'] = 'class.resource.template.html';
+
+        $this->config['entity']['cso_class_province']['path']     = '/Province';
+        $this->config['entity']['cso_class_province']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_province']['template'] = 'class.resource.template.html';
+
+        $this->config['entity']['cso_class_state']['path']     = '/State';
+        $this->config['entity']['cso_class_state']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_state']['template'] = 'class.resource.template.html';
+
+        $this->config['entity']['cso_class_traditional-county']['path']     = '/TraditionalCounty';
+        $this->config['entity']['cso_class_traditional-county']['query']    = 'cso_class';
+        $this->config['entity']['cso_class_traditional-county']['template'] = 'class.resource.template.html';
+
 
         $this->config['entity']['cso_city']['path']     = '/city';
         $this->config['entity']['cso_city']['query']    = 'cso_city';
