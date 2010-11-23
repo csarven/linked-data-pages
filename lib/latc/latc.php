@@ -399,6 +399,69 @@ class LATC_Template extends PAGET_Template
 
 
     /**
+     * A generic output for resources that is an instance of a Class
+     */
+    function renderClass()
+    {
+        $c = $this->siteConfig->getConfig();
+        $resource_uri = $this->desc->get_primary_resource_uri();
+        $r = '';
+
+        //XXX: We first output what we know about the Class itself
+        $subjects   = $resource_uri;
+        $properties = null;
+        $objects    = null;
+
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+
+        //TODO: Make this a bit more generic. Perhaps use LATC_TableDataWidget::format_table ?
+        $r .= "\n".'<dl id="about-this-class">';
+        foreach($triples as $triple => $po) {
+            if (isset($po[$c['ns']['rdfs']['label']])) {
+                $r .= "\n".'<dt>About</dt>';
+                $r .= "\n".'<dd>'.$po[$c['ns']['rdfs']['label']][0]['value'].'</dd>';
+            }
+
+            if (isset($po[$c['ns']['rdfs']['comment']])) {
+                $r .= "\n".'<dt>Comment</dt>';
+                $r .= "\n".'<dd>'.$po[$c['ns']['rdfs']['comment']][0]['value'].'<//dd>';
+            }
+
+            if (isset($po[$c['ns']['rdfs']['subClassOf']])) {
+                $r .= "\n".'<dt>Semantics</dt>';
+                $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$po[$c['ns']['rdfs']['subClassOf']][0]['value'].'<//dd>';
+            }
+        }
+        $r .= "\n".'</dl>';
+
+        //XXX: We now output a list of resources that is a type of this Class
+        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['rdf']['type'], $resource_uri);
+        $properties = null;
+        $objects    = null;
+
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $r .= "\n".'<dl id="subjects-with-this-type">';
+        $r .= "\n".'<dt>Things that are of this type</dt>';
+        $r .= "\n".'<dd>';
+        $r .= "\n".'<ul>';
+        foreach($triples as $triple => $po) {
+            $prefLabel = '';
+            if (isset($po[$c['ns']['skos']['prefLabel']])) {
+                $prefLabel = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+            }
+            $r .= "\n".'<li><a href="'.$triple.'">'.$prefLabel.'</a></li>';
+        }
+        $r .= "\n".'</ul>';
+        $r .= "\n".'</dd>';
+        $r .= "\n".'</dl>';
+
+        return $r;
+    }
+
+
+    /**
      * This method can be used if templates wants to use XSLT for RDF/XML.
      */
     function indexToRDFXML()
