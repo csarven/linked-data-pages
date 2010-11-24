@@ -134,18 +134,14 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
      */
     function get_generators()
     {
-        /**
-         * FIXME:
-         * 'foo' is a bit hacky. Double check with Store::describe().
-         * While making sure it is a DESCRIBE. do we want to use scbd?
-         * We might control this value from site config.
-         *
-         * I'm not sure if the above FIXME still applies. I'll check later. :)
-         */
-
         $eQ = $this->siteConfig->getEntityQuery();
 
         return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->siteConfig));
+    }
+
+
+    function get_augmentors() {
+        return array(new SITE_SimplePropertyLabeller());
     }
 
 
@@ -234,6 +230,7 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
         foreach ($augmentors as $augmentor) {
             $augmentor->process($this);
         }
+print_r($this);exit;
     }
 }
 
@@ -267,6 +264,16 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 
             $desc->add_rdf($response->body);
         }
+    }
+}
+
+
+
+class LATC_SimplePropertyLabeller extends PAGET_SimplePropertyLabeller
+{
+    function __construct()
+    {
+        parent::__construct();
     }
 }
 
