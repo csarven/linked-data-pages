@@ -89,6 +89,7 @@ class LATC_Config
         $this->config['ns']['rdfs']['subClassOf']     = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
         $this->config['ns']['xsd'][0]                 = 'http://www.w3.org/2001/XMLSchema#';
         $this->config['ns']['skos'][0]                = 'http://www.w3.org/2004/02/skos/core#';
+        $this->config['ns']['skos']['Concept']        = 'http://www.w3.org/2004/02/skos/core#Concept';
         $this->config['ns']['skos']['prefLabel']      = 'http://www.w3.org/2004/02/skos/core#prefLabel';
         $this->config['ns']['skos']['topConceptOf']   = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
 
