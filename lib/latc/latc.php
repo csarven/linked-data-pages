@@ -230,7 +230,6 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
         foreach ($augmentors as $augmentor) {
             $augmentor->process($this);
         }
-print_r($this);exit;
     }
 }
 
@@ -297,72 +296,61 @@ class LATC_Template extends PAGET_Template
 
 
     /**
-     * Grab triples from the index
+     * Finds triples in an index. If an index (a multi-dimensional array) is not provided,
+     * it will use the internal query result.
+     * e.g., $subjects = array('a', 'b'); $properties = null; $objects = ('c', 'd');
+     * would try to find these triples:
+     *   a, *, c
+     *   a, *, d
+     *   b, *, c
+     *   b, *, d
+     *
+     * @return array
      */
-    function getTriples($subjects = null, $properties = null, $objects = null)
+    function getTriples($subjects = null, $properties = null, $objects = null, $index = null)
     {
         $triples = array();
 
-        $index = $this->desc->get_index();
+        if (is_null($index)) {
+            $index = $this->desc->get_index();
+        }
 
-        /**
-         * We want to use either null or an array
-         */
-        if ($subjects != null && !is_array($subjects)) {
+        if (!is_null($subjects) && !is_array($subjects)) {
             $subjects = array($subjects);
         }
-        if ($properties != null && !is_array($properties)) {
+        if (!is_null($properties) && !is_array($properties)) {
             $properties = array($properties);
         }
-        if ($objects != null && !is_array($objects)) {
+        if (!is_null($objects) && !is_array($objects)) {
             $objects = array($objects);
         }
 
         foreach($index as $s => $po) {
-            /**
-             * If the subject we are looking for is not here, skip
-             */
-            if (!is_null($subjects) && !in_array($s, $subjects)) {
-                continue;
-            }
+            $s_candidate = null;
 
             /**
-             * Flag property and object as a candidate
+             * These ifs act as a wildcard or a match. Otherwise we skip
              */
-            $po_candidates = array();
-            $p_count = 0;
+            if (empty($subjects) || in_array($s, $subjects)) {
+                $s_candidate = $s;
 
-            if (count($properties) > 0) {
-                foreach ($po as $p => $o) {
-                    /**
-                     * If the property we are looking for is not here, skip
-                     */
-                    if (!is_null($properties) && !in_array($p, $properties)) {
-                        continue;
-                    }
+                foreach($po as $p => $o) {
+                    $p_candidate = null;
 
-                    $p_count += 1;
+                    if (empty($properties) || in_array($p, $properties)) {
+                        $p_candidate = $p;
 
-                    if (count($o > 0)) {
-                        foreach ($o as $o_k) {
-                            /**
-                             * If the object we are looking for is not here, skip
-                             */
-                            if (!is_null($objects) && !in_array($o_k['value'], $objects)) {
-                                continue;
+                        foreach ($o as $o_key) {
+                            $o_candidate = null;
+
+                            if (empty($objects) || in_array($o_key['value'], $objects)) {
+                                $o_candidate = $o;
+
+                                $triples[$s_candidate][$p_candidate] = $o_candidate;
                             }
-
-                            $po_candidates[$p] = $o;
                         }
                     }
                 }
-
-                if ($p_count == count($properties)) {
-                    $triples[$s] = $po_candidates;
-                }
-            }
-            else {
-                $triples[$s] = $po;
             }
         }
 
@@ -432,12 +420,12 @@ class LATC_Template extends PAGET_Template
 
             if (isset($po[$c['ns']['rdfs']['comment']])) {
                 $r .= "\n".'<dt>Comment</dt>';
-                $r .= "\n".'<dd>'.$po[$c['ns']['rdfs']['comment']][0]['value'].'<//dd>';
+                $r .= "\n".'<dd>'.$po[$c['ns']['rdfs']['comment']][0]['value'].'</dd>';
             }
 
             if (isset($po[$c['ns']['rdfs']['subClassOf']])) {
                 $r .= "\n".'<dt>Semantics</dt>';
-                $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$po[$c['ns']['rdfs']['subClassOf']][0]['value'].'<//dd>';
+                $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$this->term_widget->link_uri($po[$c['ns']['rdfs']['subClassOf']][0]['value']).'</dd>';
             }
         }
         $r .= "\n".'</dl>';
