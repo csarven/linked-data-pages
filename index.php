@@ -172,7 +172,8 @@ class SITE_Config extends LATC_Config
 /**
  * Methods that handle the data in the query result. Usually called from templates.
  */
-class SITE_Template extends LATC_Template {
+class SITE_Template extends LATC_Template
+{
     var $siteConfig;
 
     function __construct($template_filename, $desc, $urispace, $request, $sC)
@@ -297,7 +298,6 @@ class SITE_Template extends LATC_Template {
 
         $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
         $c['ns']['codelist']['birthplace'] = $ns_codeList.'birthplace';
-
 
         $resource_uri = $this->desc->get_primary_resource_uri();
 
@@ -439,6 +439,58 @@ class SITE_Template extends LATC_Template {
     }
 
 
+
+
+    function renderListCities()
+    {
+        $c = $this->siteConfig->getConfig();
+        $resource_uri = $this->desc->get_primary_resource_uri();
+
+        $ns[0]             = 'http://'.$c['server']['geo.govdata.ie'].'/';
+        $ns['City']        = $ns[0].'City';
+
+        $subjects = null;
+        $properties = $c['ns']['rdf']['type'];
+        $objects    = array($ns['City'], $c['ns']['skos']['Concept']);
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects = null;
+        $properties = $c['ns']['skos']['prefLabel'];
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        $r = '';
+        $r .= '<dl>';
+        $r .= "\n".'<dt>List of Cities</dt>';
+        $r .= "\n".'<dd>';
+        $r .= "\n".'<ul>';
+        foreach($triples as $triple => $po) {
+                $birthPlaceLabel = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+
+                $r .= "\n".'<li><a href="'.$triple.'">'.$birthPlaceLabel.'</a></li>';
+
+        }
+        $r .= "\n".'</ul>';
+        $r .= "\n".'</dd>';
+        $r .= "\n".'</dl>';
+
+        return $r;
+
+    }
+
+}
+
+
+/**
+ * Allows new labels to be added
+ */
+class SITE_SimplePropertyLabeller extends LATC_SimplePropertyLabeller
+{
+    function __construct()
+    {
+        parent::__construct();
+    }
 }
 
 
@@ -493,7 +545,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               <$uri> ?p1 ?o1 .
 
                               ?s2 a <$uri> .
-                              ?s2 <{$c['ns']['skos'][0]}prefLabel> ?o3 .
+                              ?s2 <{$c['ns']['skos']['prefLabel']}> ?o3 .
                           }
                           WHERE {
                               {
@@ -503,7 +555,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               {
                                   ?s2 a <$uri> .
                                   OPTIONAL {
-                                      ?s2 <{$c['ns']['skos'][0]}prefLabel> ?o3 .
+                                      ?s2 <{$c['ns']['skos']['prefLabel']}> ?o3 .
                                   }
                               }
                           }
@@ -530,9 +582,9 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               ?s ?geoArea <$uri> .
                               ?s ?p ?o .
 
-                              ?o a <{$c['ns']['skos'][0]}Concept> .
-                              ?o <{$c['ns']['skos'][0]}topConceptOf> ?o_topConceptOf .
-                              ?o <{$c['ns']['skos'][0]}prefLabel> ?o_prefLabel .
+                              ?o a <{$c['ns']['skos']['Concept']}> .
+                              ?o <{$c['ns']['skos']['topConceptOf']}> ?o_topConceptOf .
+                              ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
                               <$uri> ?p0 ?o0 .
                           }
                           WHERE {
@@ -540,9 +592,9 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                                   ?s ?geoArea <$uri> .
                                   ?s ?p ?o .
                                   OPTIONAL {
-                                      ?o a <{$c['ns']['skos'][0]}Concept> .
-                                      ?o <{$c['ns']['skos'][0]}topConceptOf> ?o_topConceptOf .
-                                      ?o <{$c['ns']['skos'][0]}prefLabel> ?o_prefLabel .
+                                      ?o a <{$c['ns']['skos']['Concept']}> .
+                                      ?o <{$c['ns']['skos']['topConceptOf']}> ?o_topConceptOf .
+                                      ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
                                   }
                               }
                               UNION
@@ -560,6 +612,21 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               }
                           }
                           LIMIT 10";
+                break;
+
+            case 'cso_home':
+                $query = "CONSTRUCT {
+                              ?s a <{$c['ns']['class']['City']}> .
+                              ?s a <{$c['ns']['skos']['Concept']}> .
+                              ?s <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                          }
+                          WHERE {
+                              GRAPH ?g {
+                                  ?s a <{$c['ns']['class']['City']}> .
+                                  ?s a <{$c['ns']['skos']['Concept']}> .
+                                  ?s <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                              }
+                          }";
                 break;
         }
 
