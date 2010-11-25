@@ -297,7 +297,7 @@ class LATC_Template extends PAGET_Template
 
     /**
      * Finds triples in an index. If an index (a multi-dimensional array) is not provided,
-     * it will use the internal query result.
+     * it will use the internal query result. Null acts as a wildcard.
      * e.g., $subjects = array('a', 'b'); $properties = null; $objects = ('c', 'd');
      * would try to find these triples:
      *   a, *, c
