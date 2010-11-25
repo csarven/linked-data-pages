@@ -265,6 +265,20 @@ margin-bottom:2em;
 }
 
 
+#resource_data dl {
+margin-bottom:2em;
+}
+
+#resource_data dt:nth-child(n) {
+margin-top:1em;
+}
+
+#resource_data dt:first-child {
+margin-top:0;
+}
+
+
+
 dt {
 font-weight:bold;
 }
