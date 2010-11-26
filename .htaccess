@@ -1,3 +1,8 @@
+<Files ~ "^\.html">
+    Order deny,allow
+    Allow from all
+</Files>
+
 RewriteEngine on
 RewriteRule ^$  index.php [L]
 
