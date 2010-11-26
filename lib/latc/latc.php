@@ -309,7 +309,7 @@ class LATC_Template extends PAGET_Template
      */
     function getTriples($subjects = null, $properties = null, $objects = null, $index = null)
     {
-        $triples = array();
+        $triples = $t = array();
 
         if (is_null($index)) {
             $index = $this->desc->get_index();

@@ -156,6 +156,7 @@ class SITE_Config extends LATC_Config
 
         $this->config['ns']['class'][0]                 = 'http://geo.govdata.ie/';
         $this->config['ns']['class']['City']            = 'http://geo.govdata.ie/City';
+        $this->config['ns']['class']['Province']        = 'http://geo.govdata.ie/Province';
 
         $this->config['ns']['concept'][0]                 = 'http://stats.govdata.ie/concept/';
         $this->config['ns']['concept']['birthplace']      = 'http://stats.govdata.ie/concept/birthplace';
@@ -440,42 +441,78 @@ class SITE_Template extends LATC_Template
     }
 
 
+    function getTriplesOfType ($object = null)
+    {
+        $c = $this->siteConfig->getConfig();
+
+        //TODO:
+        if (!is_null($object)) {
+        }
+
+        $subjects = null;
+        $properties = $c['ns']['rdf']['type'];
+        $objects    = array($object);
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects = array_keys($triples);
+        $properties = $c['ns']['skos']['prefLabel'];
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        return $triples;
+    }
 
 
     function renderListCities()
     {
         $c = $this->siteConfig->getConfig();
-        $resource_uri = $this->desc->get_primary_resource_uri();
 
-        $ns[0]             = 'http://'.$c['server']['geo.govdata.ie'].'/';
-        $ns['City']        = $ns[0].'City';
+        $ns[0]      = 'http://'.$c['server']['geo.govdata.ie'].'/';
+        $ns['City'] = $ns[0].'City';
 
-        $subjects = null;
-        $properties = $c['ns']['rdf']['type'];
-        $objects    = array($ns['City'], $c['ns']['skos']['Concept']);
-        $triples = $this->getTriples($subjects, $properties, $objects);
-
-        $subjects = null;
-        $properties = $c['ns']['skos']['prefLabel'];
-        $objects    = null;
-        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
-        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+        $triples = $this->getTriplesOfType($ns['City']);
 
         $r = '';
         $r .= '<dl>';
-        $r .= "\n".'<dt>List of Cities</dt>';
+        $r .= "\n".'<dt>Cities</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
-                $birthPlaceLabel = $po[$c['ns']['skos']['prefLabel']][0]['value'];
-                $r .= "\n".'<li><a href="'.$triple.'">'.$birthPlaceLabel.'</a></li>';
+                $label = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+                $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
         }
         $r .= "\n".'</ul>';
         $r .= "\n".'</dd>';
         $r .= "\n".'</dl>';
 
         return $r;
+    }
 
+    function renderListProvinces()
+    {
+        $c = $this->siteConfig->getConfig();
+
+        $ns[0]          = 'http://'.$c['server']['geo.govdata.ie'].'/';
+        $ns['Province'] = $ns[0].'Province';
+
+        $triples = $this->getTriplesOfType($ns['Province']);
+
+        $r = '';
+        $r .= '<dl>';
+        $r .= "\n".'<dt>Provinces</dt>';
+        $r .= "\n".'<dd>';
+        $r .= "\n".'<ul>';
+        foreach($triples as $triple => $po) {
+                $label = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+                $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
+        }
+        $r .= "\n".'</ul>';
+        $r .= "\n".'</dd>';
+        $r .= "\n".'</dl>';
+
+        return $r;
     }
 
 }
@@ -582,7 +619,6 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               ?s ?p ?o .
 
                               ?o a <{$c['ns']['skos']['Concept']}> .
-                              ?o <{$c['ns']['skos']['topConceptOf']}> ?o_topConceptOf .
                               ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
                               <$uri> ?p0 ?o0 .
                           }
@@ -592,7 +628,6 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                                   ?s ?p ?o .
                                   OPTIONAL {
                                       ?o a <{$c['ns']['skos']['Concept']}> .
-                                      ?o <{$c['ns']['skos']['topConceptOf']}> ?o_topConceptOf .
                                       ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
                                   }
                               }
@@ -615,15 +650,23 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
 
             case 'cso_home':
                 $query = "CONSTRUCT {
-                              ?s a <{$c['ns']['class']['City']}> .
-                              ?s a <{$c['ns']['skos']['Concept']}> .
-                              ?s <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                              ?city a <{$c['ns']['class']['City']}> .
+                              ?city a <{$c['ns']['skos']['Concept']}> .
+                              ?city <{$c['ns']['skos']['prefLabel']}> ?cityLabel .
+
+                              ?province a <{$c['ns']['class']['Province']}> .
+                              ?province a <{$c['ns']['skos']['Concept']}> .
+                              ?province <{$c['ns']['skos']['prefLabel']}> ?provinceLabel .
                           }
                           WHERE {
                               GRAPH ?g {
-                                  ?s a <{$c['ns']['class']['City']}> .
-                                  ?s a <{$c['ns']['skos']['Concept']}> .
-                                  ?s <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                                  ?city a <{$c['ns']['class']['City']}> .
+                                  ?city a <{$c['ns']['skos']['Concept']}> .
+                                  ?city <{$c['ns']['skos']['prefLabel']}> ?cityLabel .
+
+                                  ?province a <{$c['ns']['class']['Province']}> .
+                                  ?province a <{$c['ns']['skos']['Concept']}> .
+                                  ?province <{$c['ns']['skos']['prefLabel']}> ?provinceLabel .
                               }
                           }";
                 break;
