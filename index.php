@@ -81,7 +81,7 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
 
         $this->config['entity']['cso_data']['path']     = '/data';
-        $this->config['entity']['cso_data']['query']    = '';
+        $this->config['entity']['cso_data']['query']    = 'default';
         $this->config['entity']['cso_data']['template'] = 'default.resource.template.html';
 
         $this->config['entity']['cso_codelist']['path']     = '/codelist';

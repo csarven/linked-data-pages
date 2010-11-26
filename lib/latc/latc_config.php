@@ -52,25 +52,13 @@ class LATC_Config
          */
 
         /* URI path e.g., resource */
-        $this->config['entity']['resource']['path']     = 'resource';
+        $this->config['entity']['resource']['path']     = '/resource';
 
         /* query to use for this resource. Default should be DESCRIBE <uri> */
         $this->config['entity']['resource']['query']    = '';
 
         /* HTML template */
         $this->config['entity']['resource']['template'] = 'default.resource.template.html';
-
-        $this->config['entity']['class']['path']     = '/class';
-        $this->config['entity']['class']['query']    = '';
-        $this->config['entity']['class']['template'] = 'default.resource.template.html';
-
-        $this->config['entity']['ontology']['path']     = '/ontology';
-        $this->config['entity']['ontology']['query']    = '';
-        $this->config['entity']['ontology']['template'] = 'default.resource.template.html';
-
-        $this->config['entity']['property']['path']     = '/property';
-        $this->config['entity']['property']['query']    = '';
-        $this->config['entity']['property']['template'] = 'default.resource.template.html';
 
         /* Common namespaces */
         $this->config['ns']['sdmx-concept'][0]        = 'http://purl.org/linked-data/sdmx/2009/concept#';
@@ -113,7 +101,7 @@ class LATC_Config
             $this->currentRequest = $matches;
         }
         else {
-            /* TODO */
+            /* XXX: This might not be necessary */
         }
 
         return $this->currentRequest;
@@ -125,7 +113,18 @@ class LATC_Config
      */
     function getEntityId()
     {
-        return $this->getKeyFromValue($this->currentRequest[4], $this->config['entity']);
+        /**
+         * We check whether it is recognized or unrecognized.
+         * If recognized, we can most likely serve it.
+         * If unrecognized, we might be able to serve it depending on what the
+         * store responds with.
+         */
+
+        if ($this->currentRequest[4] == '/' && !empty($this->currentRequest[5])) {
+            return $this->getKeyFromValue($this->config['entity']['resource']['path'], $this->config['entity']);
+        } else {
+            return $this->getKeyFromValue($this->currentRequest[4], $this->config['entity']);
+        }
     }
 
 
@@ -134,11 +133,13 @@ class LATC_Config
      */
     function getEntityQuery()
     {
-        if (!isset($this->config['entity'][$this->getEntityId()]['query'])) {
+        $entityId = $this->getEntityId();
+
+        if (!isset($this->config['entity'][$entityId]['query'])) {
             return $this->config['entity']['resource']['query'];
         }
 
-        return $this->config['entity'][$this->getEntityId()]['query'];
+        return $this->config['entity'][$entityId]['query'];
     }
 
 
@@ -180,19 +181,22 @@ class LATC_Config
     }
 
 
+    /**
+     * This would return the first match
+     *
+     * @return string
+     */
     function getKeyFromValue($needle, $a)
     {
         foreach ($a as $key => $subArray) {
-            foreach ($subArray as $value) {
-                $b[$value] = $key;
+            foreach ($subArray as $subKey => $value) {
+                if ($value == $needle) {
+                    return $key;
+                }
             }
         }
 
-        if (!isset($b[$needle])) {
-            return 'resource';
-        }
-
-        return $b[$needle];
+        return 'resource';
     }
 }
 
