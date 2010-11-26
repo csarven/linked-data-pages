@@ -259,14 +259,31 @@ border-style:solid;
 width:95%;
 }
 
+.resource_table {
+clear:both;
+}
 
 #resource_data .related {
-margin-bottom:2em;
+margin-bottom:3em;
+float:left;
+width:48.5%;
+}
+
+#resource_data .related:nth-child(odd) {
+margin-right:3%;
 }
 
 
+#resource_data .related table {
+width:100%;
+}
+
 #resource_data dl {
 margin-bottom:2em;
+}
+
+#resource_data dt {
+font-size:1.3em;
 }
 
 #resource_data dt:nth-child(n) {

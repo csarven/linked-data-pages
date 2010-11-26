@@ -19,9 +19,9 @@ require_once SITE_DIR . 'templates/head.layout.template.html';
 //    echo $this->render(array('value' => $resource_uri, 'type'=>'uri'), FALSE);
 ?>
 
-<div id="birthplace" class="related">
+<div id="usual-residence-population" class="related">
 <?php
-echo $this->renderBirthplace();
+echo $this->renderUsualResidencePopulation();
 ?>
 </div>
 
@@ -31,20 +31,20 @@ echo $this->renderReligionPopulation();
 ?>
 </div>
 
-<div id="usual-residence-population" class="related">
-<?php
-echo $this->renderUsualResidencePopulation();
-?>
-</div>
-
-
 
 <div id="marital-status-age-population" class="related">
 <?php
 echo $this->renderMaritalStatusAgePopulation();
 ?>
+
+    <div id="chart_msap"></div>
 </div>
-                            <div id="chart_msap"></div>
+
+<div id="birthplace" class="related">
+<?php
+echo $this->renderBirthplace();
+?>
+</div>
 
 <?php
     echo $this->render(array('value' => $resource_uri, 'type'=>'uri'), FALSE);
@@ -127,14 +127,14 @@ echo $this->renderMaritalStatusAgePopulation();
             function draw(dataTable) {
                 var vis = new google.visualization.ImageChart(document.getElementById('chart_msap'));
                 var options = {
-                    chxl: '0:|0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|>85',
+                    chxl: '0:|0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85+',
                     chxp: '',
                     chxr: '',
                     chxs: '0,676767,12,0,l,676767',
                     chxtc: '',
                     chxt: 'x',
-                    chbh: '23,5,10',
-                    chs: '1100x800',
+                    chbh: '23,1,10',
+                    chs: '1000x800',
                     cht: 'bvs',
                     chco: 'CE5C00,8F5902,4E9A06,204A87,A40000',
 

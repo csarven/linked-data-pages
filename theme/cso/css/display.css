@@ -15,4 +15,9 @@
 width:95%;
 }
 
+#resource_data #marital-status-age-population {
+margin-right:0;
+width:auto;
+}
+
 } /*end of @media screen, projection, tv*/
