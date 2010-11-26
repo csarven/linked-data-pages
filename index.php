@@ -235,8 +235,7 @@ class SITE_Template extends LATC_Template
 
         $maritalStatusAgePopulation = array();
 
-        //TODO: Use both rdfs:label and property value where available
-        foreach($triples as $triple => $po) {
+        foreach($triples as $subject => $po) {
             if (isset($po[$ns['prop']['maritalStatus']])
                 && isset($triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
 
@@ -245,16 +244,16 @@ class SITE_Template extends LATC_Template
 
                 && isset($po[$ns['prop']['population']][0]['value'])) {
 
-                $mSX = $triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $mSA = $triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $mSP = $po[$ns['prop']['population']][0]['value'];
+                $maritalStatusLabel = $triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $ageLabel = $triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+                $population = $po[$ns['prop']['population']][0]['value'];
 
-                if (array_key_exists($mSA, $maritalStatusAgePopulation)
-                    && array_key_exists($mSX, $maritalStatusAgePopulation[$mSA])) {
-                    $maritalStatusAgePopulation[$mSA][$mSX] += $mSP;
+                if (array_key_exists($ageLabel, $maritalStatusAgePopulation)
+                    && array_key_exists($maritalStatusLabel, $maritalStatusAgePopulation[$ageLabel])) {
+                    $maritalStatusAgePopulation[$ageLabel][$maritalStatusLabel] += $population;
                 }
                 else {
-                    $maritalStatusAgePopulation[$mSA][$mSX] = $mSP;
+                    $maritalStatusAgePopulation[$ageLabel][$maritalStatusLabel] = $population;
                 }
             }
         }
