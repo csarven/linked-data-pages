@@ -354,10 +354,14 @@ class LATC_Template extends PAGET_Template
             }
         }
 
-        //TODO: Sort by natural ordering
-        array_multisort($triples);
+        //XXX: Is there simpler way to do this natural sort for mutli-dimensional array?
+        $triples_keys = array_keys($triples);
+        natsort($triples_keys);
+        foreach($triples_keys as $key => $value) {
+            $t[$value] = $triples[$value];
+        }
 
-        return $triples;
+        return $t;
     }
 
 

@@ -223,12 +223,14 @@ class SITE_Template extends LATC_Template
         $properties = array($c['ns']['skos']['prefLabel']);
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
 
         $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['age2']);
         $properties = array($c['ns']['skos']['prefLabel']);
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
 
         $maritalStatusAgePopulation = array();
@@ -467,9 +469,7 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
                 $birthPlaceLabel = $po[$c['ns']['skos']['prefLabel']][0]['value'];
-
                 $r .= "\n".'<li><a href="'.$triple.'">'.$birthPlaceLabel.'</a></li>';
-
         }
         $r .= "\n".'</ul>';
         $r .= "\n".'</dd>';
