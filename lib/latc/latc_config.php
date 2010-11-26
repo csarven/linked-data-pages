@@ -135,10 +135,6 @@ class LATC_Config
     {
         $entityId = $this->getEntityId();
 
-        if (!isset($this->config['entity'][$entityId]['query'])) {
-            return $this->config['entity']['resource']['query'];
-        }
-
         return $this->config['entity'][$entityId]['query'];
     }
 
