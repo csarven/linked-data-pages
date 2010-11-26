@@ -76,7 +76,7 @@ class SITE_Config extends LATC_Config
         $this->config['site']['theme']     = 'cso';      // 'default' in /var/www/site/theme/cso
         $this->config['site']['logo']      = 'logo.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
 
-        $this->config['entity']['cso_home']['path']     = '/home';
+        $this->config['entity']['cso_home']['path']     = "/";
         $this->config['entity']['cso_home']['query']    = 'cso_home';
         $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
 
