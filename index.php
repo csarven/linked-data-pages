@@ -463,7 +463,7 @@ class SITE_Template extends LATC_Template
         $triples = $this->getTriplesOfType($ns['City']);
 
         $r = '';
-        $r .= '<dl>';
+        $r .= '<dl id="cities" class="related">';
         $r .= "\n".'<dt>Cities</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
@@ -488,7 +488,7 @@ class SITE_Template extends LATC_Template
         $triples = $this->getTriplesOfType($ns['Province']);
 
         $r = '';
-        $r .= '<dl>';
+        $r .= '<dl id="provinces" class="related">';
         $r .= "\n".'<dt>Provinces</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
