@@ -88,11 +88,6 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_codelist']['query']    = 'cso_codelist';
         $this->config['entity']['cso_codelist']['template'] = 'default.resource.template.html';
 
-        $this->config['entity']['cso_codelist-geo']['path']     = '/codelist/geo';
-        $this->config['entity']['cso_codelist-geo']['query']    = 'cso_codelist-geo';
-        $this->config['entity']['cso_codelist-geo']['template'] = 'default.resource.template.html';
-
-
         $this->config['entity']['cso_class_administrative-county']['path']     = '/AdministrativeCounty';
         $this->config['entity']['cso_class_administrative-county']['query']    = 'cso_class';
         $this->config['entity']['cso_class_administrative-county']['template'] = 'class.resource.template.html';
@@ -126,18 +121,11 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_city']['query']    = 'cso_city';
         $this->config['entity']['cso_city']['template'] = 'geo.resource.template.html';
 
-        $this->config['entity']['cso_county']['path']     = '/county';
-        $this->config['entity']['cso_county']['query']    = 'cso_county';
-        $this->config['entity']['cso_county']['template'] = 'geo.resource.template.html';
-
+/*
         $this->config['entity']['cso_property']['path']     = '/property';
         $this->config['entity']['cso_property']['query']    = 'cso_property';
         $this->config['entity']['cso_property']['template'] = 'property.resource.template.html';
-
-        $this->config['entity']['cso_traditional-county']['path']     = '/traditional-county';
-        $this->config['entity']['cso_traditional-county']['query']    = 'cso_traditional-county';
-        $this->config['entity']['cso_traditional-county']['template'] = 'geo.resource.template.html';
-
+*/
 
         /*
          * Some of the namespaces used in this dataset
@@ -598,7 +586,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                          ";
                 break;
 
-            case 'cso_city': case 'cso_county': case 'cso_traditional-county':
+            case 'cso_city':
 /*
     XXX: We should probably use DESCRIBE
     but Fuseki doesn't play along for a query along these lines
@@ -637,7 +625,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               }
                           }";
                 break;
-
+/*
             case 'cso_property':
                 $query = "CONSTRUCT { ?s <$uri> ?o }
                           WHERE {
@@ -647,7 +635,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                           }
                           LIMIT 10";
                 break;
-
+*/
             case 'cso_home':
                 $query = "CONSTRUCT {
                               ?city a <{$c['ns']['class']['City']}> .

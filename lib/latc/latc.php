@@ -484,7 +484,7 @@ class LATC_TableDataWidget extends PAGET_TableDataWidget
         $ret = '';
         if (count($data) > 0) {
             $ret .= "\n".'<table class="resource_table">';
-            $ret .= "\n".'<thead><tr><th>Subject</th><td>'.'<a href="'.$resource_uri.'">'.$resource_uri.'</a></td></tr></thead>';
+            $ret .= "\n".'<thead><tr><th>Subject</th><td>'.'<a href="'.$resource_uri.'">'.$this->desc->get_label($resource_uri).'</a></td></tr></thead>';
             $ret .= "\n".'<tbody>';
             $ret .= "\n".'<tr><th>Property</th><th>Object</th></tr>';
             foreach ($data as $item) {
