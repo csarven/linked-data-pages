@@ -1,3 +1,5 @@
 Until some of the issues for Paget and Moriarty are resolved,
-copy the files in these directories to your paget and moriarty library.
+copy (*) the files in these directories to your paget and moriarty library.
+
+* For now. Ideally, they will be actual patches with only the diffs
 
