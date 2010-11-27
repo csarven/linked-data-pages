@@ -1,7 +1,7 @@
 == TODO ==
 * What do we do about queries that take too long? Perhaps use CONSTRUCT instead of DESCRIBE?
 * Serve static pages
-* Page title for non-DESCRIBE query
+* Page title (non-URI) for non-DESCRIBE query
 * Show the full spo table at the bottom of every page (regardless of CONSTRUCT or DESCRIBE)
 * Use different SPARQL endpoints and merge data
 * Percentile indicators for some columns (e.g., population) in tabular data

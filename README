@@ -181,7 +181,7 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 
 class LATC_Template extends PAGET_Template
 * LATC specific templates
-** function getTriples($subjects = null, $properties = null, $objects = null)
+** function getTriples($subjects = null, $properties = null, $objects = null, $index = null)
 ** function renderProperty()
 
 class LATC_TableDataWidget extends PAGET_TableDataWidget
