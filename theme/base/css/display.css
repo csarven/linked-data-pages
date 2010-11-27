@@ -266,11 +266,11 @@ clear:both;
 #resource_data .related {
 margin-bottom:3em;
 float:left;
-width:48.5%;
+width:47.5%;
 }
 
 #resource_data .related:nth-child(odd) {
-margin-right:3%;
+margin-right:5%;
 }
 
 
