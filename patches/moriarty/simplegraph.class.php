@@ -564,6 +564,32 @@ class SimpleGraph {
 
 
   /**
+   * Replace the triples in the graph with those parsed from the supplied RDFa
+   * @param string html the HTML containing RDFa to parse
+   * @param string base the base URI against which relative URIs in the Turtle document will be resolved
+   */
+  function from_rdfa($html, $base='') {
+    if ($html) {
+      $this->remove_all_triples();
+      $this->add_rdfa($html, $base);
+    }
+  }
+  /**
+   * Add the triples parsed from the supplied RDFa to the graph
+   * @param string html the HTML containing RDFa to parse
+   * @param string base the base URI against which relative URIs in the Turtle document will be resolved
+   */
+  function add_rdfa($html, $base='') {
+    if ($html) {
+      $parser = ARC2::getSemHTMLParser();
+      $parser->parse($base, $html );
+      $parser->extractRDF('rdfa');    
+      $this->_add_arc2_triple_list($parser->getTriples());
+      unset($parser);
+    }
+  }
+
+  /**
    * Add the triples in the supplied graph to the current graph
    * @param SimpleGraph g the graph to read
    */
