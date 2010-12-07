@@ -1,7 +1,17 @@
     <head>
         <title><?php e($title); echo " &#8212; ".$c['site']['name'];?></title>
+<?php
+    $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
 
-        <link rel="shortcut icon" href="http://<?php echo $c['site']['server']; ?>/favicon.ico"/>
+    if (file_exists($favicon_theme)) {
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+    }
+    else {
+        $favicon = 'http://'.$c['site']['server'].'/favicon.ico';
+    }
+?>
+
+        <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
         <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?version=0.0.1'; ?>" media="screen, projection, tv, print"/>
 
         <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
