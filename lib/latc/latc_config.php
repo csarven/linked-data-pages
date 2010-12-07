@@ -60,26 +60,17 @@ class LATC_Config
         /* HTML template */
         $this->config['entity']['resource']['template'] = 'default.resource.template.html';
 
-        /* Common namespaces */
-        $this->config['ns']['sdmx-concept'][0]        = 'http://purl.org/linked-data/sdmx/2009/concept#';
-        $this->config['ns']['sdmx-dimension'][0]      = 'http://purl.org/linked-data/sdmx/2009/dimension#';
+        /* Common prefixes */
+        $this->config['prefixes'] = array(
+            'rdf'               => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+            'rdfs'              => 'http://www.w3.org/2000/01/rdf-schema#',
+            'xsd'               => 'http://www.w3.org/2001/XMLSchema#',
+            'skos'              => 'http://www.w3.org/2004/02/skos/core#',
 
-        $this->config['ns']['dimension']['refPeriod'] = 'http://purl.org/linked-data/sdmx/2009/dimension#refPeriod';
-        $this->config['ns']['dimension']['sex']       = 'http://purl.org/linked-data/sdmx/2009/dimension#sex';
-
-        $this->config['ns']['qb']                     = 'http://purl.org/linked-data/cube#';
-
-        $this->config['ns']['rdf'][0]                 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-        $this->config['ns']['rdf']['type']            = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-        $this->config['ns']['rdfs'][0]                = 'http://www.w3.org/2000/01/rdf-schema#';
-        $this->config['ns']['rdfs']['label']          = 'http://www.w3.org/2000/01/rdf-schema#label';
-        $this->config['ns']['rdfs']['comment']        = 'http://www.w3.org/2000/01/rdf-schema#comment';
-        $this->config['ns']['rdfs']['subClassOf']     = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
-        $this->config['ns']['xsd'][0]                 = 'http://www.w3.org/2001/XMLSchema#';
-        $this->config['ns']['skos'][0]                = 'http://www.w3.org/2004/02/skos/core#';
-        $this->config['ns']['skos']['Concept']        = 'http://www.w3.org/2004/02/skos/core#Concept';
-        $this->config['ns']['skos']['prefLabel']      = 'http://www.w3.org/2004/02/skos/core#prefLabel';
-        $this->config['ns']['skos']['topConceptOf']   = 'http://www.w3.org/2004/02/skos/core#topConceptOf';
+            'sdmx-concept'      => 'http://purl.org/linked-data/sdmx/2009/concept#',
+            'sdmx-dimension'    => 'http://purl.org/linked-data/sdmx/2009/dimension#',
+            'qb'                => 'http://purl.org/linked-data/cube#'
+        );
 
         /**
          * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''

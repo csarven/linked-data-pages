@@ -128,32 +128,15 @@ class SITE_Config extends LATC_Config
 */
 
         /*
-         * Some of the namespaces used in this dataset
+         * Common prefixes for this dataset
          */
-        $this->config['ns']['concept'][0]             = 'http://stats.govdata.ie/concept/';
-
-        $this->config['ns']['codelist'][0]            = 'http://stats.govdata.ie/codelist/';
-
-        $this->config['ns']['prop']['geoArea']        = 'http://stats.govdata.ie/property/geoArea';
-        $this->config['ns']['prop']['maritalStatus']  = 'http://stats.govdata.ie/property/maritalStatus';
-        $this->config['ns']['prop']['age1']           = 'http://stats.govdata.ie/property/age1';
-        $this->config['ns']['prop']['age2']           = 'http://stats.govdata.ie/property/age2';
-        $this->config['ns']['prop']['population']     = 'http://stats.govdata.ie/property/population';
-        $this->config['ns']['prop']['usualResidence'] = 'http://stats.govdata.ie/property/usualResidence';
-        $this->config['ns']['prop']['religion']       = 'http://stats.govdata.ie/property/religion';
-
-        $this->config['ns']['class'][0]                 = 'http://geo.govdata.ie/';
-        $this->config['ns']['class']['City']            = 'http://geo.govdata.ie/City';
-        $this->config['ns']['class']['Province']        = 'http://geo.govdata.ie/Province';
-
-        $this->config['ns']['concept'][0]                 = 'http://stats.govdata.ie/concept/';
-        $this->config['ns']['concept']['birthplace']      = 'http://stats.govdata.ie/concept/birthplace';
-        $this->config['ns']['concept']['ethnic-group']    = 'http://stats.govdata.ie/concept/ethnic-group';
-        $this->config['ns']['concept']['geo-area']        = 'http://stats.govdata.ie/concept/geo-area';
-        $this->config['ns']['concept']['nationality']     = 'http://stats.govdata.ie/concept/nationality';
-        $this->config['ns']['concept']['marital-status']  = 'http://stats.govdata.ie/concept/marital-status';
-        $this->config['ns']['concept']['religion']        = 'http://stats.govdata.ie/concept/religion';
-        $this->config['ns']['concept']['usual-residence'] = 'http://stats.govdata.ie/concept/usual-residence';
+        $this->config['prefixes'] = array_merge($this->config['prefixes'], array(
+            'statsDataGov' => 'http://stats.govdata.ie/',
+            'concept'      => 'http://stats.govdata.ie/concept/',
+            'codelist'     => 'http://stats.govdata.ie/codelist/',
+            'property'     => 'http://stats.govdata.ie/property/',
+            'geoDataGov'   => 'http://geo.govdata.ie/'
+        ));
     }
 }
 
@@ -177,7 +160,7 @@ class SITE_Template extends LATC_Template
     /*
      * TODO: Change bunch of render*() to renderTabularDimensions($object, $dimensions) or renderDimensions()
      * Perhaps $object is a uri, 
-     * $dimensions is like array($ns['prop']['maritalStatus'], $ns['prop']['age2'], $ns['prop']['population'])
+     * $dimensions is like array($ns['property']['maritalStatus'], $ns['property']['age2'], $ns['property']['population'])
      */
     function renderMaritalStatusAgePopulation()
     {
@@ -185,38 +168,38 @@ class SITE_Template extends LATC_Template
         $ns = array();
 
         //XXX: Would it be better to use the values from index or the config's ns?
-        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
-        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
-        $ns['prop']['maritalStatus']  = $ns_prop.'maritalStatus';
-        $ns['prop']['age2']           = $ns_prop.'age2';
-        $ns['prop']['population']     = $ns_prop.'population';
+        $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['property']['geoArea']        = $ns_property.'geoArea';
+        $ns['property']['maritalStatus']  = $ns_property.'maritalStatus';
+        $ns['property']['age2']           = $ns_property.'age2';
+        $ns['property']['population']     = $ns_property.'population';
 
         $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
-        $c['ns']['codelist']['marital-status'] = $ns_codeList.'marital-status';
-        $c['ns']['codelist']['age2'] = $ns_codeList.'age2';
+        $ns['prefixes']['codelist']['marital-status'] = $ns_codeList.'marital-status';
+        $ns['prefixes']['codelist']['age2'] = $ns_codeList.'age2';
 
         $resource_uri = $this->desc->get_primary_resource_uri();
 
         /**
          * This will get only the triples that have maritalStatus age2 population geoArea as property
          */
-        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
-        $properties = array($ns['prop']['maritalStatus'], $ns['prop']['age2'], $ns['prop']['population']);
+        $subjects = $this->desc->get_subjects_where_resource($ns['property']['geoArea'], $resource_uri);
+        $properties = array($ns['property']['maritalStatus'], $ns['property']['age2'], $ns['property']['population']);
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
         /**
          * This will get the prefLabels of marital-status age2
          */
-        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['marital-status']);
-        $properties = array($c['ns']['skos']['prefLabel']);
+        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['marital-status']);
+        $properties = array($c['prefixes']['skos'].'prefLabel');
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
 
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['age2']);
-        $properties = array($c['ns']['skos']['prefLabel']);
+        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['age2']);
+        $properties = array($c['prefixes']['skos'].'prefLabel');
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
 
@@ -225,17 +208,17 @@ class SITE_Template extends LATC_Template
         $maritalStatusAgePopulation = array();
 
         foreach($triples as $subject => $po) {
-            if (isset($po[$ns['prop']['maritalStatus']])
-                && isset($triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+            if (isset($po[$ns['property']['maritalStatus']])
+                && isset($triples[$po[$ns['property']['maritalStatus']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
 
-                && isset($po[$ns['prop']['age2']])
-                && isset($triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
+                && isset($po[$ns['property']['age2']])
+                && isset($triples[$po[$ns['property']['age2']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
 
-                && isset($po[$ns['prop']['population']][0]['value'])) {
+                && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $maritalStatusLabel = $triples[$po[$ns['prop']['maritalStatus']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $ageLabel = $triples[$po[$ns['prop']['age2']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $population = $po[$ns['prop']['population']][0]['value'];
+                $maritalStatusLabel = $triples[$po[$ns['property']['maritalStatus']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $ageLabel = $triples[$po[$ns['property']['age2']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $population = $po[$ns['property']['population']][0]['value'];
 
                 if (array_key_exists($ageLabel, $maritalStatusAgePopulation)
                     && array_key_exists($maritalStatusLabel, $maritalStatusAgePopulation[$ageLabel])) {
@@ -282,22 +265,22 @@ class SITE_Template extends LATC_Template
         $c = $this->siteConfig->getConfig();
 
         //XXX: Would it be better to use the values from index?
-        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
-        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
-        $ns['prop']['birthplace']     = $ns_prop.'birthplace';
+        $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['property']['geoArea']        = $ns_property.'geoArea';
+        $ns['property']['birthplace']     = $ns_property.'birthplace';
 
         $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
-        $c['ns']['codelist']['birthplace'] = $ns_codeList.'birthplace';
+        $ns['prefixes']['codelist']['birthplace'] = $ns_codeList.'birthplace';
 
         $resource_uri = $this->desc->get_primary_resource_uri();
 
-        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
-        $properties = array($ns['prop']['birthplace']);
+        $subjects = $this->desc->get_subjects_where_resource($ns['property']['geoArea'], $resource_uri);
+        $properties = array($ns['property']['birthplace']);
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['birthplace']);
-        $properties = array($c['ns']['skos']['prefLabel']);
+        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['birthplace']);
+        $properties = array($c['prefixes']['skos'].'prefLabel');
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -308,11 +291,11 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
-            if (isset($po[$ns['prop']['birthplace']])
-                && isset($triples[$po[$ns['prop']['birthplace']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])) {
-                $birthPlaceLabel = $triples[$po[$ns['prop']['birthplace']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
+            if (isset($po[$ns['property']['birthplace']])
+                && isset($triples[$po[$ns['property']['birthplace']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])) {
+                $birthPlaceLabel = $triples[$po[$ns['property']['birthplace']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
 
-                $r .= "\n".'<li><a href="'.$po[$ns['prop']['birthplace']][0]['value'].'">'.$birthPlaceLabel.'</a></li>';
+                $r .= "\n".'<li><a href="'.$po[$ns['property']['birthplace']][0]['value'].'">'.$birthPlaceLabel.'</a></li>';
             }
         }
         $r .= "\n".'</ul>';
@@ -328,24 +311,24 @@ class SITE_Template extends LATC_Template
         $c = $this->siteConfig->getConfig();
 
         //XXX: Would it be better to use the values from index?
-        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
-        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
-        $ns['prop']['religion']       = $ns_prop.'religion';
-        $ns['prop']['population']     = $ns_prop.'population';
+        $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['property']['geoArea']        = $ns_property.'geoArea';
+        $ns['property']['religion']       = $ns_property.'religion';
+        $ns['property']['population']     = $ns_property.'population';
 
         $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
-        $c['ns']['codelist']['religion']   = $ns_codeList.'religion';
-        $c['ns']['codelist']['population'] = $ns_codeList.'population';
+        $ns['prefixes']['codelist']['religion']   = $ns_codeList.'religion';
+        $ns['prefixes']['codelist']['population'] = $ns_codeList.'population';
 
         $resource_uri = $this->desc->get_primary_resource_uri();
 
-        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
-        $properties = array($ns['prop']['religion'], $ns['prop']['population']);
+        $subjects = $this->desc->get_subjects_where_resource($ns['property']['geoArea'], $resource_uri);
+        $properties = array($ns['property']['religion'], $ns['property']['population']);
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['religion']);
-        $properties = array($c['ns']['skos']['prefLabel']);
+        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['religion']);
+        $properties = array($c['prefixes']['skos'].'prefLabel');
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -357,13 +340,13 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<tr><th>Religion</th><th># of people</th></tr>';
 
         foreach($triples as $triple => $po) {
-            if (isset($po[$ns['prop']['religion']])
-                && isset($triples[$po[$ns['prop']['religion']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
-                && isset($po[$ns['prop']['population']][0]['value'])) {
+            if (isset($po[$ns['property']['religion']])
+                && isset($triples[$po[$ns['property']['religion']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $religionLabel = $triples[$po[$ns['prop']['religion']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $religion      = $po[$ns['prop']['religion']][0]['value'];
-                $population    = $po[$ns['prop']['population']][0]['value'];
+                $religionLabel = $triples[$po[$ns['property']['religion']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $religion      = $po[$ns['property']['religion']][0]['value'];
+                $population    = $po[$ns['property']['population']][0]['value'];
 
                 $r .= "\n".'<tr><td><a href="'.$religion.'">'.$religionLabel.'</a></td><td>'.$population.'</td></tr>';
             }
@@ -381,24 +364,24 @@ class SITE_Template extends LATC_Template
         $c = $this->siteConfig->getConfig();
 
         //XXX: Would it be better to use the values from index?
-        $ns_prop                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
-        $ns['prop']['geoArea']        = $ns_prop.'geoArea';
-        $ns['prop']['usualResidence'] = $ns_prop.'usualResidence';
-        $ns['prop']['population']     = $ns_prop.'population';
+        $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
+        $ns['property']['geoArea']        = $ns_property.'geoArea';
+        $ns['property']['usualResidence'] = $ns_property.'usualResidence';
+        $ns['property']['population']     = $ns_property.'population';
 
         $ns_codeList = 'http://'.$c['server']['stats.govdata.ie'].'/codelist/';
-        $c['ns']['codelist']['usual-residence']   = $ns_codeList.'usual-residence';
-        $c['ns']['codelist']['population'] = $ns_codeList.'population';
+        $ns['prefixes']['codelist']['usual-residence']   = $ns_codeList.'usual-residence';
+        $ns['prefixes']['codelist']['population'] = $ns_codeList.'population';
 
         $resource_uri = $this->desc->get_primary_resource_uri();
 
-        $subjects = $this->desc->get_subjects_where_resource($ns['prop']['geoArea'], $resource_uri);
-        $properties = array($ns['prop']['usualResidence'], $ns['prop']['population']);
+        $subjects = $this->desc->get_subjects_where_resource($ns['property']['geoArea'], $resource_uri);
+        $properties = array($ns['property']['usualResidence'], $ns['property']['population']);
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['ns']['skos']['topConceptOf'], $c['ns']['codelist']['usual-residence']);
-        $properties = array($c['ns']['skos']['prefLabel']);
+        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['usual-residence']);
+        $properties = array($c['prefixes']['skos'].'prefLabel');
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -410,13 +393,13 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<tr><th>Location</th><th># of people</th></tr>';
 
         foreach($triples as $triple => $po) {
-            if (isset($po[$ns['prop']['usualResidence']])
-                && isset($triples[$po[$ns['prop']['usualResidence']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'])
-                && isset($po[$ns['prop']['population']][0]['value'])) {
+            if (isset($po[$ns['property']['usualResidence']])
+                && isset($triples[$po[$ns['property']['usualResidence']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $usualResidenceLabel = $triples[$po[$ns['prop']['usualResidence']][0]['value']][$c['ns']['skos']['prefLabel']][0]['value'];
-                $usualResidence      = $po[$ns['prop']['usualResidence']][0]['value'];
-                $population    = $po[$ns['prop']['population']][0]['value'];
+                $usualResidenceLabel = $triples[$po[$ns['property']['usualResidence']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $usualResidence      = $po[$ns['property']['usualResidence']][0]['value'];
+                $population    = $po[$ns['property']['population']][0]['value'];
 
                 $r .= "\n".'<tr><td><a href="'.$usualResidence.'">'.$usualResidenceLabel.'</a></td><td>'.$population.'</td></tr>';
             }
@@ -438,12 +421,12 @@ class SITE_Template extends LATC_Template
         }
 
         $subjects = null;
-        $properties = $c['ns']['rdf']['type'];
+        $properties = $c['prefixes']['rdf'].'type';
         $objects    = array($object);
         $triples = $this->getTriples($subjects, $properties, $objects);
 
         $subjects = array_keys($triples);
-        $properties = $c['ns']['skos']['prefLabel'];
+        $properties = $c['prefixes']['skos'].'prefLabel';
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
 
@@ -461,14 +444,14 @@ class SITE_Template extends LATC_Template
         $ns['City'] = $ns[0].'City';
 
         $triples = $this->getTriplesOfType($ns['City']);
-
+//print_r($triples);exit;
         $r = '';
         $r .= '<dl id="cities" class="related">';
         $r .= "\n".'<dt>Cities</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
-                $label = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
                 $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
         }
         $r .= "\n".'</ul>';
@@ -493,7 +476,7 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
-                $label = $po[$c['ns']['skos']['prefLabel']][0]['value'];
+                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
                 $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
         }
         $r .= "\n".'</ul>';
@@ -541,6 +524,8 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
         $c = $this->siteConfig->getConfig();
+        $geoDataGov = $c['prefixes']['geoDataGov'];
+        $skos       = $c['prefixes']['skos'];
 
         switch($type) {
             //XXX: Beginning of DO NOT MODIFY
@@ -558,18 +543,20 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                 $query = "DESCRIBE ?s
                           WHERE {
                               GRAPH ?g {
-                                  ?s <{$c['ns']['city']}> <$uri> .
+                                  ?s <{$c['prefixes']['city']}> <$uri> .
                               }
                           }";
                 break;
              */
 
             case 'cso_class':
-                $query = "CONSTRUCT {
+                $query = "PREFIX skos: <$skos>
+
+                          CONSTRUCT {
                               <$uri> ?p1 ?o1 .
 
                               ?s2 a <$uri> .
-                              ?s2 <{$c['ns']['skos']['prefLabel']}> ?o3 .
+                              ?s2 skos:prefLabel ?o3 .
                           }
                           WHERE {
                               {
@@ -579,7 +566,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               {
                                   ?s2 a <$uri> .
                                   OPTIONAL {
-                                      ?s2 <{$c['ns']['skos']['prefLabel']}> ?o3 .
+                                      ?s2 skos:prefLabel ?o3 .
                                   }
                               }
                           }
@@ -602,12 +589,14 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                               }
                           }";
 */
-                $query = "CONSTRUCT {
+                $query = "PREFIX skos: <$skos>
+
+                          CONSTRUCT {
                               ?s ?geoArea <$uri> .
                               ?s ?p ?o .
 
-                              ?o a <{$c['ns']['skos']['Concept']}> .
-                              ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                              ?o a skos:Concept .
+                              ?o skos:prefLabel ?o_prefLabel .
                               <$uri> ?p0 ?o0 .
                           }
                           WHERE {
@@ -615,8 +604,8 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                                   ?s ?geoArea <$uri> .
                                   ?s ?p ?o .
                                   OPTIONAL {
-                                      ?o a <{$c['ns']['skos']['Concept']}> .
-                                      ?o <{$c['ns']['skos']['prefLabel']}> ?o_prefLabel .
+                                      ?o a skos:Concept .
+                                      ?o skos:prefLabel ?o_prefLabel .
                                   }
                               }
                               UNION
@@ -637,25 +626,26 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                 break;
 */
             case 'cso_home':
-                $query = "CONSTRUCT {
-                              ?city a <{$c['ns']['class']['City']}> .
-                              ?city a <{$c['ns']['skos']['Concept']}> .
-                              ?city <{$c['ns']['skos']['prefLabel']}> ?cityLabel .
+                $query = "PREFIX geoDataGov: <$geoDataGov>
+                          PREFIX skos: <$skos>
 
-                              ?province a <{$c['ns']['class']['Province']}> .
-                              ?province a <{$c['ns']['skos']['Concept']}> .
-                              ?province <{$c['ns']['skos']['prefLabel']}> ?provinceLabel .
+                          CONSTRUCT {
+                              ?city a geoDataGov:City .
+                              ?city a skos:Concept .
+                              ?city skos:prefLabel ?cityLabel .
+
+                              ?province a geoDataGov:Province .
+                              ?province a skos:Concept .
+                              ?province skos:prefLabel ?provinceLabel .
                           }
                           WHERE {
-                              GRAPH ?g {
-                                  ?city a <{$c['ns']['class']['City']}> .
-                                  ?city a <{$c['ns']['skos']['Concept']}> .
-                                  ?city <{$c['ns']['skos']['prefLabel']}> ?cityLabel .
+                              ?city a geoDataGov:City .
+                              ?city a skos:Concept .
+                              ?city skos:prefLabel ?cityLabel .
 
-                                  ?province a <{$c['ns']['class']['Province']}> .
-                                  ?province a <{$c['ns']['skos']['Concept']}> .
-                                  ?province <{$c['ns']['skos']['prefLabel']}> ?provinceLabel .
-                              }
+                              ?province a geoDataGov:Province .
+                              ?province a skos:Concept .
+                              ?province skos:prefLabel ?provinceLabel .
                           }";
                 break;
         }
