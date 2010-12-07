@@ -8,3 +8,4 @@
 * Maps for geo resources
 * Exclude some of the triples that are auto-included by Paget
 * Abstract a method to handle data with n-dimensions
+* Have a way to handle pages cases where there is no need to take a trip to the SPARQL endpoint
