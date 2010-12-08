@@ -347,13 +347,16 @@ margin:0 auto;
 }
 
 #partners li {
-float:left;
+display:inline;
 margin-left:4em;
 }
 #partners li:first-child {
 margin-left:0;
 }
-
+#partners li img {
+vertical-align:middle;
+display:inline-block;
+}
 
 
 #page_notice {
@@ -376,6 +379,7 @@ display:block;
 width:88px;
 height:32px;
 text-indent:-9999px;
+border-bottom:0;
 }
 
 
@@ -442,11 +446,8 @@ p { orphans: 2; widows: 1; }
 
 #site_nav_global_primary,
 #site_nav_local_sections,
-#form_notice,
-.pagination,
 #site_nav_global_secondary,
-#aside_primary,
-.form_subscription_edit .submit {
+#aside_primary {
 display:none;
 }
 .timestamp dt, .timestamp dd {
