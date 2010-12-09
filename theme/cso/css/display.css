@@ -20,4 +20,8 @@ margin-right:0;
 width:auto;
 }
 
+#resource_data #marital-status-age-population table {
+margin-bottom:3em;
+}
+
 } /*end of @media screen, projection, tv*/
