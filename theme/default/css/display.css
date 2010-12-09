@@ -64,6 +64,26 @@ text-shadow: rgba(194,194,194,0.5) 1px 1px 1px;
 }
 
 
+.badge_lod {
+background-repeat:no-repeat;
+}
+
+.lod-stars-1 {
+background-image:url(../../base/images/badges/badge_lod-stars-1.png);
+}
+.lod-stars-2 {
+background-image:url(../../base/images/badges/badge_lod-stars-2.png);
+}
+.lod-stars-3 {
+background-image:url(../../base/images/badges/badge_lod-stars-3.png);
+}
+.lod-stars-4 {
+background-image:url(../../base/images/badges/badge_lod-stars-4.png);
+}
+.lod-stars-5 {
+background-image:url(../../base/images/badges/badge_lod-stars-5.png);
+}
+
 
 #aside_primary {
 background-color:#EEE;
