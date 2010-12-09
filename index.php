@@ -77,8 +77,8 @@ class SITE_Config extends LATC_Config
         $this->config['site']['logo']      = 'logo_data-gov.ie.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
 
         $this->config['entity']['cso_home']['path']     = "/";
-        $this->config['entity']['cso_home']['query']    = 'cso_home';
-        $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
+        $this->config['entity']['cso_home']['query']    = null;
+        $this->config['entity']['cso_home']['template'] = 'about.resource.template.html';
 
         $this->config['entity']['cso_about']['path']     = "/about";
         $this->config['entity']['cso_about']['query']    = null;
