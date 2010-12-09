@@ -69,12 +69,13 @@ class SITE_Config extends LATC_Config
             $this->config['ns']['birthplace']     = 'http://dbpedia.org/property/birthplace';
          */
 
-        $this->config['server']['govdata.ie']   = 'site';
-        $this->config['server']['geo.govdata.ie']     = 'geo.site';
-        $this->config['server']['stats.govdata.ie']   = 'stats.site';
+        $this->config['site']['server'] = 'site';
+        $this->config['site']['theme']  = 'cso';      // 'default' in /var/www/site/theme/cso
+        $this->config['site']['logo']   = 'logo_data-gov.ie.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
 
-        $this->config['site']['theme']     = 'cso';      // 'default' in /var/www/site/theme/cso
-        $this->config['site']['logo']      = 'logo_data-gov.ie.png';  // logo.png in /var/www/site/theme/default/images/logo.jpg
+        $this->config['server']['govdata.ie']       = 'site';
+        $this->config['server']['geo.govdata.ie']   = 'geo.site';
+        $this->config['server']['stats.govdata.ie'] = 'stats.site';
 
         $this->config['entity']['cso_home']['path']     = "/";
         $this->config['entity']['cso_home']['query']    = null;

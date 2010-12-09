@@ -75,7 +75,7 @@ class LATC_Config
         /**
          * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */
-        $this->requestURI = "http://".$this->config['site']['server'].$_SERVER['REQUEST_URI'];
+        $this->requestURI = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
     }
 
 
@@ -86,7 +86,7 @@ class LATC_Config
     {
         $ePs = implode("|", array_reverse($this->getEntityPaths()));
 
-        $search = '#^(http://)('.$this->config['site']['server'].')('.$this->config['site']['path'].')('.$ePs.')?(.+)?\.(html|rdf|json|turtle)$#i';
+        $search = '#^(http://)('.$_SERVER['SERVER_NAME'].')('.$this->config['site']['path'].')('.$ePs.')?(.+)?\.(html|rdf|json|turtle)$#i';
 
         if (preg_match($search, $this->requestURI, $matches)) {
             $this->currentRequest = $matches;
