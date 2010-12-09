@@ -309,6 +309,14 @@ margin-top:1em;
 margin-top:0;
 }
 
+#resource_data dl li {
+margin-bottom:0.5em;
+}
+
+
+.entry-content {
+margin-bottom:3em;
+}
 
 
 dt {
@@ -316,9 +324,6 @@ font-weight:bold;
 }
 
 
-#resource_data dl li {
-margin-bottom:0.5em;
-}
 
 #this_uri {
 margin-bottom:3em;
