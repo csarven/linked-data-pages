@@ -40,9 +40,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
 
                 $query = "DESCRIBE ?s
                           WHERE {
-                              GRAPH ?g {
-                                  ?s <{$c['prefixes']['city']}> <$uri> .
-                              }
+                              ?s <{$c['prefixes']['city']}> <$uri> .
                           }";
                 break;
              */
@@ -72,21 +70,6 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
                 break;
 
             case 'cso_city':
-/*
-    XXX: We should probably use DESCRIBE
-    but Fuseki doesn't play along for a query along these lines
-
-                $query = "DESCRIBE ?s ?codeList
-                          WHERE {
-                              GRAPH ?g {
-                                  ?s ?p <$uri> .
-                                  OPTIONAL {
-                                      ?s ?p2 ?codeList .
-                                      ?codeList ?p3 ?o3 .
-                                  }
-                              }
-                          }";
-*/
                 $query = "PREFIX skos: <$skos>
 
                           CONSTRUCT {
@@ -116,9 +99,7 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
             case 'cso_property':
                 $query = "CONSTRUCT { ?s <$uri> ?o }
                           WHERE {
-                              GRAPH ?g {
-                                  ?s <$uri> ?o .
-                              }
+                              ?s <$uri> ?o .
                           }
                           LIMIT 10";
                 break;
@@ -150,6 +131,5 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
 
         return $this->graph($query, $output);
     }
-
 }
 ?>
