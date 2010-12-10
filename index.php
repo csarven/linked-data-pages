@@ -36,19 +36,6 @@ require_once CLASSES_DIR . 'SITE_Template.php';
 require_once CLASSES_DIR . 'SITE_SparqlServiceBase.php';
 
 
-
-/**
- * Allows new labels to be added
- */
-class SITE_SimplePropertyLabeller extends LATC_SimplePropertyLabeller
-{
-    function __construct()
-    {
-        parent::__construct();
-    }
-}
-
-
 $config = new SITE_Config();    /* Grabs configuration values from this site */
 $config->getCurrentRequest();   /* Sets configuration for current request */
 //print_r($config);
