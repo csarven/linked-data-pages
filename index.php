@@ -15,9 +15,9 @@
 ini_set('display_errors', '1');
 
 define('SITE_DIR', '/var/www/site/');
+define('CLASSES_DIR', '/var/www/site/classes/');
 define('LIB_DIR', '/var/www/lib/');
 define('PAGET_DIR', '/var/www/lib/paget/');
-define('LATC_DIR', '/var/www/site/lib/latc/');
 define('MORIARTY_DIR', '/var/www/lib/moriarty/');
 define('MORIARTY_ARC_DIR', '/var/www/lib/arc2/');
 
@@ -29,8 +29,8 @@ define('MORIARTY_HTTP_CACHE_USE_STALE_ON_FAILURE', true); /* use a cached respon
 
 define('STORE_URI', 'http://localhost:3030/cso/query');
 
-require_once LATC_DIR . 'latc_config.php';
-require_once LATC_DIR . 'latc.php';
+require_once CLASSES_DIR . 'LATC_Config.php';
+require_once CLASSES_DIR . 'LATC.php';
 
 
 /**
