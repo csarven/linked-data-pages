@@ -22,8 +22,13 @@ class SITE_SparqlServiceBase extends LATC_SparqlServiceBase
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
         $c = $this->siteConfig->getConfig();
+
+        /**
+         * PREFIXes
+         */
         $geoDataGov = $c['prefixes']['geoDataGov'];
         $skos       = $c['prefixes']['skos'];
+
 
         switch($type) {
             //XXX: Beginning of DO NOT MODIFY
