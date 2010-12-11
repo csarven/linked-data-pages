@@ -114,33 +114,34 @@ echo $this->renderBirthplace();
                     draw(dataTable);
                 }
             }
-            /*
-            var legend_maritalStatus = [];
+
+            var legend = [];
             $('#marital-status-age-population table tbody tr:first th').each(function() {
-                if (this.textContent.length > 0) {
-                    legend_maritalStatus.push(this.textContent);
+                var tC = $.trim(this.textContent).toLowerCase();
+                if (tC.length > 0 && tC != 'total') {
+                    legend.push(this.textContent);
                 }
             });
-            legend_maritalStatus = legend_maritalStatus.join("|");
-            */
+            legend = legend.join("|");
+
             function draw(dataTable) {
                 var vis = new google.visualization.ImageChart(document.getElementById('chart_msap'));
                 var options = {
                     chxl: '0:|0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85+',
                     chxp: '',
                     chxr: '',
-                    chxs: '0,333333,12,0,l,333333',
+                    chxs: '0,333333,14,0,l,333333',
                     chxtc: '',
                     chxt: 'x',
-                    chbh: '23,1,10',
-                    chs: '1000x800',
+                    chbh: '30,1,0',
+                    chs: '1000x650',
                     cht: 'bvs',
                     chco: '007E85,003C85,070085,490085,85007E',
 
-                    chdl: 'Divorced|Married|Separated|Single|Widowed',
+                    chdl: legend,
                     chdlp: 'r',
                     chtt: 'Marital Status and Age breakdown in population',
-                    chts: '333333,16'
+                    chts: '222222,18'
                 };
                 vis.draw(dataTable, options);
             }

@@ -274,9 +274,12 @@ margin-bottom:1em;
 width:95%;
 }
 
-.resource_table {
+.resource_about {
 clear:both;
 margin-bottom:3em;
+}
+.resource_about thead {
+display:none;
 }
 
 
