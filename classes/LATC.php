@@ -79,7 +79,7 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
                 $resource_uri = $this->siteConfig->getRemoteURIFromCurrentRequest();
 
                 if (isset($this->_static_data[$resource_uri])) {
-                    $desc = new PAGET_FileBackedResourceDescription($request_uri, $resource_uri, $type, $this->_static_data[$resource_uri], 'rdfxml'); 
+                    $desc = new PAGET_FileBackedResourceDescription($request_uri, $resource_uri, $type, $this->_static_data[$resource_uri], 'rdfxml');
                 } else {
                     $desc = new LATC_ResourceDescription($request_uri, $resource_uri, $type, $this->_store_uri, $this->siteConfig);
                 }
@@ -139,10 +139,6 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
         return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->siteConfig));
     }
 
-
-    function get_augmentors() {
-        return array(new SITE_SimplePropertyLabeller());
-    }
 
 
     /**

@@ -33,7 +33,6 @@ require_once CLASSES_DIR . 'LATC_Config.php';
 require_once CLASSES_DIR . 'LATC.php';
 require_once CLASSES_DIR . 'SITE_Config.php';
 require_once CLASSES_DIR . 'SITE_Template.php';
-require_once CLASSES_DIR . 'SITE_SimplePropertyLabeller.php';
 require_once CLASSES_DIR . 'SITE_SparqlServiceBase.php';
 
 
