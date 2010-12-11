@@ -112,7 +112,6 @@ echo $this->renderBirthplace();
                     });
 
                     draw(dataTable);
-                    $('#marital-status-age-population table').addClass('dn');
                 }
             }
             /*
@@ -154,6 +153,7 @@ echo $this->renderBirthplace();
                 draw(response.getDataTable());
             }
 
+            $('#marital-status-age-population table').addClass('dn');
             google.load("visualization", "1", {packages:["imagechart"]});
             google.setOnLoadCallback(onLoadCallback);
         </script>

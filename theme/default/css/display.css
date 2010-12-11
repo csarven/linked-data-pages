@@ -12,11 +12,17 @@
 @media screen, projection, tv {
 body,
 a:active {
-background-color:#DDDDDD;
+background-color:#E5E5E5;
+color:#333333;
 }
 
 a {
 color:#0000E4;
+}
+
+h1,h2,h3,h4,h5,h6,
+caption, dt {
+text-shadow:1px 1px 1px #CCCCCC;
 }
 
 tr {

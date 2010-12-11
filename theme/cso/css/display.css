@@ -11,6 +11,18 @@
 
 @media screen, projection, tv {
 
+h1 {
+color:#000000;
+}
+h2, caption, dt,
+thead th {
+color:#222222;
+}
+h3 {
+color:#444444;
+}
+
+
 #content {
 width:95%;
 }
