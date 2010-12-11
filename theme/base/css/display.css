@@ -28,8 +28,8 @@ margin-bottom:7px;
 overflow:hidden;
 }
 h1 {
-font-size:1.4em;
-margin-bottom:18px;
+font-size:1.8em;
+margin-bottom:2em;
 }
 h2 { font-size:1.3em; }
 h3 { font-size:1.2em; }
@@ -84,10 +84,12 @@ border-radius:4px;
 margin-bottom:18px;
 }
 
+.dn { display:none; }
 
 caption {
 font-weight:bold;
 font-size:1.3em;
+text-align:left;
 }
 thead tr {
 border-bottom:0;
@@ -98,15 +100,20 @@ font-weight:bold;
 }
 
 th, td {
-padding-top:1em;
-padding-bottom:1em;
+padding-top:0.5em;
+padding-bottom:0.5em;
 padding-right:1em;
 }
 th {
 text-align:left;
 }
-
-
+tr {
+border-bottom-width:1px;
+border-bottom-style:solid;
+}
+tr:last-child {
+border-bottom:0;
+}
 
 
 address {
@@ -269,6 +276,7 @@ width:95%;
 
 .resource_table {
 clear:both;
+margin-bottom:3em;
 }
 
 
@@ -279,11 +287,11 @@ clear:both;
 #resource_data .related {
 margin-bottom:3em;
 float:left;
-width:47.5%;
+width:46%;
 }
 
 #resource_data .related:nth-child(odd) {
-margin-right:5%;
+margin-right:8%;
 }
 
 

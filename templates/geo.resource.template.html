@@ -112,6 +112,7 @@ echo $this->renderBirthplace();
                     });
 
                     draw(dataTable);
+                    $('#marital-status-age-population table').addClass('dn');
                 }
             }
             /*
@@ -129,18 +130,18 @@ echo $this->renderBirthplace();
                     chxl: '0:|0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85+',
                     chxp: '',
                     chxr: '',
-                    chxs: '0,676767,12,0,l,676767',
+                    chxs: '0,333333,12,0,l,333333',
                     chxtc: '',
                     chxt: 'x',
                     chbh: '23,1,10',
                     chs: '1000x800',
                     cht: 'bvs',
-                    chco: 'CE5C00,8F5902,4E9A06,204A87,A40000',
+                    chco: '007E85,003C85,070085,490085,85007E',
 
                     chdl: 'Divorced|Married|Separated|Single|Widowed',
                     chdlp: 'r',
-                    chtt: 'Marital Status and Age population',
-                    chts: '000000,12'
+                    chtt: 'Marital Status and Age breakdown in population',
+                    chts: '333333,16'
                 };
                 vis.draw(dataTable, options);
             }

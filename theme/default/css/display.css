@@ -20,7 +20,7 @@ color:#0000E4;
 }
 
 tr {
-border-bottom:1px solid #EEE;
+border-color:#EEEEEE;
 }
 
 body {
@@ -86,7 +86,7 @@ background-image:url(../../base/images/badges/badge_lod-stars-5.png);
 
 
 #aside_primary {
-background-color:#EEE;
+background-color:#EEEEEE;
 }
 
 } /*end of @media screen, projection, tv*/
