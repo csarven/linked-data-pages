@@ -25,6 +25,9 @@ color:#333333;
 
 #content {
 width:95%;
+background-image:url(../../default/images/illustrations/illu_node-connections-2.gif);
+background-repeat:no-repeat;
+background-position:100% 0;
 }
 
 #resource_data #marital-status-age-population {
