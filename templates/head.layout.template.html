@@ -1,18 +1,20 @@
     <head>
         <title><?php e($title); echo " &#8212; ".$c['site']['name'];?></title>
 <?php
+    $fileVersion = 'version=0.0.2';
+
     $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
 
     if (file_exists($favicon_theme)) {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico?'.$fileVersion;
     }
     else {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico?'.$fileVersion;
     }
 ?>
 
         <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?version=0.0.1'; ?>" media="screen, projection, tv, print"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
 
         <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
 

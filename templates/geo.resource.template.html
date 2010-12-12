@@ -58,8 +58,8 @@ echo $this->renderBirthplace();
         </div>
 
         <script type="text/javascript">/*<![CDATA[*/ if (window.top !== window.self) { window.top.location.href = window.self.location.href; } /*]]>*/</script>
-        <script type="text/javascript" src="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/js/jquery.min.js?version=0.0.1"> </script>
-        <script type="text/javascript" src="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/js/index.js?version=0.0.1"> </script>
+        <script type="text/javascript" src="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/js/jquery.min.js<?php echo '?'.$fileVersion; ?>"> </script>
+        <script type="text/javascript" src="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/js/index.js<?php echo '?'.$fileVersion; ?>"> </script>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript">
             /*XXX: TEST ONLY  --- Will try to get this working from index.js*/
