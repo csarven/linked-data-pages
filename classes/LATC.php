@@ -517,7 +517,7 @@ class LATC_Store extends Store
     */
     function get_sparql_service()
     {
-        return new SITE_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->siteConfig);
+        return new LATC_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->siteConfig);
     }
 }
 
@@ -540,32 +540,9 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
 
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
-        if (is_array($uri)) {
-            $query = "DESCRIBE <" . implode('> <', $uri) . ">";
-        } else {
-            switch($type) {
-                case 'scbd':
-                    $query = "CONSTRUCT {<$uri> ?p ?o . ?s ?p2 <$uri> .} WHERE { {<$uri> ?p ?o .} UNION {?s ?p2 <$uri> .} }";
-                    break;
+        $c = $this->siteConfig->getConfig();
 
-                case 'lcbd':
-                    $query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> CONSTRUCT {<$uri> ?p ?o . ?o rdfs:label ?label . ?o rdfs:comment ?comment . ?o <http://www.w3.org/2004/02/skos/core#prefLabel> ?plabel . ?o rdfs:seeAlso ?seealso.} WHERE {<$uri> ?p ?o . OPTIONAL { ?o rdfs:label ?label .} OPTIONAL {?o <http://www.w3.org/2004/02/skos/core#prefLabel> ?plabel . } OPTIONAL {?o rdfs:comment ?comment . } OPTIONAL {?o rdfs:seeAlso ?seealso.}}";
-                    break;
-
-                case 'slcbd':
-                    $query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> CONSTRUCT {<$uri> ?p ?o . ?o rdfs:label ?label . ?o rdfs:comment ?comment . ?o rdfs:seeAlso ?seealso. ?s ?p2 <$uri> . ?s rdfs:label ?label . ?s rdfs:comment ?comment . ?s rdfs:seeAlso ?seealso.} WHERE { { <$uri> ?p ?o . OPTIONAL {?o rdfs:label ?label .} OPTIONAL {?o rdfs:comment ?comment .} OPTIONAL {?o rdfs:seeAlso ?seealso.} } UNION {?s ?p2 <$uri> . OPTIONAL {?s rdfs:label ?label .} OPTIONAL {?s rdfs:comment ?comment .} OPTIONAL {?s rdfs:seeAlso ?seealso.} } }";
-                    break;
-
-                case 'cbd': default:
-                    $query = "DESCRIBE <$uri>
-                              WHERE {
-                                  GRAPH ?g {
-                                      <$uri> ?p ?o .
-                                  }
-                              }";
-                    break;
-            }
-        }
+        $query = preg_replace("#<URI>#", "<$uri>", $c['sparql_query'][$type]);
 
         return $this->graph($query, $output);
     }

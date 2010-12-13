@@ -43,22 +43,106 @@ class SITE_Config extends LATC_Config
         $this->config['server']['geo.govdata.ie']   = 'geo.site';
         $this->config['server']['stats.govdata.ie'] = 'stats.site';
 
-        $this->config['entity']['cso_home']['path']     = "/";
-        $this->config['entity']['cso_home']['query']    = null;
-        $this->config['entity']['cso_home']['template'] = 'about.resource.template.html';
+        /*
+         * Common prefixes for this dataset
+         */
+        $this->config['prefixes'] = array_merge($this->config['prefixes'], array(
+            'statsDataGov' => 'http://stats.govdata.ie/',
+            'concept'      => 'http://stats.govdata.ie/concept/',
+            'codelist'     => 'http://stats.govdata.ie/codelist/',
+            'property'     => 'http://stats.govdata.ie/property/',
+            'geoDataGov'   => 'http://geo.govdata.ie/'
+        ));
 
-        $this->config['entity']['cso_about']['path']     = "/about";
-        $this->config['entity']['cso_about']['query']    = null;
-        $this->config['entity']['cso_about']['template'] = 'about.resource.template.html';
+        $statsDataGov = $this->config['prefixes']['statsDataGov'];
+        $geoDataGov   = $this->config['prefixes']['geoDataGov'];
+        $skos         = $this->config['prefixes']['skos'];
+
+        /** 
+         * SPARQL Queries
+         * '<URI>' value is auto-assigned from current request URI
+         * 
+         */
+        $this->config['sparql_query']['empty'] = "";
+        $this->config['sparql_query']['default'] = "
+            DESCRIBE <URI>
+        ";
+
 
         $this->config['entity']['cso_data']['path']     = '/data';
         $this->config['entity']['cso_data']['query']    = 'default';
         $this->config['entity']['cso_data']['template'] = 'default.resource.template.html';
 
         $this->config['entity']['cso_codelist']['path']     = '/codelist';
-        $this->config['entity']['cso_codelist']['query']    = 'cso_codelist';
+        $this->config['entity']['cso_codelist']['query']    = 'default';
         $this->config['entity']['cso_codelist']['template'] = 'default.resource.template.html';
 
+
+
+        $this->config['entity']['cso_home']['path']     = "/";
+        $this->config['entity']['cso_home']['query']    = 'empty';
+        $this->config['entity']['cso_home']['template'] = 'about.resource.template.html';
+
+        $this->config['entity']['cso_about']['path']     = "/about";
+        $this->config['entity']['cso_about']['query']    = 'empty';
+        $this->config['entity']['cso_about']['template'] = 'about.resource.template.html';
+
+
+
+        $this->config['sparql_query']['cso_city'] = "
+            PREFIX skos: <$skos>
+
+            CONSTRUCT {
+                ?s ?geoArea <URI> .
+                ?s ?p ?o .
+
+                ?o a skos:Concept .
+                ?o skos:prefLabel ?o_prefLabel .
+                <URI> ?p0 ?o0 .
+            }
+            WHERE {
+                {
+                    ?s ?geoArea <URI> .
+                    ?s ?p ?o .
+                    OPTIONAL {
+                        ?o a skos:Concept .
+                        ?o skos:prefLabel ?o_prefLabel .
+                    }
+                }
+                UNION
+                {
+                    <URI> ?p0 ?o0 .
+                }
+            }
+        ";
+        $this->config['entity']['cso_city']['path']     = '/city';
+        $this->config['entity']['cso_city']['query']    = 'cso_city';
+        $this->config['entity']['cso_city']['template'] = 'geo.resource.template.html';
+
+
+
+        $this->config['sparql_query']['cso_class'] = "
+            PREFIX skos: <$skos>
+
+            CONSTRUCT {
+                <URI> ?p1 ?o1 .
+
+                ?s2 a <URI> .
+                ?s2 skos:prefLabel ?o3 .
+            }
+            WHERE {
+                {
+                 <URI> ?p1 ?o1 .
+                }
+                UNION
+                {
+                    ?s2 a <URI> .
+                    OPTIONAL {
+                       ?s2 skos:prefLabel ?o3 .
+                    }
+                }
+            }
+        ";
         $this->config['entity']['cso_class_administrative-county']['path']     = '/AdministrativeCounty';
         $this->config['entity']['cso_class_administrative-county']['query']    = 'cso_class';
         $this->config['entity']['cso_class_administrative-county']['template'] = 'class.resource.template.html';
@@ -86,28 +170,6 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_class_traditional-county']['path']     = '/TraditionalCounty';
         $this->config['entity']['cso_class_traditional-county']['query']    = 'cso_class';
         $this->config['entity']['cso_class_traditional-county']['template'] = 'class.resource.template.html';
-
-
-        $this->config['entity']['cso_city']['path']     = '/city';
-        $this->config['entity']['cso_city']['query']    = 'cso_city';
-        $this->config['entity']['cso_city']['template'] = 'geo.resource.template.html';
-
-/*
-        $this->config['entity']['cso_property']['path']     = '/property';
-        $this->config['entity']['cso_property']['query']    = 'cso_property';
-        $this->config['entity']['cso_property']['template'] = 'property.resource.template.html';
-*/
-
-        /*
-         * Common prefixes for this dataset
-         */
-        $this->config['prefixes'] = array_merge($this->config['prefixes'], array(
-            'statsDataGov' => 'http://stats.govdata.ie/',
-            'concept'      => 'http://stats.govdata.ie/concept/',
-            'codelist'     => 'http://stats.govdata.ie/codelist/',
-            'property'     => 'http://stats.govdata.ie/property/',
-            'geoDataGov'   => 'http://geo.govdata.ie/'
-        ));
     }
 }
 ?>
