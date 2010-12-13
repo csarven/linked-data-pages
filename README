@@ -9,6 +9,8 @@ Templates go under the templates/ directory. Templates are used to render differ
 
 Themes go under the theme/<themename> directory. A theme is assigned by $this->config['site']['theme']. See Site configuration below. The ones that are included package include base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, again in site configuration.
 
+Custom processing for templates can be created in classes/SITE_Template.php
+
 For now, jQuery minimal library comes with this package.
 
 <pre><nowiki>
@@ -19,6 +21,7 @@ js/
 js/index.js                                 #main script for the site
 js/jquery.min.js                            #jQuery JavaScript library
 templates/
+templates/about.resource.template.html      #about template
 templates/default.resource.template.html    #default template that is used to output a resource. includes layout sections
 templates/html.layout.template.html         #starts the document
 templates/head.layout.template.html         #head element
@@ -47,7 +50,7 @@ theme/cso/css/display.css                   #imports default stylesheet and adds
 === Configuration ===
 ==== Server setup ====
 <nowiki><pre>
-//XXX: Review each line before running!
+//XXX: Review each line before executing!
 
 $sudo aptitude install maven2
 $sudo aptitude install ruby
@@ -68,7 +71,7 @@ $sudo ./fuseki-server --desc tdb2.ttl /cso
 
 $sudo ./s-put http://localhost:3030/site/data default books.ttl
 $sudo ./s-get http://localhost:3030/site/data default
-$sudo ./s-query --service http://localhost:3030/site/query 'SELECT * {?s ?p ?o .}'
+$sudo ./s-query --service http://localhost:3030/site/query 'SELECT * WHERE {?s ?p ?o .}'
 $sudo ./s-update --service http://localhost:3030/site/update 'CLEAR default'
 
 
@@ -78,22 +81,21 @@ $sudo mkdir site
 $chown -R csarven site
 $git clone git://github.com/csarven/LiDRC_Paget.git site
 
-$cd site/lib
-$svn checkout http://moriarty.googlecode.com/svn/trunk/ moriarty
-$svn checkout http://paget.googlecode.com/svn/branches/2.0/ paget
-$git clone git://github.com/semsol/arc2.git arc2
+$svn checkout http://moriarty.googlecode.com/svn/trunk/ lib/moriarty
+$svn checkout http://paget.googlecode.com/svn/branches/2.0/ lib/paget
+$git clone git://github.com/semsol/arc2.git lib/arc2
 
-$cd ..
-$cp -R patches/moriarty/ lib/moriarty/
-$cp -R patches/paget/ lib/paget/
+$cp -R patches/moriarty/* lib/moriarty/
+$cp -R patches/paget/* lib/paget/
 
-$sudo nano /var/www/site/index.php
+$nano /var/www/site/index.php
 </pre></nowiki>
 
 
 
 ==== Site configuration ====
-index.php contains the site settings:
+* index.php contains general site settings
+* classes/SITE_Config.php contains URI mappings, entity URIs, query types and templates
 
 ===== Site settings =====
 The settings extend the base LATC config site settings. These values are used throughout the site, therefore make sure to configure them for your own needs.
@@ -132,6 +134,8 @@ $this->config['property']['birthplace']     = 'http://dbpedia.org/property/birth
 
 
 ===== PHP Classes =====
+Classes are located under classes directory:
+
 class LATC_Config
 * Main configuration
 * Contains base methods for working with the configuration values

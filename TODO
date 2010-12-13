@@ -2,10 +2,10 @@
 * Create query tests for better response handling
 * Serve static pages
 * Page title (non-URI) for non-DESCRIBE query
-* Show the full spo table at the bottom of every page (regardless of CONSTRUCT or DESCRIBE)
 * Allow the ability to use different SPARQL endpoints and merge data
 * Percentile indicators for some columns (e.g., population) in tabular data
 * Maps for geo resources
 * Exclude some of the triples that are auto-included by Paget
 * Abstract a method to handle data with n-dimensions
-* Have a way to handle pages cases where there is no need to take a trip to the SPARQL endpoint
+* Have a way to handle page cases (e.g., about) where there is no need
+  to take a trip to the SPARQL endpoint
