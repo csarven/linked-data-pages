@@ -78,10 +78,34 @@ class SITE_Config extends LATC_Config
         $this->config['entity']['cso_codelist']['template'] = 'default.resource.template.html';
 
 
+        $this->config['sparql_query']['cso_home'] = "
+            PREFIX geoDataGov: <$geoDataGov>
+            PREFIX skos: <$skos>
 
+            CONSTRUCT {
+                ?city a geoDataGov:City .
+                ?city a skos:Concept .
+                ?city skos:prefLabel ?cityLabel .
+
+                ?province a geoDataGov:Province .
+                ?province a skos:Concept .
+                ?province skos:prefLabel ?provinceLabel .
+            }
+            WHERE {
+                ?city a geoDataGov:City .
+                ?city a skos:Concept .
+                ?city skos:prefLabel ?cityLabel .
+
+                ?province a geoDataGov:Province .
+                ?province a skos:Concept .
+                ?province skos:prefLabel ?provinceLabel .
+            }
+        ";
         $this->config['entity']['cso_home']['path']     = "/";
-        $this->config['entity']['cso_home']['query']    = 'empty';
-        $this->config['entity']['cso_home']['template'] = 'about.resource.template.html';
+        $this->config['entity']['cso_home']['query']    = 'cso_home';
+        $this->config['entity']['cso_home']['template'] = 'home.resource.template.html';
+
+
 
         $this->config['entity']['cso_about']['path']     = "/about";
         $this->config['entity']['cso_about']['query']    = 'empty';

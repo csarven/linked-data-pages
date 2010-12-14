@@ -292,57 +292,5 @@ class SITE_Template extends LATC_Template
 
         return $triples;
     }
-
-
-    function renderListCities()
-    {
-        $c = $this->siteConfig->getConfig();
-
-        $ns[0]      = 'http://'.$c['server']['geo.govdata.ie'].'/';
-        $ns['City'] = $ns[0].'City';
-
-        $triples = $this->getTriplesOfType($ns['City']);
-//print_r($triples);exit;
-        $r = '';
-        $r .= '<dl id="cities" class="related">';
-        $r .= "\n".'<dt>Cities</dt>';
-        $r .= "\n".'<dd>';
-        $r .= "\n".'<ul>';
-        foreach($triples as $triple => $po) {
-                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
-                $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
-        }
-        $r .= "\n".'</ul>';
-        $r .= "\n".'</dd>';
-        $r .= "\n".'</dl>';
-
-        return $r;
-    }
-
-    function renderListProvinces()
-    {
-        $c = $this->siteConfig->getConfig();
-
-        $ns[0]          = 'http://'.$c['server']['geo.govdata.ie'].'/';
-        $ns['Province'] = $ns[0].'Province';
-
-        $triples = $this->getTriplesOfType($ns['Province']);
-
-        $r = '';
-        $r .= '<dl id="provinces" class="related">';
-        $r .= "\n".'<dt>Provinces</dt>';
-        $r .= "\n".'<dd>';
-        $r .= "\n".'<ul>';
-        foreach($triples as $triple => $po) {
-                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
-                $r .= "\n".'<li><a href="'.$triple.'">'.$label.'</a></li>';
-        }
-        $r .= "\n".'</ul>';
-        $r .= "\n".'</dd>';
-        $r .= "\n".'</dl>';
-
-        return $r;
-    }
-
 }
 ?>

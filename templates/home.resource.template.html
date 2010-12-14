@@ -15,10 +15,39 @@ require_once SITE_DIR . 'templates/head.layout.template.html';
                     <div id="content_inner">
                         <div id="resource_data">
 <?php
-    echo $this->renderListCities();
-
-    echo $this->renderListProvinces();
+        $triples = $this->getTriplesOfType('http://'.$c['server']['geo.govdata.ie'].'/City');
 ?>
+                            <dl id="cities" class="related">
+                                <dt>Cities</dt>
+                                <dd>
+                                    <ul>
+<?php
+        foreach($triples as $s=> $po) {
+                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
+        }
+?>
+                                    </ul>
+                                </dd>
+                            </dl>
+
+<?php
+        $triples = $this->getTriplesOfType('http://'.$c['server']['geo.govdata.ie'].'/Province');
+?>
+
+                            <dl id="provinces" class="related">
+                                <dt>Provinces</dt>
+                                <dd>
+                                    <ul>
+<?php
+        foreach($triples as $s=> $po) {
+                $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
+        }
+?>
+                                    </ul>
+                                </dd>
+                            </dl>
 
                         </div>
 
