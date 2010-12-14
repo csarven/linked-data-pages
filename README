@@ -51,11 +51,12 @@ theme/cso/css/display.css                   #imports default stylesheet and adds
 ==== Server setup ====
 <nowiki><pre>
 //XXX: Review each line before executing!
+//The following is tested under Debian/Linux kernel only.
 
-$sudo aptitude install maven2
-$sudo aptitude install ruby
-$sudo aptitude install git
-$sudo aptitude install subversion
+$sudo apt-get install maven2
+$sudo apt-get install ruby
+$sudo apt-get install git
+$sudo apt-get install subversion
 
 $cd /etc
 $sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk fuseki
