@@ -6,7 +6,7 @@
     $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
 
     if (file_exists($favicon_theme)) {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico?'.$fileVersion;
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
     }
     else {
         $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';

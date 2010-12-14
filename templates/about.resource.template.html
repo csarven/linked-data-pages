@@ -18,8 +18,33 @@
   xmlns:foaf="http://xmlns.com/foaf/0.1/"  
   xmlns:doap="http://usefulinc.com/ns/doap#"
   xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+    <head>
+        <title><?php echo $c['site']['name'];?></title>
 <?php
-require_once SITE_DIR . 'templates/head.layout.template.html';
+    $fileVersion = 'version=0.0.2';
+
+    $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+
+    if (file_exists($favicon_theme)) {
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+    }
+    else {
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';
+    }
+?>
+
+        <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
+
+        <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
+
+<?php
+    $formats = $this->desc->get_resource_triple_values($this->desc->get_uri(), 'http://purl.org/dc/terms/hasFormat');
+    foreach ($formats as $format_uri) {
+        $media_type = $this->desc->get_first_literal($format_uri, 'http://purl.org/dc/elements/1.1/format');  
+        $label = $this->desc->get_first_literal($format_uri, RDFS_LABEL, $media_type);  
+        echo '        <link rel="alternate" type="' . htmlspecialchars($media_type) . '" href="' . htmlspecialchars($format_uri) . '" title="' . htmlspecialchars($label) . ' version of this document"/>' . "\n";
+    }
 ?>
     </head>
 
