@@ -32,40 +32,14 @@ class LATC_Config
 
     function __construct()
     {
-        /* Name of your site. Appears in page title, address etc. */
-        $this->config['site']['name']      = 'My LATC site';
+        require_once SITE_DIR . 'config.php';
 
-        /* "site" in http://site */
-        $this->config['site']['server']    = $_SERVER['SERVER_NAME'];
-
-        /* "/foo" in http://site/foo. Leave bllank if there isn't one. */
-        $this->config['site']['path']      = '';
-
-        /* "default" in /var/www/site/theme/default */
-        $this->config['site']['theme']     = 'default';
-
-        /* "logo.png" in /var/www/site/theme/default/images/logo.png */
-        $this->config['site']['logo']      = 'logo.png';
-
-        /* URI maps e.g., $this->config['server']['dbpedia.org'] = 'site';
-         * http://dbpedia.org/resource/Montreal to http://site/resource/Montreal
-         */
-
-        /* URI path e.g., resource */
-        $this->config['entity']['resource']['path']     = '/resource';
-
-        /* query to use for this resource. Default should be DESCRIBE <uri> */
-        $this->config['entity']['resource']['query']    = '';
-
-        /* HTML template */
-        $this->config['entity']['resource']['template'] = 'default.resource.template.html';
+        $this->config = $config;
 
         /**
-         * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
+         * TODO:  if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */
         $this->requestURI = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-
-        require_once SITE_DIR . 'config.php';
     }
 
 
