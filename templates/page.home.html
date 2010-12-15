@@ -1,7 +1,56 @@
 <?php
-require_once SITE_DIR . 'templates/html.html';
-require_once SITE_DIR . 'templates/head.html';
+    $resource_uri = $this->desc->get_primary_resource_uri();
+    $title = $this->get_title($resource_uri);
+
+    $sC = $this->siteConfig;
+    $c  = $sC->getConfig();
+
+    $entitySetId = $sC->getEntitySetId();
+
+    echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:xsd ="http://www.w3.org/2001/XMLSchema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"  
+  xmlns:doap="http://usefulinc.com/ns/doap#"
+  xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+    <head>
+        <title>data-gov.ie</title>
+    <head>
+        <title><?php e($title); echo " &#8212; ".$c['site']['name'];?></title>
+<?php
+    $fileVersion = 'version=0.0.2';
+
+    $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+
+    if (file_exists($favicon_theme)) {
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+    }
+    else {
+        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';
+    }
+?>
+
+        <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
+
+        <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
+
+<?php
+    $formats = $this->desc->get_resource_triple_values($this->desc->get_uri(), 'http://purl.org/dc/terms/hasFormat');
+    foreach ($formats as $format_uri) {
+        $media_type = $this->desc->get_first_literal($format_uri, 'http://purl.org/dc/elements/1.1/format');  
+        $label = $this->desc->get_first_literal($format_uri, RDFS_LABEL, $media_type);  
+        echo '        <link rel="alternate" type="' . htmlspecialchars($media_type) . '" href="' . htmlspecialchars($format_uri) . '" title="' . htmlspecialchars($label) . ' version of this document"/>' . "\n";
+    }
+?>
+
     </head>
 
     <body id="<?php echo $entitySetId; ?>">
@@ -63,7 +112,7 @@ require_once SITE_DIR . 'templates/head.html';
                     <dt>Page notice</dt>
                     <dd>
                         <ul>
-                            <li class="notice_updated">Last update on <abbr property="dcterms:date" datatype="xsd:date" class="updated" title="2010-11-28T00:00:00Z">2010-12-07</abbr>.</li>
+                            <li class="notice_updated">Last update on <abbr property="dcterms:date" datatype="xsd:date" class="updated" title="2010-11-28T00:00:00-00:00">2010-12-15</abbr>.</li>
                             <li class="notice_valid">Valid <a href="http://validator.w3.org/check?uri=referer" rel="dcterms:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax">XHTML+RDFa</a>.</li>
                             <li class="notice_badge_lod-stars"><a href="http://www.w3.org/DesignIssues/LinkedData.html"><abbr class="badge_lod lod-stars-5" title="Five star Open Web data">&#9733;&#9733;&#9733;&#9733;&#9733;</abbr></a></li>
                         </ul>
