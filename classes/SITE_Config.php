@@ -54,9 +54,6 @@ class SITE_Config extends LATC_Config
             'geoDataGov'   => 'http://geo.govdata.ie/'
         ));
 
-        $statsDataGov = $this->config['prefixes']['statsDataGov'];
-        $geoDataGov   = $this->config['prefixes']['geoDataGov'];
-        $skos         = $this->config['prefixes']['skos'];
 
         /** 
          * SPARQL Queries
@@ -79,9 +76,6 @@ class SITE_Config extends LATC_Config
 
 
         $this->config['sparql_query']['cso_home'] = "
-            PREFIX geoDataGov: <$geoDataGov>
-            PREFIX skos: <$skos>
-
             CONSTRUCT {
                 ?city a geoDataGov:City .
                 ?city a skos:Concept .
@@ -114,8 +108,6 @@ class SITE_Config extends LATC_Config
 
 
         $this->config['sparql_query']['cso_city'] = "
-            PREFIX skos: <$skos>
-
             CONSTRUCT {
                 ?s ?geoArea <URI> .
                 ?s ?p ?o .
@@ -146,8 +138,6 @@ class SITE_Config extends LATC_Config
 
 
         $this->config['sparql_query']['cso_class'] = "
-            PREFIX skos: <$skos>
-
             CONSTRUCT {
                 <URI> ?p1 ?o1 .
 
