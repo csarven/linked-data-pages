@@ -60,18 +60,6 @@ class LATC_Config
         /* HTML template */
         $this->config['entity']['resource']['template'] = 'default.resource.template.html';
 
-        /* Common prefixes */
-        $this->config['LATC_prefixes'] = array(
-            'rdf'               => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-            'rdfs'              => 'http://www.w3.org/2000/01/rdf-schema#',
-            'xsd'               => 'http://www.w3.org/2001/XMLSchema#',
-            'skos'              => 'http://www.w3.org/2004/02/skos/core#',
-
-            'sdmx-concept'      => 'http://purl.org/linked-data/sdmx/2009/concept#',
-            'sdmx-dimension'    => 'http://purl.org/linked-data/sdmx/2009/dimension#',
-            'qb'                => 'http://purl.org/linked-data/cube#'
-        );
-
         /**
          * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */

@@ -47,14 +47,21 @@ class SITE_Config extends LATC_Config
          * Common prefixes for this dataset
          */
         $this->config['prefixes'] = array(
+            'rdf'               => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+            'rdfs'              => 'http://www.w3.org/2000/01/rdf-schema#',
+            'xsd'               => 'http://www.w3.org/2001/XMLSchema#',
+            'skos'              => 'http://www.w3.org/2004/02/skos/core#',
+
+            'sdmx-concept'      => 'http://purl.org/linked-data/sdmx/2009/concept#',
+            'sdmx-dimension'    => 'http://purl.org/linked-data/sdmx/2009/dimension#',
+            'qb'                => 'http://purl.org/linked-data/cube#',
+
             'statsDataGov' => 'http://stats.govdata.ie/',
             'concept'      => 'http://stats.govdata.ie/concept/',
             'codelist'     => 'http://stats.govdata.ie/codelist/',
             'property'     => 'http://stats.govdata.ie/property/',
             'geoDataGov'   => 'http://geo.govdata.ie/'
         );
-
-        $this->config['prefixes'] = array_merge($this->config['LATC_prefixes'], $this->config['prefixes']);
 
         /** 
          * SPARQL Queries
