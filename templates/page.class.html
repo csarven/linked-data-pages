@@ -1,12 +1,12 @@
 <?php
-require_once SITE_DIR . 'templates/html.layout.template.html';
-require_once SITE_DIR . 'templates/head.layout.template.html';
+require_once SITE_DIR . 'templates/html.html';
+require_once SITE_DIR . 'templates/head.html';
 ?>
     </head>
 
     <body id="<?php echo $sC->getEntityId(); ?>">
         <div id="wrap">
-<?php require_once SITE_DIR . 'templates/header.layout.template.html'; ?>
+<?php require_once SITE_DIR . 'templates/header.html'; ?>
             <div id="core">
 
                 <div id="content">
@@ -15,7 +15,7 @@ require_once SITE_DIR . 'templates/head.layout.template.html';
                     <div id="content_inner">
                         <div id="resource_data">
 <?php
-    echo $this->render(array('value' => $resource_uri, 'type'=>'uri'), FALSE);
+    echo $this->renderClass();
 ?>
 
                         </div>
@@ -23,6 +23,6 @@ require_once SITE_DIR . 'templates/head.layout.template.html';
                     </div>
                 </div>
             </div>
-<?php require_once SITE_DIR . 'templates/footer.layout.template.html'; ?>
+<?php require_once SITE_DIR . 'templates/footer.html'; ?>
         </div>
-<?php require_once SITE_DIR . 'templates/foot.layout.template.html'; ?>
+<?php require_once SITE_DIR . 'templates/foot.html'; ?>
