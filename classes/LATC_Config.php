@@ -64,6 +64,8 @@ class LATC_Config
          * TODO:        if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */
         $this->requestURI = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+
+        require_once SITE_DIR . 'config.php';
     }
 
 
