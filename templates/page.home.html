@@ -10,9 +10,14 @@ require_once SITE_DIR . 'templates/head.html';
             <div id="core">
 
                 <div id="content">
-                    <h1><a href="<?php e($resource_uri);?>"><?php e($title);?></a></h1>
+                    <h1>Welcome to Data Gov.ie</h1>
 
                     <div id="content_inner">
+                        <div id="launch-info" class="entry-content">
+                            <h2>Launching in December 2010!</h2>
+                            <p><a href="http://opendata.ie/"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/illustrations/screenshot_opendataie.png'; ?>" alt="OpenData.ie screenshot"/></a></p>
+                        </div>
+
                         <div id="resource_data">
 <?php
         $triples = $this->getTriplesOfType('http://'.$c['server']['geo.govdata.ie'].'/City');

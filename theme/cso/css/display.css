@@ -30,6 +30,22 @@ background-repeat:no-repeat;
 background-position:100% 0;
 }
 
+
+#launch-info,
+#cso_home #resource_data {
+float:left;
+width:46%;
+}
+
+#launch-info {
+
+margin-right:8%;
+}
+#lcso_home #resource_data {
+
+}
+
+
 #resource_data #marital-status-age-population {
 margin-right:0;
 width:auto;

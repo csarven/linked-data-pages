@@ -24,7 +24,7 @@ line-height:1.65;
 position:relative;
 }
 h1,h2,h3,h4,h5,h6 {
-margin-bottom:7px;
+margin-bottom:0.5em;
 overflow:hidden;
 }
 h1 {
@@ -330,6 +330,7 @@ margin-bottom:3em;
 
 dt {
 font-weight:bold;
+margin-bottom:0.5em;
 }
 
 
