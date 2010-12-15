@@ -92,7 +92,7 @@ class LATC_Config
     /**
      * Returns the entity id from the current request.
      */
-    function getEntityId()
+    function getEntitySetId()
     {
         /**
          * We check whether it is recognized or unrecognized.
@@ -114,9 +114,9 @@ class LATC_Config
      */
     function getEntityQuery()
     {
-        $entityId = $this->getEntityId();
+        $entitySetId = $this->getEntitySetId();
 
-        return $this->config['entity'][$entityId]['query'];
+        return $this->config['entity'][$entitySetId]['query'];
     }
 
 

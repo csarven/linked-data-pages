@@ -153,9 +153,9 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
         if ( null == $tmpl ) {
             $sC = $this->siteConfig->getConfig();
 
-            $entityId = $this->siteConfig->getEntityId();
+            $entitySetId = $this->siteConfig->getEntitySetId();
 
-            $tmpl = SITE_DIR . 'templates/' . $sC['entity'][$entityId]['template'];
+            $tmpl = SITE_DIR . 'templates/' . $sC['entity'][$entitySetId]['template'];
         }
 
         $template = new SITE_Template($tmpl, $this, $urispace, $request, $this->siteConfig);
