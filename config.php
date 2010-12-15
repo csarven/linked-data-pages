@@ -112,6 +112,11 @@ $config['entity']['cso_city']['query']    = 'cso_city';
 $config['entity']['cso_city']['template'] = 'page.geo.html';
 
 
+$config['entity']['cso_province']['path']     = '/province';
+$config['entity']['cso_province']['query']    = 'cso_city';
+$config['entity']['cso_province']['template'] = 'page.geo.html';
+
+
 $config['sparql_query']['cso_class'] = "
     CONSTRUCT {
         <URI> ?p1 ?o1 .
