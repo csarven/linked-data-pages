@@ -541,13 +541,14 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
         $c = $this->siteConfig->getConfig();
-        $prefixes = '';
+        $prefixes = $this->siteConfig->getPrefix();
+        $SPARQL_prefixes = '';
 
-        foreach($c['prefixes'] as $prefixName => $namespace) {
-            $prefixes .= "PREFIX $prefixName: <$namespace>\n";
+        foreach($prefixes as $prefixName => $namespace) {
+            $SPARQL_prefixes .= "PREFIX $prefixName: <$namespace>\n";
         }
 
-        $query = preg_replace("#<URI>#", "<$uri>", $prefixes.$c['sparql_query'][$type]);
+        $query = preg_replace("#<URI>#", "<$uri>", $SPARQL_prefixes.$c['sparql_query'][$type]);
 
         return $this->graph($query, $output);
     }

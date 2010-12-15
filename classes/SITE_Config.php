@@ -46,14 +46,15 @@ class SITE_Config extends LATC_Config
         /*
          * Common prefixes for this dataset
          */
-        $this->config['prefixes'] = array_merge($this->config['prefixes'], array(
+        $this->config['prefixes'] = array(
             'statsDataGov' => 'http://stats.govdata.ie/',
             'concept'      => 'http://stats.govdata.ie/concept/',
             'codelist'     => 'http://stats.govdata.ie/codelist/',
             'property'     => 'http://stats.govdata.ie/property/',
             'geoDataGov'   => 'http://geo.govdata.ie/'
-        ));
+        );
 
+        $this->config['prefixes'] = array_merge($this->config['LATC_prefixes'], $this->config['prefixes']);
 
         /** 
          * SPARQL Queries

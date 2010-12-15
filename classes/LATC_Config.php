@@ -61,7 +61,7 @@ class LATC_Config
         $this->config['entity']['resource']['template'] = 'default.resource.template.html';
 
         /* Common prefixes */
-        $this->config['prefixes'] = array(
+        $this->config['LATC_prefixes'] = array(
             'rdf'               => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
             'rdfs'              => 'http://www.w3.org/2000/01/rdf-schema#',
             'xsd'               => 'http://www.w3.org/2001/XMLSchema#',
@@ -165,6 +165,20 @@ class LATC_Config
     function getConfig()
     {
         return $this->config;
+    }
+
+
+    /**
+     * Returns a namespace of prefix or the whole LATC and SITE prefix set
+     */
+    function getPrefix($prefix = null)
+    {
+        if (is_null($prefix)) {
+            return $this->config['prefixes'];
+        }
+        else {
+            return $this->config['prefixes'][$prefix];
+        }
     }
 
 
