@@ -147,6 +147,27 @@ class LATC_Config
 
 
     /**
+     * Given QName, returns an URI from configured prefix list
+     *
+     * @return string
+     */
+    function getURI($qname)
+    {
+        $c = $this->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            $prefixName = $c['prefixes'][$m[1]];
+            if(isset($prefixName)) {
+                return $prefixName.$m[2];
+            }
+        }
+
+        return;
+    }
+
+
+
+    /**
      * This would return the first match
      *
      * @return string
