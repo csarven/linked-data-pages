@@ -361,6 +361,31 @@ class LATC_Template extends PAGET_Template
     }
 
 
+    function getTriplesOfType ($object = null)
+    {
+        $c = $this->siteConfig->getConfig();
+
+        //TODO:
+        if (!is_null($object)) {
+        }
+
+        $subjects = null;
+        $properties = $c['prefixes']['rdf'].'type';
+        $objects    = array($object);
+        $triples = $this->getTriples($subjects, $properties, $objects);
+
+        $subjects = array_keys($triples);
+        $properties = $c['prefixes']['skos'].'prefLabel';
+        $objects    = null;
+        $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
+
+        $triples = array_merge_recursive($triples, $triples_propertyLabels);
+
+        return $triples;
+    }
+
+
+
     /**
      * A generic method to render properties.
      * XXX: Status: testing.
