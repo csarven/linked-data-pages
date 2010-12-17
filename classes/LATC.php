@@ -285,6 +285,7 @@ class LATC_Template extends PAGET_Template
     function __construct($template_filename, $desc, $urispace, $request, $sC)
     {
         $this->siteConfig = $sC;
+
         parent::__construct($template_filename, $desc, $urispace, $request);
 
         $this->table_widget = new LATC_TableDataWidget($this->desc, $this, $urispace);
@@ -385,6 +386,25 @@ class LATC_Template extends PAGET_Template
     }
 
 
+    /**
+     * Returns the object value for a property object pair based on qname input
+     *
+     * @return string
+     */
+    function object($qname, $po)
+    {
+        $c = $this->siteConfig->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            /**
+             * $m[1] is prefixName, $m[2] is name
+             */
+            return $po[$c['prefixes'][$m[1]].$m[2]][0]['value'];
+        }
+
+        return;
+    }
+
 
     /**
      * A generic method to render properties.
@@ -424,6 +444,7 @@ class LATC_Template extends PAGET_Template
     function renderClass()
     {
         $c = $this->siteConfig->getConfig();
+
         $resource_uri = $this->desc->get_primary_resource_uri();
         $r = '';
 

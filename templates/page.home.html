@@ -77,7 +77,7 @@
                                     <ul>
 <?php
         foreach($triples as $s=> $po) {
-            $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
+            $label = $this->object('skos:prefLabel', $po);
             echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
         }
 ?>
@@ -95,7 +95,7 @@
                                     <ul>
 <?php
         foreach($triples as $s=> $po) {
-            $label = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
+            $label = $this->object('skos:prefLabel', $po);
             echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
         }
 ?>
