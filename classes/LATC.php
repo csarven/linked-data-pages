@@ -39,11 +39,11 @@ require_once PAGET_DIR . 'paget_storebackedurispace.class.php';
  */
 class LATC_UriSpace extends PAGET_StoreBackedUriSpace
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct(STORE_URI);
     }
 
@@ -76,12 +76,12 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
 
                 return $desc;
             } else {
-                $resource_uri = $this->siteConfig->getRemoteURIFromCurrentRequest();
+                $resource_uri = $this->sC->getRemoteURIFromCurrentRequest();
 
                 if (isset($this->_static_data[$resource_uri])) {
                     $desc = new PAGET_FileBackedResourceDescription($request_uri, $resource_uri, $type, $this->_static_data[$resource_uri], 'rdfxml');
                 } else {
-                    $desc = new LATC_ResourceDescription($request_uri, $resource_uri, $type, $this->_store_uri, $this->siteConfig);
+                    $desc = new LATC_ResourceDescription($request_uri, $resource_uri, $type, $this->_store_uri, $this->sC);
                 }
 
                 $desc->set_template($this->_description_template);
@@ -117,11 +117,11 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
  */
 class LATC_ResourceDescription extends PAGET_ResourceDescription
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($rt, $re, $te, $su, $sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct($rt, $re, $te, $su);
     }
 
@@ -134,9 +134,9 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
      */
     function get_generators()
     {
-        $eQ = $this->siteConfig->getEntityQuery();
+        $eQ = $this->sC->getEntityQuery();
 
-        return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->siteConfig));
+        return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->sC));
     }
 
 
@@ -151,14 +151,14 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
             $tmpl = $urispace->get_template($request);
         }
         if ( null == $tmpl ) {
-            $sC = $this->siteConfig->getConfig();
+            $c = $this->sC->getConfig();
 
-            $entitySetId = $this->siteConfig->getEntitySetId();
+            $entitySetId = $this->sC->getEntitySetId();
 
-            $tmpl = SITE_DIR . 'templates/' . $sC['entity'][$entitySetId]['template'];
+            $tmpl = SITE_DIR . 'templates/' . $c['entity'][$entitySetId]['template'];
         }
 
-        $template = new SITE_Template($tmpl, $this, $urispace, $request, $this->siteConfig);
+        $template = new SITE_Template($tmpl, $this, $urispace, $request, $this->sC);
 
         return $template->execute();
     }
@@ -173,7 +173,7 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
     {
         if (isset($_SERVER["HTTP_HOST"])) {
             if (preg_match('#http://([^/]+)/#i', $uri, $m)) {
-                $c = $this->siteConfig->getConfig();
+                $c = $this->sC->getConfig();
 
                 if ( $_SERVER["HTTP_HOST"] != $m[1] && isset($c['server'][$m[1]])) {
                     $r = str_replace($m[1], $c['server'][$m[1]], $uri);
@@ -237,11 +237,11 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
  */
 class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($su, $eQ, $sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct($su, $eQ);
     }
 
@@ -250,7 +250,7 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
     */
     function add_triples($resource_uri, &$desc)
     {
-        $store = new LATC_Store($this->_store_uri, $this->siteConfig);
+        $store = new LATC_Store($this->_store_uri, $this->sC);
 
         $response = $store->describe($resource_uri, $this->_type, 'rdf');
 
@@ -280,11 +280,11 @@ class LATC_SimplePropertyLabeller extends PAGET_SimplePropertyLabeller
  */
 class LATC_Template extends PAGET_Template
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($template_filename, $desc, $urispace, $request, $sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
 
         parent::__construct($template_filename, $desc, $urispace, $request);
 
@@ -364,7 +364,7 @@ class LATC_Template extends PAGET_Template
 
     function getTriplesOfType ($object = null)
     {
-        $c = $this->siteConfig->getConfig();
+        $c = $this->sC->getConfig();
 
         //TODO:
         if (!is_null($object)) {
@@ -394,7 +394,7 @@ class LATC_Template extends PAGET_Template
      */
     function object($qname, $po)
     {
-        $c = $this->siteConfig->getConfig();
+        $c = $this->sC->getConfig();
 
         if(preg_match("#(.*):(.*)#", $qname, $m)) {
             /**
@@ -414,7 +414,7 @@ class LATC_Template extends PAGET_Template
      */
     function hasProperty($qname, $po)
     {
-        $c = $this->siteConfig->getConfig();
+        $c = $this->sC->getConfig();
 
         if(preg_match("#(.*):(.*)#", $qname, $m)) {
             if(isset($po[$c['prefixes'][$m[1]].$m[2]])) {
@@ -463,7 +463,7 @@ class LATC_Template extends PAGET_Template
      */
     function renderClass()
     {
-        $c = $this->siteConfig->getConfig();
+        $c = $this->sC->getConfig();
 
         $resource_uri = $this->desc->get_primary_resource_uri();
         $r = '';
@@ -568,11 +568,11 @@ class LATC_TableDataWidget extends PAGET_TableDataWidget
  */
 class LATC_Store extends Store
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($su, $sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct($su);
     }
 
@@ -584,7 +584,7 @@ class LATC_Store extends Store
     */
     function get_sparql_service()
     {
-        return new LATC_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->siteConfig);
+        return new LATC_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->sC);
     }
 }
 
@@ -596,19 +596,19 @@ class LATC_Store extends Store
  */
 class LATC_SparqlServiceBase extends SparqlServiceBase
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($tu, $tc, $trq, $sC)
     {
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct($tu, $tc, $trq);
     }
 
 
     function describe($uri, $type = 'cbd', $output = OUTPUT_TYPE_RDF)
     {
-        $c = $this->siteConfig->getConfig();
-        $prefixes = $this->siteConfig->getPrefix();
+        $c = $this->sC->getConfig();
+        $prefixes = $this->sC->getPrefix();
         $SPARQL_prefixes = '';
 
         foreach($prefixes as $prefixName => $namespace) {

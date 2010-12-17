@@ -23,7 +23,7 @@ class SITE_Template extends LATC_Template
     function renderMaritalStatusAgePopulation()
     {
         $sC = $this->sC;
-        $c = $this->sC->getConfig();
+        $c  = $sC->getConfig();
 
         $ns = array();
 
@@ -67,7 +67,7 @@ class SITE_Template extends LATC_Template
 
         $maritalStatusAgePopulation = array();
 
-        foreach($triples as $subject => $po) {
+        foreach($triples as $s => $po) {
             if (isset($po[$ns['property']['maritalStatus']])
                 && isset($triples[$po[$ns['property']['maritalStatus']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
 
@@ -123,7 +123,7 @@ class SITE_Template extends LATC_Template
     function renderBirthplace()
     {
         $sC = $this->sC;
-        $c = $this->sC->getConfig();
+        $c  = $sC->getConfig();
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -151,7 +151,7 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<dt>People\'s birthplace</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
             if (isset($po[$ns['property']['birthplace']])
                 && isset($triples[$po[$ns['property']['birthplace']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])) {
                 $birthPlaceLabel = $triples[$po[$ns['property']['birthplace']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
@@ -170,7 +170,7 @@ class SITE_Template extends LATC_Template
     function renderReligionPopulation()
     {
         $sC = $this->sC;
-        $c = $this->sC->getConfig();
+        $c  = $sC->getConfig();
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -201,7 +201,7 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<tbody>';
         $r .= "\n".'<tr><th>Religion</th><th># of people</th></tr>';
 
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
             if (isset($po[$ns['property']['religion']])
                 && isset($triples[$po[$ns['property']['religion']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
                 && isset($po[$ns['property']['population']][0]['value'])) {
@@ -223,8 +223,8 @@ class SITE_Template extends LATC_Template
 
     function renderUsualResidencePopulation()
     {
-        $c  = $this->sC->getConfig();
         $sC = $this->sC;
+        $c  = $sC->getConfig();
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -255,7 +255,7 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<tbody>';
         $r .= "\n".'<tr><th>Location</th><th># of people</th></tr>';
 
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
             if (isset($po[$ns['property']['usualResidence']])
                 && isset($triples[$po[$ns['property']['usualResidence']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
                 && isset($po[$ns['property']['population']][0]['value'])) {
