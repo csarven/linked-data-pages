@@ -573,18 +573,27 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
         $prefixes = $this->sC->getPrefix();
         $SPARQL_prefixes = '';
 
-        foreach($prefixes as $prefixName => $namespace) {
-            $SPARQL_prefixes .= "PREFIX $prefixName: <$namespace>\n";
-        }
+//        if (!empty($c['sparql_query'][$type])) {
+            foreach($prefixes as $prefixName => $namespace) {
+                $SPARQL_prefixes .= "PREFIX $prefixName: <$namespace>\n";
+            }
 
-        $query = preg_replace("#<URI>#", "<$uri>", $SPARQL_prefixes.$c['sparql_query'][$type]);
+            $query = preg_replace("#<URI>#", "<$uri>", $SPARQL_prefixes.$c['sparql_query'][$type]);
 
-        return $this->graph($query, $output);
+            return $this->graph($query, $output);
+//        }
+//        else {
+//            TODO
+//        }
     }
 
 }
 
 
+
+/**
+ * Main utility class for LATC
+ */
 class LATC extends LATC_UriSpace
 {
     var $sC;
