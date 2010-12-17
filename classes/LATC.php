@@ -447,9 +447,9 @@ class LATC_Template extends PAGET_Template
         $r .= "\n".'<dt>Some subjects with this property</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
             //TODO: Use rdfs:label if available.
-            $r .= "\n".'<li><a href="'.$triple.'">'.$triple.'</a></li>';
+            $r .= "\n".'<li><a href="'.$s.'">'.$s.'</a></li>';
         }
         $r .= "\n".'</ul>';
         $r .= "\n".'</dd>';
@@ -478,7 +478,7 @@ class LATC_Template extends PAGET_Template
 
         //TODO: Make this a bit more generic. Perhaps use LATC_TableDataWidget::format_table ?
         $r .= "\n".'<dl id="about-this-class">';
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
             if ($this->hasProperty('rdfs:label', $po)) {
                 $r .= "\n".'<dt>About</dt>';
                 $r .= "\n".'<dd>'.$po[$c['prefixes']['rdfs'].'label'][0]['value'].'</dd>';
@@ -507,12 +507,13 @@ class LATC_Template extends PAGET_Template
         $r .= "\n".'<dt>Things that are of this type</dt>';
         $r .= "\n".'<dd>';
         $r .= "\n".'<ul>';
-        foreach($triples as $triple => $po) {
+        foreach($triples as $s => $po) {
+            //XXX: If there is no label, we should output the URI
             $prefLabel = '';
             if ($this->hasProperty('skos:prefLabel', $po)) {
                 $prefLabel = $this->object('skos:prefLabel', $po);
             }
-            $r .= "\n".'<li><a href="'.$triple.'">'.$prefLabel.'</a></li>';
+            $r .= "\n".'<li><a href="'.$s.'">'.$prefLabel.'</a></li>';
         }
         $r .= "\n".'</ul>';
         $r .= "\n".'</dd>';
