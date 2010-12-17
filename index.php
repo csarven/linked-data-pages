@@ -34,9 +34,7 @@ require_once CLASSES_DIR . 'LATC.php';
 require_once CLASSES_DIR . 'SITE_Template.php';
 
 
-$config = new LATC_Config();    /* Grabs configuration values from this site */
-$config->getCurrentRequest();   /* Sets configuration for current request */
-//print_r($config);
-$space = new LATC_UriSpace($config); /* Starts to bulid the request */
-$space->dispatch();                  /* Dispatches the requested URI to appropriate URI */
+$config = new LATC_Config(); /* Grabs configuration values from this site */
+$space = new LATC($config);  /* Starts to bulid the request */
+$space->dispatch();          /* Dispatches the requested URI */
 ?>

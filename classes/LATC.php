@@ -44,6 +44,7 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
     function __construct($sC)
     {
         $this->sC = $sC;
+
         parent::__construct(STORE_URI);
     }
 
@@ -387,46 +388,6 @@ class LATC_Template extends PAGET_Template
 
 
     /**
-     * Returns the object value for a property object pair
-     * based on property QName input
-     *
-     * @return string
-     */
-    function object($qname, $po)
-    {
-        $c = $this->sC->getConfig();
-
-        if(preg_match("#(.*):(.*)#", $qname, $m)) {
-            /**
-             * $m[1] is prefixName, $m[2] is name
-             */
-            return $po[$c['prefixes'][$m[1]].$m[2]][0]['value'];
-        }
-
-        return;
-    }
-
-
-    /**
-     * Checks if a property object pair contains a property based on QName input
-     *
-     * @return boolean
-     */
-    function hasProperty($qname, $po)
-    {
-        $c = $this->sC->getConfig();
-
-        if(preg_match("#(.*):(.*)#", $qname, $m)) {
-            if(isset($po[$c['prefixes'][$m[1]].$m[2]])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    /**
      * A generic method to render properties.
      * XXX: Status: testing.
      * TODO: Output <http://site/property/foo> <rdf:type> <rdf:Property> at least
@@ -463,7 +424,8 @@ class LATC_Template extends PAGET_Template
      */
     function renderClass()
     {
-        $c = $this->sC->getConfig();
+        $sC = $this->sC;
+        $c  = $this->sC->getConfig();
 
         $resource_uri = $this->desc->get_primary_resource_uri();
         $r = '';
@@ -479,19 +441,19 @@ class LATC_Template extends PAGET_Template
         //TODO: Make this a bit more generic. Perhaps use LATC_TableDataWidget::format_table ?
         $r .= "\n".'<dl id="about-this-class">';
         foreach($triples as $s => $po) {
-            if ($this->hasProperty('rdfs:label', $po)) {
+            if ($sC->hasProperty('rdfs:label', $po)) {
                 $r .= "\n".'<dt>About</dt>';
                 $r .= "\n".'<dd>'.$po[$c['prefixes']['rdfs'].'label'][0]['value'].'</dd>';
             }
 
-            if ($this->hasProperty('rdfs:comment', $po)) {
+            if ($sC->hasProperty('rdfs:comment', $po)) {
                 $r .= "\n".'<dt>Comment</dt>';
                 $r .= "\n".'<dd>'.$po[$c['prefixes']['rdfs'].'comment'][0]['value'].'</dd>';
             }
 
-            if ($this->hasProperty('rdfs:subClassOf', $po)) {
+            if ($sC->hasProperty('rdfs:subClassOf', $po)) {
                 $r .= "\n".'<dt>Semantics</dt>';
-                $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$this->term_widget->link_uri($po[$c['prefixes']['rdfs'].'subClassOf'][0]['value']).'</dd>';
+                $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$this->term_widget->link_uri($sC->object('rdfs:subClassOf', $po)).'</dd>';
             }
         }
         $r .= "\n".'</dl>';
@@ -510,8 +472,8 @@ class LATC_Template extends PAGET_Template
         foreach($triples as $s => $po) {
             //XXX: If there is no label, we should output the URI
             $prefLabel = '';
-            if ($this->hasProperty('skos:prefLabel', $po)) {
-                $prefLabel = $this->object('skos:prefLabel', $po);
+            if ($sC->hasProperty('skos:prefLabel', $po)) {
+                $prefLabel = $sC->object('skos:prefLabel', $po);
             }
             $r .= "\n".'<li><a href="'.$s.'">'.$prefLabel.'</a></li>';
         }
@@ -620,4 +582,223 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
         return $this->graph($query, $output);
     }
 
+}
+
+
+class LATC extends LATC_UriSpace
+{
+    var $sC;
+    var $config = array();
+    var $requestURI = '';
+    var $currentRequest = array();
+
+    function __construct($sC)
+    {
+        $this->sC = $sC;
+//        print_r($this->sC);exit;
+        $this->config = $sC->config;
+
+        /**
+         * TODO:  if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
+         */
+        $this->requestURI = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+
+        $this->getCurrentRequest();   /* Sets configuration for current request */
+
+        parent::__construct($this);
+    }
+
+
+   /**
+     * Figure out what to give to the client
+     */
+    function getCurrentRequest()
+    {
+        $ePs = implode("|", array_reverse($this->getEntityPaths()));
+
+        $search = '#^(http://)('.$_SERVER['SERVER_NAME'].')('.$this->config['site']['path'].')('.$ePs.')?(.+)?\.(html|rdf|json|turtle)$#i';
+
+        if (preg_match($search, $this->requestURI, $matches)) {
+            $this->currentRequest = $matches;
+        }
+        else {
+            /* XXX: This might not be necessary */
+        }
+
+        return $this->currentRequest;
+    }
+
+
+    /**
+     * Returns the entity id from the current request.
+     */
+    function getEntitySetId()
+    {
+        /**
+         * We check whether it is recognized or unrecognized.
+         * If recognized, we can most likely serve it.
+         * If unrecognized, we might be able to serve it depending on what the
+         * store responds with.
+         */
+
+        if ($this->currentRequest[4] == '/' && !empty($this->currentRequest[5])) {
+            return $this->getKeyFromValue($this->config['entity']['resource']['path'], $this->config['entity']);
+        } else {
+            return $this->getKeyFromValue($this->currentRequest[4], $this->config['entity']);
+        }
+    }
+
+
+    /**
+     * Returns the query type based on the current request.
+     */
+    function getEntityQuery()
+    {
+        $entitySetId = $this->getEntitySetId();
+
+        return $this->config['entity'][$entitySetId]['query'];
+    }
+
+
+    /**
+     * Returns all of the entity paths that was set in site and LATC configuration
+     */
+    function getEntityPaths()
+    {
+        $c = $this->getConfig();
+        $entityPaths = array();
+
+        foreach ($c['entity'] as $key => $value) {
+            $entityPaths[] = $c['entity'][$key]['path'];
+        }
+
+        asort($entityPaths);
+
+        return $entityPaths;
+    }
+
+
+    /**
+     * Transforms the current request URI to the URI found in the RDF store.
+     */
+    function getRemoteURIFromCurrentRequest()
+    {
+        $cR = $this->currentRequest;
+
+        return $cR[1].array_search($cR[2], $this->config['server']).$cR[3].$cR[4].$cR[5];
+    }
+
+
+    /**
+     * Returns all of the configuration values that was set in site and LATC
+     */
+    function getConfig()
+    {
+        return $this->config;
+    }
+
+
+    /**
+     * Returns a namespace of prefix or the whole LATC and SITE prefix set
+     */
+    function getPrefix($prefix = null)
+    {
+        if (is_null($prefix)) {
+            return $this->config['prefixes'];
+        }
+        else {
+            return $this->config['prefixes'][$prefix];
+        }
+    }
+
+
+    /**
+     * Given QName, returns an URI from configured prefix list
+     *
+     * @return string
+     */
+    function getURI($qname)
+    {
+        $c = $this->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            $prefixName = $c['prefixes'][$m[1]];
+            if(isset($prefixName)) {
+                return $prefixName.$m[2];
+            }
+        }
+
+        return;
+    }
+
+
+    /**
+     * Returns the object value for a property object pair
+     * based on property QName input
+     *
+     * @return string
+     */
+    function object($qname, $po)
+    {
+        $c = $this->sC->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            /**
+             * $m[1] is prefixName, $m[2] is name
+             */
+            return $po[$c['prefixes'][$m[1]].$m[2]][0]['value'];
+        }
+
+        return;
+    }
+
+
+    /**
+     * Checks if a property object pair contains a property based on QName input
+     *
+     * @return boolean
+     */
+    function hasProperty($qname, $po)
+    {
+        $c = $this->sC->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            if(isset($po[$c['prefixes'][$m[1]].$m[2]])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Given URI, returns QName as an HTML anchor
+     *
+     * @return string
+     */
+    function getQName($uri)
+    {
+        //TODO: Need to access Paget's objects from here
+        //        return $this->term_widget->link_uri($uri);
+    }
+
+
+    /**
+     * This would return the first match
+     *
+     * @return string
+     */
+    function getKeyFromValue($needle, $a)
+    {
+        foreach ($a as $key => $subArray) {
+            foreach ($subArray as $subKey => $value) {
+                if ($value == $needle) {
+                    return $key;
+                }
+            }
+        }
+
+        return 'resource';
+    }
 }
