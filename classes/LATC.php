@@ -479,17 +479,17 @@ class LATC_Template extends PAGET_Template
         //TODO: Make this a bit more generic. Perhaps use LATC_TableDataWidget::format_table ?
         $r .= "\n".'<dl id="about-this-class">';
         foreach($triples as $triple => $po) {
-            if (isset($po[$c['prefixes']['rdfs'].'label'])) {
+            if ($this->hasProperty('rdfs:label', $po)) {
                 $r .= "\n".'<dt>About</dt>';
                 $r .= "\n".'<dd>'.$po[$c['prefixes']['rdfs'].'label'][0]['value'].'</dd>';
             }
 
-            if (isset($po[$c['prefixes']['rdfs'].'comment'])) {
+            if ($this->hasProperty('rdfs:comment', $po)) {
                 $r .= "\n".'<dt>Comment</dt>';
                 $r .= "\n".'<dd>'.$po[$c['prefixes']['rdfs'].'comment'][0]['value'].'</dd>';
             }
 
-            if (isset($po[$c['prefixes']['rdfs'].'subClassOf'])) {
+            if ($this->hasProperty('rdfs:subClassOf', $po)) {
                 $r .= "\n".'<dt>Semantics</dt>';
                 $r .= "\n".'<dd>Being a member of this class implies also being a member of '.$this->term_widget->link_uri($po[$c['prefixes']['rdfs'].'subClassOf'][0]['value']).'</dd>';
             }
