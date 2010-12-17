@@ -509,8 +509,8 @@ class LATC_Template extends PAGET_Template
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
             $prefLabel = '';
-            if (isset($po[$c['prefixes']['skos'].'prefLabel'])) {
-                $prefLabel = $po[$c['prefixes']['skos'].'prefLabel'][0]['value'];
+            if ($this->hasProperty('skos:prefLabel', $po)) {
+                $prefLabel = $this->object('skos:prefLabel', $po);
             }
             $r .= "\n".'<li><a href="'.$triple.'">'.$prefLabel.'</a></li>';
         }
