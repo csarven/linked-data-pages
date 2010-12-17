@@ -387,7 +387,8 @@ class LATC_Template extends PAGET_Template
 
 
     /**
-     * Returns the object value for a property object pair based on qname input
+     * Returns the object value for a property object pair
+     * based on property QName input
      *
      * @return string
      */
@@ -403,6 +404,25 @@ class LATC_Template extends PAGET_Template
         }
 
         return;
+    }
+
+
+    /**
+     * Checks if a property object pair contains a property based on QName input
+     *
+     * @return boolean
+     */
+    function hasProperty($qname, $po)
+    {
+        $c = $this->siteConfig->getConfig();
+
+        if(preg_match("#(.*):(.*)#", $qname, $m)) {
+            if(isset($po[$c['prefixes'][$m[1]].$m[2]])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
