@@ -9,3 +9,4 @@
 * Abstract a method to handle data with n-dimensions
 * Have a way to handle page cases (e.g., about) where there is no need
   to take a trip to the SPARQL endpoint
+* Rename the package
