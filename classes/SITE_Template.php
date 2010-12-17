@@ -4,12 +4,12 @@
  */
 class SITE_Template extends LATC_Template
 {
-    var $siteConfig;
+    var $sC;
 
     function __construct($template_filename, $desc, $urispace, $request, $sC)
     {
         //XXX: Beginning of DO NOT MODIFY
-        $this->siteConfig = $sC;
+        $this->sC = $sC;
         parent::__construct($template_filename, $desc, $urispace, $request, $sC);
         //XXX: End of DO NOT MODIFY
     }
@@ -22,7 +22,9 @@ class SITE_Template extends LATC_Template
      */
     function renderMaritalStatusAgePopulation()
     {
-        $c = $this->siteConfig->getConfig();
+        $sC = $this->sC;
+        $c = $this->sC->getConfig();
+
         $ns = array();
 
         //XXX: Would it be better to use the values from index or the config's ns?
@@ -49,15 +51,15 @@ class SITE_Template extends LATC_Template
         /**
          * This will get the prefLabels of marital-status age2
          */
-        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['marital-status']);
-        $properties = array($c['prefixes']['skos'].'prefLabel');
+        $subjects   = $this->desc->get_subjects_where_resource($sC->getURI('skos:topConceptOf'), $ns['prefixes']['codelist']['marital-status']);
+        $properties = array($sC->getURI('skos:prefLabel'));
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
 
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['age2']);
-        $properties = array($c['prefixes']['skos'].'prefLabel');
+        $subjects   = $this->desc->get_subjects_where_resource($sC->getURI('skos:topConceptOf'), $ns['prefixes']['codelist']['age2']);
+        $properties = array($sC->getURI('skos:prefLabel'));
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
 
@@ -67,15 +69,15 @@ class SITE_Template extends LATC_Template
 
         foreach($triples as $subject => $po) {
             if (isset($po[$ns['property']['maritalStatus']])
-                && isset($triples[$po[$ns['property']['maritalStatus']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($triples[$po[$ns['property']['maritalStatus']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
 
                 && isset($po[$ns['property']['age2']])
-                && isset($triples[$po[$ns['property']['age2']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($triples[$po[$ns['property']['age2']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
 
                 && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $maritalStatusLabel = $triples[$po[$ns['property']['maritalStatus']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
-                $ageLabel = $triples[$po[$ns['property']['age2']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $maritalStatusLabel = $triples[$po[$ns['property']['maritalStatus']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
+                $ageLabel = $triples[$po[$ns['property']['age2']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
                 $population = $po[$ns['property']['population']][0]['value'];
 
                 if (array_key_exists($ageLabel, $maritalStatusAgePopulation)
@@ -120,7 +122,8 @@ class SITE_Template extends LATC_Template
 
     function renderBirthplace()
     {
-        $c = $this->siteConfig->getConfig();
+        $sC = $this->sC;
+        $c = $this->sC->getConfig();
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -137,8 +140,8 @@ class SITE_Template extends LATC_Template
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['birthplace']);
-        $properties = array($c['prefixes']['skos'].'prefLabel');
+        $subjects   = $this->desc->get_subjects_where_resource($sC->getURI('skos:topConceptOf'), $ns['prefixes']['codelist']['birthplace']);
+        $properties = array($sC->getURI('skos:prefLabel'));
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -150,8 +153,8 @@ class SITE_Template extends LATC_Template
         $r .= "\n".'<ul>';
         foreach($triples as $triple => $po) {
             if (isset($po[$ns['property']['birthplace']])
-                && isset($triples[$po[$ns['property']['birthplace']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])) {
-                $birthPlaceLabel = $triples[$po[$ns['property']['birthplace']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                && isset($triples[$po[$ns['property']['birthplace']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])) {
+                $birthPlaceLabel = $triples[$po[$ns['property']['birthplace']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
 
                 $r .= "\n".'<li><a href="'.$po[$ns['property']['birthplace']][0]['value'].'">'.$birthPlaceLabel.'</a></li>';
             }
@@ -166,7 +169,8 @@ class SITE_Template extends LATC_Template
 
     function renderReligionPopulation()
     {
-        $c = $this->siteConfig->getConfig();
+        $sC = $this->sC;
+        $c = $this->sC->getConfig();
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -185,8 +189,8 @@ class SITE_Template extends LATC_Template
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['religion']);
-        $properties = array($c['prefixes']['skos'].'prefLabel');
+        $subjects   = $this->desc->get_subjects_where_resource($sC->getURI('skos:topConceptOf'), $ns['prefixes']['codelist']['religion']);
+        $properties = array($sC->getURI('skos:prefLabel'));
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -199,10 +203,10 @@ class SITE_Template extends LATC_Template
 
         foreach($triples as $triple => $po) {
             if (isset($po[$ns['property']['religion']])
-                && isset($triples[$po[$ns['property']['religion']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($triples[$po[$ns['property']['religion']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
                 && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $religionLabel = $triples[$po[$ns['property']['religion']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $religionLabel = $triples[$po[$ns['property']['religion']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
                 $religion      = $po[$ns['property']['religion']][0]['value'];
                 $population    = $po[$ns['property']['population']][0]['value'];
 
@@ -219,7 +223,8 @@ class SITE_Template extends LATC_Template
 
     function renderUsualResidencePopulation()
     {
-        $c = $this->siteConfig->getConfig();
+        $c  = $this->sC->getConfig();
+        $sC = $this->sC;
 
         //XXX: Would it be better to use the values from index?
         $ns_property                      = 'http://'.$c['server']['stats.govdata.ie'].'/property/';
@@ -238,8 +243,8 @@ class SITE_Template extends LATC_Template
         $objects    = null;
         $triples = $this->getTriples($subjects, $properties, $objects);
 
-        $subjects   = $this->desc->get_subjects_where_resource($c['prefixes']['skos'].'topConceptOf', $ns['prefixes']['codelist']['usual-residence']);
-        $properties = array($c['prefixes']['skos'].'prefLabel');
+        $subjects   = $this->desc->get_subjects_where_resource($sC->getURI('skos:topConceptOf'), $ns['prefixes']['codelist']['usual-residence']);
+        $properties = array($sC->getURI('skos:prefLabel'));
         $objects    = null;
         $triples_propertyLabels = $this->getTriples($subjects, $properties, $objects);
         $triples = array_merge_recursive($triples, $triples_propertyLabels);
@@ -252,10 +257,10 @@ class SITE_Template extends LATC_Template
 
         foreach($triples as $triple => $po) {
             if (isset($po[$ns['property']['usualResidence']])
-                && isset($triples[$po[$ns['property']['usualResidence']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'])
+                && isset($triples[$po[$ns['property']['usualResidence']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'])
                 && isset($po[$ns['property']['population']][0]['value'])) {
 
-                $usualResidenceLabel = $triples[$po[$ns['property']['usualResidence']][0]['value']][$c['prefixes']['skos'].'prefLabel'][0]['value'];
+                $usualResidenceLabel = $triples[$po[$ns['property']['usualResidence']][0]['value']][$sC->getURI('skos:prefLabel')][0]['value'];
                 $usualResidence      = $po[$ns['property']['usualResidence']][0]['value'];
                 $population    = $po[$ns['property']['population']][0]['value'];
 
