@@ -3,6 +3,7 @@
 $config['site']['name']   = 'My LATC site'; /*Name of your site. Appears in page title, address etc. */
 $config['site']['server'] = 'site';     /* 'site' in http://site */
 $config['site']['path']   = '';         /* 'foo' in http://site/foo */
+$config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];
 $config['site']['theme']  = 'cso';      /* 'default' in /var/www/site/theme/cso */
 $config['site']['logo']   = 'logo_data-gov.ie.png';  /* logo.png in /var/www/site/theme/default/images/logo.jpg */
 
@@ -44,24 +45,24 @@ $config['sparql_query']['default'] = "
  * Entity sets can be configured here:
  */
 $config['sparql_query']['cso_home'] = "
-    CONSTRUCT {
-        ?city a geoDataGov:City .
-        ?city a skos:Concept .
-        ?city skos:prefLabel ?cityLabel .
+CONSTRUCT {
+    ?city a geoDataGov:City .
+    ?city a skos:Concept .
+    ?city skos:prefLabel ?cityLabel .
 
-        ?province a geoDataGov:Province .
-        ?province a skos:Concept .
-        ?province skos:prefLabel ?provinceLabel .
-    }
-    WHERE {
-        ?city a geoDataGov:City .
-        ?city a skos:Concept .
-        ?city skos:prefLabel ?cityLabel .
+    ?province a geoDataGov:Province .
+    ?province a skos:Concept .
+    ?province skos:prefLabel ?provinceLabel .
+}
+WHERE {
+    ?city a geoDataGov:City .
+    ?city a skos:Concept .
+    ?city skos:prefLabel ?cityLabel .
 
-        ?province a geoDataGov:Province .
-        ?province a skos:Concept .
-        ?province skos:prefLabel ?provinceLabel .
-    }
+    ?province a geoDataGov:Province .
+    ?province a skos:Concept .
+    ?province skos:prefLabel ?provinceLabel .
+}
 ";
 
 /* URI path for this entity */
@@ -84,28 +85,28 @@ $config['entity']['cso_codelist']['query']    = 'default';
 $config['entity']['cso_codelist']['template'] = 'page.default.html';
 
 $config['sparql_query']['cso_city'] = "
-    CONSTRUCT {
+CONSTRUCT {
+    ?s ?geoArea <URI> .
+    ?s ?p ?o .
+
+    ?o a skos:Concept .
+    ?o skos:prefLabel ?o_prefLabel .
+    <URI> ?p0 ?o0 .
+}
+WHERE {
+    {
         ?s ?geoArea <URI> .
         ?s ?p ?o .
-
-        ?o a skos:Concept .
-        ?o skos:prefLabel ?o_prefLabel .
+        OPTIONAL {
+            ?o a skos:Concept .
+            ?o skos:prefLabel ?o_prefLabel .
+        }
+    }
+    UNION
+    {
         <URI> ?p0 ?o0 .
     }
-    WHERE {
-        {
-            ?s ?geoArea <URI> .
-            ?s ?p ?o .
-            OPTIONAL {
-                ?o a skos:Concept .
-                ?o skos:prefLabel ?o_prefLabel .
-            }
-        }
-        UNION
-        {
-            <URI> ?p0 ?o0 .
-        }
-    }
+}
 ";
 $config['entity']['cso_city']['path']     = '/city';
 $config['entity']['cso_city']['query']    = 'cso_city';
@@ -118,24 +119,24 @@ $config['entity']['cso_province']['template'] = 'page.geo.html';
 
 
 $config['sparql_query']['cso_class'] = "
-    CONSTRUCT {
-        <URI> ?p1 ?o1 .
+CONSTRUCT {
+    <URI> ?p1 ?o1 .
 
+    ?s2 a <URI> .
+    ?s2 skos:prefLabel ?o3 .
+}
+WHERE {
+    {
+     <URI> ?p1 ?o1 .
+    }
+    UNION
+    {
         ?s2 a <URI> .
-        ?s2 skos:prefLabel ?o3 .
-    }
-    WHERE {
-        {
-         <URI> ?p1 ?o1 .
-        }
-        UNION
-        {
-            ?s2 a <URI> .
-            OPTIONAL {
-               ?s2 skos:prefLabel ?o3 .
-            }
+        OPTIONAL {
+           ?s2 skos:prefLabel ?o3 .
         }
     }
+}
 ";
 $config['entity']['cso_class_administrative-county']['path']     = '/AdministrativeCounty';
 $config['entity']['cso_class_administrative-county']['query']    = 'cso_class';
