@@ -30,15 +30,15 @@
     $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
 
     if (file_exists($favicon_theme)) {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+        $favicon = $c['site']['base'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
     }
     else {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';
+        $favicon = $c['site']['base'].'/favicon.ico';
     }
 ?>
 
         <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
 
         <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
 
@@ -64,7 +64,7 @@
                     <div id="content_inner">
                         <div id="launch-info" class="entry-content">
                             <h2>Launching in early 2011!</h2>
-                            <p><a href="http://opendata.ie/"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/illustrations/screenshot_opendataie.png'; ?>" alt="OpenData.ie screenshot"/></a></p>
+                            <p><a href="http://opendata.ie/"><img src="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/images/illustrations/screenshot_opendataie.png'; ?>" alt="OpenData.ie screenshot"/></a></p>
                         </div>
 
                         <div id="resource_data">

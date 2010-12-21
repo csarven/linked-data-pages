@@ -1,7 +1,7 @@
             <div id="header">
                 <address id="site_contact" class="vcard">
-                    <a href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/'; ?>" class="url home bookmark">
-                        <img alt="<?php echo $c['site']['name']; ?>'s logo" src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/logos/'.$c['site']['logo']; ?>" class="logo photo"/>
+                    <a href="<?php echo $c['site']['base'].'/'; ?>" class="url home bookmark">
+                        <img alt="<?php echo $c['site']['name']; ?>'s logo" src="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/images/logos/'.$c['site']['logo']; ?>" class="logo photo"/>
                         <span class="fn org"><?php echo $c['site']['name']; ?></span>
                     </a>
                 </address>
@@ -11,10 +11,10 @@
                     <dd>
                         <ul class="nav">
                             <li id="nav_home">
-                                <a rel="section" href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/" title="Home page">Home</a>
+                                <a rel="section" href="<?php echo $c['site']['base']; ?>/" title="Home page">Home</a>
                             </li>
                             <li id="nav_help">
-                                <a rel="section" href="http://<?php echo $c['site']['server'].$c['site']['path']; ?>/about" title="About this site">About</a>
+                                <a rel="section" href="<?php echo $c['site']['base']; ?>/about" title="About this site">About</a>
                             </li>
                         </ul>
                     </dd>

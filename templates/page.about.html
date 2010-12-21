@@ -26,15 +26,15 @@
     $favicon_theme = SITE_DIR.'theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
 
     if (file_exists($favicon_theme)) {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
+        $favicon = $c['site']['base'].'/theme/'.$c['site']['theme'].'/images/icons/favicon.ico';
     }
     else {
-        $favicon = 'http://'.$c['site']['server'].$c['site']['path'].'/favicon.ico';
+        $favicon = $c['site']['base'].'/favicon.ico';
     }
 ?>
 
         <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
 
         <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
 
@@ -67,10 +67,10 @@
                                 <dt>Partners</dt>
                                 <dd>
                                     <ul>
-                                        <li><a href="http://www.deri.ie/" title="Digital Enterprise Research Institute"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/base/images/logos/logo_deri.png'; ?>" class="logo photo" alt="DERI logo" width="100" height="30"/></a></li>
-                                        <li><a href="http://lod2.eu/" title="Linked Open Data"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/base/images/logos/logo_lod2.png'; ?>" alt="LOD2 logo" width="100" height="63"/></a></li>
-                                        <li><a href="http://latc-project.eu/" title="Linked Open Data Around the Clock"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/base/images/logos/logo_latc-2.png'; ?>" alt="LATC logo" width="100" height="50"/></a></li>
-                                        <li><a href="http://cordis.europa.eu/fp7/ict/" title="European Commission ICT Research in FP7"><img src="<?php echo 'http://'.$c['site']['server'].$c['site']['path'].'/theme/base/images/logos/logo_fp7.png'; ?>" alt="FP7 Logo" width="92" height="73"/></a></li>
+                                        <li><a href="http://www.deri.ie/" title="Digital Enterprise Research Institute"><img src="<?php echo $c['site']['base'].'/theme/base/images/logos/logo_deri.png'; ?>" class="logo photo" alt="DERI logo" width="100" height="30"/></a></li>
+                                        <li><a href="http://lod2.eu/" title="Linked Open Data"><img src="<?php echo $c['site']['base'].'/theme/base/images/logos/logo_lod2.png'; ?>" alt="LOD2 logo" width="100" height="63"/></a></li>
+                                        <li><a href="http://latc-project.eu/" title="Linked Open Data Around the Clock"><img src="<?php echo $c['site']['base'].'/theme/base/images/logos/logo_latc-2.png'; ?>" alt="LATC logo" width="100" height="50"/></a></li>
+                                        <li><a href="http://cordis.europa.eu/fp7/ict/" title="European Commission ICT Research in FP7"><img src="<?php echo $c['site']['base'].'/theme/base/images/logos/logo_fp7.png'; ?>" alt="FP7 Logo" width="92" height="73"/></a></li>
                                     </ul>
                                 </dd>
                             </dl>
