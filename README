@@ -5,71 +5,79 @@
 * ARC2 library
 
 === Directory/file structure for templating and themes ===
-Templates go under the templates/ directory. Templates are used to render different requests made by the client. For example, if the client requests the resource http://site/geo/Montreal, we might want to serve the geo.resource.template.html. Templates generally include layout sections like; html, head, header, nav, footer, foot. It is aimed to modularize common components. There is still a lot of flexibility for any template, hence one can include or exclude any component.
+Templates go under the templates/ directory. Templates are used to render different requests made by the client. For example, if the client requests the resource http://site/geo/Montreal, we might want to serve the page.geo.html. Templates generally include layout sections like; html, head, header, nav, footer, foot. It is aimed to modularize common components. There is still a lot of flexibility for any template, hence one can include or exclude any component.
+$nano /var/www/site/index.php
+Themes go under the theme/<themename> directory. A theme is assigned by $config['site']['theme']. See Site configuration below. The ones that are included in this package are base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, in site configuration.
 
-Themes go under the theme/<themename> directory. A theme is assigned by $this->config['site']['theme']. See Site configuration below. The ones that are included package include base, default and cso. Base contains all layout and typographical rules, and common images like icons. Default imports base and extends it by including background images and colour rules. By default this package sets the theme to 'default', but you can set your own, again in site configuration.
-
-Custom processing for templates can be created in classes/SITE_Template.php
+Custom data processing for templates can be created in classes/SITE_Template.php
 
 For now, jQuery minimal library comes with this package.
 
 <pre><nowiki>
 favicon.ico
-.htaccess                                   #contains rules for paget's URL dispatching
-index.php                                   #main file that dispatches everything
+.htaccess                      #contains rules for paget's URL dispatching
+index.php                      #main file that dispatches everything
 js/
-js/index.js                                 #main script for the site
-js/jquery.min.js                            #jQuery JavaScript library
+js/index.js                    #main script for the site
+js/jquery.min.js               #jQuery JavaScript library
 templates/
-templates/about.resource.template.html      #about template
-templates/default.resource.template.html    #default template that is used to output a resource. includes layout sections
-templates/html.layout.template.html         #starts the document
-templates/head.layout.template.html         #head element
-templates/header.layout.template.html       #header section (e.g., site address, global navigation)
-templates/home.layout.template.html         #home template
-templates/footer.layout.template.html       #footer section (e.g., global navigation)
-templates/foot.layout.template.html         #closes the document
-templates/geo.resource.template.html        #geo template that is used to output demographic stats about a particular location. Geared towards the CSO dataset
-templates/nav.local.layout.template.html    #local navigation (i.e., in context of the viewed page)
-templates/property.resource.template.html   #default template that is used for properties
+templates/page.about.html      #about template
+templates/page.default.html    #default template that is used to output a resource. includes layout sections
+templates/html.html            #starts the document
+templates/head.html            #head element
+templates/header.html          #header section (e.g., site address, global navigation)
+templates/page.home.html       #home template
+templates/footer.html          #footer section (e.g., global navigation)
+templates/foot.html            #closes the document
+templates/page.geo.html        #geo template that is used to output demographic stats about a particular location. Geared towards the CSO dataset
+templates/nav.html             #local navigation (i.e., in context of the viewed page)
+templates/page.property.html   #default template that is used for properties
 
 theme/
 theme/base/
-theme/base/css/display.css                  #layout, typography rules
-theme/base/images/                          #common icons, illustrations
+theme/base/css/display.css              #layout, typography rules
+theme/base/images/                      #common icons, illustrations
 theme/base/icons/
-theme/base/images/icons/icons-01.png        #main icons file (combined into a single file)
+theme/base/images/icons/icons-01.png    #main icons file (combined into a single file)
 theme/base/illustrations/
 theme/default/
-theme/default/css/display.css               #imports base stylesheet, and contains background images and colour rules
+theme/default/css/display.css           #imports base stylesheet, and contains background images and colour rules
 theme/cso/
-theme/cso/css/display.css                   #imports default stylesheet and adds CSO specific styles
+theme/cso/css/display.css               #imports default stylesheet and adds CSO specific styles
 </nowiki></pre>
 
 
 === Configuration ===
 ==== Server setup ====
 <nowiki><pre>
-//XXX: Review each line before executing!
-//The following is tested under Debian/Linux kernel only.
+/**
+ * XXX: Review each line before executing!
+ * The following is tested under Debian/Linux kernel in an Apache and PHP5 environment.
+ */
 
+/* Essential requirements for Fuseki */
 $sudo apt-get install maven2
 $sudo apt-get install ruby
+
+/* Required to pull Moriarty, Paget, ARC2, and LiDRC_Paget */
 $sudo apt-get install git
 $sudo apt-get install subversion
 
-$cd /etc
-$sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk fuseki
-$cd fuseki
+/* Setting up Fuseki triple store */
+$sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk /etc/fuseki
+$cd /etc/fuseki
 $sudo mvn clean package
 
+/* Fuseki configuration for a DESCRIBE query for resources as subject and object. Optinal. */
 $sudo cp src-dev/dev/BackwardForwardDescribeFactory.java src/main/java/org/openjena/fuseki/
 $sudo nano src/main/java/org/openjena/fuseki/BackwardForwardDescribeFactory.java   #Use org.openjena.fuseki instead of dev for package
 $sudo nano tdb2.ttl   #Use the same path for BackwardForwardDescribeFactory. Uncomment tdb:unionDefaultGraph true ;. Use <#site> instead of <#dataset>
 $sudo mvn install
 
+/* Starts the Fuseki server */
 $sudo ./fuseki-server --desc tdb2.ttl /cso
 
+/* Some tests to make sure the Fuseki server is up and running okay */
 $sudo ./s-put http://localhost:3030/site/data default books.ttl
 $sudo ./s-get http://localhost:3030/site/data default
 $sudo ./s-query --service http://localhost:3030/site/query 'SELECT * WHERE {?s ?p ?o .}'
@@ -77,52 +85,63 @@ $sudo ./s-update --service http://localhost:3030/site/update 'CLEAR default'
 
 
 
+/* If you already have LiDRC_Paget, you can skip this. */
 $cd /var/www
 $sudo mkdir site
 $chown -R csarven site
 $git clone git://github.com/csarven/LiDRC_Paget.git site
 
+/* Required libraries for LiDRC_Paget */
 $svn checkout http://moriarty.googlecode.com/svn/trunk/ lib/moriarty
 $svn checkout http://paget.googlecode.com/svn/branches/2.0/ lib/paget
 $git clone git://github.com/semsol/arc2.git lib/arc2
 
+/* Until some of the issues are fixed in Moriarty and Paget, we include the fixes in this package */
 $cp -R patches/moriarty/* lib/moriarty/
 $cp -R patches/paget/* lib/paget/
 
+/* Configure paths to libraries and SPARQL endpoint URI */
 $nano /var/www/site/index.php
+
+/* Site configuration (see below for details) */
+$nano /var/www/site/config.php
+
+/* Take note of the details. Change as you see fit. */
+$nano /var/www/site/.htaccess
 </pre></nowiki>
 
 
 
 ==== Site configuration ====
 * index.php contains general site settings
-* classes/SITE_Config.php contains URI mappings, entity URIs, query types and templates
+* config.php contains URI mappings, entity URIs, query types and templates
 
 ===== Site settings =====
 The settings extend the base LATC config site settings. These values are used throughout the site, therefore make sure to configure them for your own needs.
 
 <nowiki><pre>
-$this->config['site']['name']      = 'My LATC site'
-$this->config['site']['server']    = 'site';      /* 'site' in http://site */
-$this->config['site']['path']      = '';          /* 'foo' in http://site/foo */
-$this->config['site']['theme']     = 'site';      /* 'default' in /var/www/site/theme/default */
-$this->config['site']['logo']      = 'logo.png';  /* logo.png in /var/www/site/theme/default/images/logo.png */
+$config['site']['name']   = 'My LATC site'; /*Name of your site. Appears in page title, address etc. */
+$config['site']['server'] = 'site';         /* 'site' in http://site */
+$config['site']['path']   = '';             /* 'foo' in http://site/foo */
+$config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];
+$config['site']['theme']  = 'default';      /* 'default' in /var/www/site/theme/default */
+$config['site']['logo']   = 'logo.png';  /* logo.png in /var/www/site/theme/default/images/logo.jpg */
 </pre></nowiki>
 
 ===== Server URI mapping =====
-This setting is used for mapping server names that are found in the dataset and the ones that are requested by the client. For example, if the user requests http://site/resource/Montreal, you might want to actually look for http://dbpedia.org/resource/Montreal in your dataset.
+This setting is used to map server names that are found in the dataset to the ones that are requested by the client. For example, if the user requests http://site/resource/Montreal, you would look for http://dbpedia.org/resource/Montreal in your dataset.
 
 <nowiki><pre>
-$this->config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbpedia.org/resource/Montreal to http://site/resource/Montreal */
+$config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbpedia.org/resource/Montreal to http://site/resource/Montreal */
 </pre></nowiki>
 
 ===== Entity URIs, query types and templates =====
-We use entity ids to determine how to respond back to the request. The entity id is identified by the request URI. The example below has 'dppr' as the entity id. The entity id is also reused in HTML templates < body = "dbbr" > The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. See SITE_SparqlServiceBase::describe() in index.php to use your own SPARQL queries. Typically, you would use something like 'site_resource' for $this->config['entity']['dbpr']['query'] here. 'site' being your own prefix, and 'resource' being the particular query you want to invoke. The template setting is used to render the template file you want for this request. See also class PHP Classes - SITE_SparqlServiceBase below.
+We use entity ids to determine how to respond back to the request. The entity set id is determined from the requested URI. The example below uses 'dppr' as the entity set id. The entity set id is also reused in HTML templates < body = "dbbr" >. The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. We can set a custom SPARQL query to $config['sparql_query']['resource'] and use the index name 'dbpr' at $config['entity']['dbpr']['query'] = 'resource';
 
 <nowiki><pre>
-$this->config['entity']['dbpr']['path']     = '/resource';      /* '/resource' is the path to entity 'dbpr'
-$this->config['entity']['dbpr']['query']    = '';               /* defaults to cbd i.e., DESCRIBE <$uri> WHERE { GRAPH { <$uri> ?p ?o . } }*/
-$this->config['entity']['dbpr']['template'] = 'default.resource.template.html';    /* template used for this entity set */
+$config['entity']['dbpr']['path']     = '/resource';      /* '/resource' is the path to entity 'dbpr'
+$config['entity']['dbpr']['query']    = 'resource';       /* defaults to cbd i.e., DESCRIBE <$uri> WHERE { GRAPH { <$uri> ?p ?o . } }*/
+$config['entity']['dbpr']['template'] = 'page.default.html';    /* template used for this entity set */
 </pre></nowiki>
 
 
@@ -130,17 +149,16 @@ $this->config['entity']['dbpr']['template'] = 'default.resource.template.html'; 
 These settings are used for your own needs. They are not required.
 
 <nowiki><pre>
-$this->config['property']['birthplace']     = 'http://dbpedia.org/property/birthplace';
+$config['property']['birthplace']     = 'http://dbpedia.org/property/birthplace';
 </pre></nowiki>
 
 
 ===== PHP Classes =====
-Classes are located under classes directory:
+Classes are located in '/var/www/site/classes/':
 
 class LATC_Config
 * Main configuration
 * Contains base methods for working with the configuration values
-* It can be extended for site specific values
 * Allows entity set configuration; entities are identified by id, and contain sub properties for URI path, querying, and the templating to be triggered.
 
 getCurrentRequest()
@@ -161,15 +179,17 @@ getRemoteURIFromCurrentRequest()
 getConfig()
 * Returns all of the configuration values that was set in site (index.php) and LATC configuration (latc_config.php).
 
+getPrefix()
+* Returns a namespace of prefix or the whole LATC and SITE prefix set
+
+getURI()
+* Given QName, returns an URI from configured prefix list
+
+object()
+* Returns the object value for a property object pair based on property QName input
 
 
-class SITE_Config
-* extends LATC_Config
-* Site specific configuration
 
-class SITE_SparqlServiceBase
-* extends LATC_SparqlServiceBase
-* This is where site specific SPARQL queries can be managed. It initiates the value that is set in $this->config['site']['dbbr']['query'].
 
 
 class LATC_UriSpace extends PAGET_StoreBackedUriSpace
