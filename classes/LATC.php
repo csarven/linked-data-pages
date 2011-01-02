@@ -53,7 +53,7 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
     {
         $request_uri = $request->uri;
 
-        if (preg_match('~^(.+)\.(html|rdf|json|turtle)$~', $request->full_path, $m)) {
+        if (preg_match('~^(.+)\.(html|rdf|json|turtle|csv)$~', $request->full_path, $m)) {
             $base_path = $m[1];
             $type      = $m[2];
 
@@ -102,11 +102,6 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
         return null;
     }
 
-
-    function get_description($uri, $resource)
-    {
-        return new LATC_ResourceDescription($uri, $resource, 'rdf');
-    }
 }
 
 
@@ -246,14 +241,11 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
         parent::__construct($su, $eQ);
     }
 
-    /**
-    * XXX: Should we always ask for rdf(/xml) response?
-    */
     function add_triples($resource_uri, &$desc)
     {
         $store = new LATC_Store($this->_store_uri, $this->sC);
 
-        $response = $store->describe($resource_uri, $this->_type, 'rdf');
+        $response = $store->describe($resource_uri, $this->_type, $desc->_type);
 
         if ($response->is_success()) {
             //XXX: This is sort of another place to map URIs. Revisit after paget issues
@@ -604,7 +596,6 @@ class LATC extends LATC_UriSpace
     function __construct($sC)
     {
         $this->sC = $sC;
-//        print_r($this->sC);exit;
         $this->config = $sC->config;
 
         /**
