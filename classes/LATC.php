@@ -380,6 +380,35 @@ class LATC_Template extends PAGET_Template
 
 
     /**
+     * Returns object value given subject and property.
+     * This method returns the first matching object from triple.
+     *
+     * @subject paramater value is a full URI
+     * @property paramater is a qname
+     *
+     * @return string
+     */
+    function getValue($subject, $property)
+    {
+        $c = $this->sC->getConfig();
+        $triples = array();
+
+        if (preg_match("#(.*):(.*)#", $property, $m)) {
+            $prefixName = $c['prefixes'][$m[1]];
+            if (isset($prefixName)) {
+                $triples = $this->getTriples($subject, $prefixName.$m[2]);
+
+                if (count($triples) > 0) {
+                    return $triples[$subject][$prefixName.$m[2]][0]['value'];
+                }
+            }
+        }
+
+        return;
+    }
+
+
+    /**
      * A generic method to render properties.
      * XXX: Status: testing.
      * TODO: Output <http://site/property/foo> <rdf:type> <rdf:Property> at least
