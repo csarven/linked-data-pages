@@ -20,18 +20,11 @@ define('PAGET_DIR', '/var/www/lib/paget/');
 define('MORIARTY_DIR', '/var/www/lib/moriarty/');
 define('MORIARTY_ARC_DIR', '/var/www/lib/arc2/');
 
-if (!defined('MORIARTY_HTTP_CACHE_DIR')  && file_exists(dirname(__FILE__).DIRECTORY_SEPARATOR.'cache')) {
-    define('MORIARTY_HTTP_CACHE_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR.'cache');
-}
-define('MORIARTY_HTTP_CACHE_READ_ONLY', true);
-define('MORIARTY_HTTP_CACHE_USE_STALE_ON_FAILURE', true); /* use a cached response if network fails */
-
 define('STORE_URI', 'http://localhost:3030/cso/query');
 
 require_once LATC_DIR . 'classes/LATC_Config.php';
 require_once LATC_DIR . 'classes/LATC.php';
 require_once LATC_DIR . 'classes/SITE_Template.php';
-
 
 $config = new LATC_Config(); /* Grabs configuration values from this site */
 $space = new LATC($config);  /* Starts to bulid the request */
