@@ -14,9 +14,8 @@
 
 ini_set('display_errors', '1');
 
-define('SITE_DIR', '/var/www/site/');
-define('CLASSES_DIR', '/var/www/site/classes/');
-define('LIB_DIR', '/var/www/lib/');
+define('SITE_DIR', '/var/www/site/'); /* Site directory */
+define('LATC_DIR', '/var/www/site/'); /* This package's directory */
 define('PAGET_DIR', '/var/www/lib/paget/');
 define('MORIARTY_DIR', '/var/www/lib/moriarty/');
 define('MORIARTY_ARC_DIR', '/var/www/lib/arc2/');
@@ -29,9 +28,9 @@ define('MORIARTY_HTTP_CACHE_USE_STALE_ON_FAILURE', true); /* use a cached respon
 
 define('STORE_URI', 'http://localhost:3030/cso/query');
 
-require_once CLASSES_DIR . 'LATC_Config.php';
-require_once CLASSES_DIR . 'LATC.php';
-require_once CLASSES_DIR . 'SITE_Template.php';
+require_once LATC_DIR . 'classes/LATC_Config.php';
+require_once LATC_DIR . 'classes/LATC.php';
+require_once LATC_DIR . 'classes/SITE_Template.php';
 
 
 $config = new LATC_Config(); /* Grabs configuration values from this site */
