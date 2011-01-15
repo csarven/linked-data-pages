@@ -12,8 +12,6 @@
  * @link      http://deri.org/
  */
 
-ini_set('display_errors', '1');
-
 define('SITE_DIR', '/var/www/site/'); /* Site directory */
 define('LATC_DIR', '/var/www/site/'); /* This package's directory */
 define('PAGET_DIR', '/var/www/lib/paget/');

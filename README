@@ -4,6 +4,10 @@
 * Moriarty library
 * ARC2 library
 
+== Installation ==
+This is an ongoing process to make installation and configuration of this framework. At the moment, you can use the initial install.php file to setup the directories for your setup. All you have to do is copy the install.php file to the directory that you want to setup your site at. For example, if you want to run your site from /var/www/site/, then make sure you to chmod a+w that directory (or at least the script that's running PHP has write access). Then go to http://example.org/install.php (replace example.org with whatever host you have /var/www/site/ pointing to. This only copies the necessary files and configures the index.php file for you. You'd still have to setup your SPARQL endpoint and all that... but, yea, stay tuned.
+
+
 === Directory/file structure for templating and themes ===
 Templates go under the templates/ directory. Templates are used to render different requests made by the client. For example, if the client requests the resource http://site/geo/Montreal, we might want to serve the page.geo.html. Templates generally include layout sections like; html, head, header, nav, footer, foot. It is aimed to modularize common components. There is still a lot of flexibility for any template, hence one can include or exclude any component.
 $nano /var/www/site/index.php
