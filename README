@@ -79,6 +79,7 @@ $sudo nano tdb2.ttl   #Use the same path for BackwardForwardDescribeFactory. Unc
 $sudo mvn install
 
 /* Starts the Fuseki server */
+Default is read only, use --update to enable write
 $sudo ./fuseki-server --desc tdb2.ttl /cso
 
 /* Some tests to make sure the Fuseki server is up and running okay */
@@ -105,7 +106,10 @@ $cp -R patches/moriarty/* lib/moriarty/
 $cp -R patches/paget/* lib/paget/
 
 /* Configure paths to libraries and SPARQL endpoint URI */
+Either load install.php from your browser and submit the form or manually edit the directory configuration:
+$cp /var/www/site/index.php.sample /var/www/site/index.php
 $nano /var/www/site/index.php
+
 
 /* Site configuration (see below for details) */
 $nano /var/www/site/config.php
@@ -140,20 +144,20 @@ $config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbpedia.org
 </pre></nowiki>
 
 ===== Entity URIs, query types and templates =====
-We use entity ids to determine how to respond back to the request. The entity set id is determined from the requested URI. The example below uses 'dppr' as the entity set id. The entity set id is also reused in HTML templates < body = "dbbr" >. The path is assigned to '/resource', if there is a request for http://site/resource/Montreal. The query is also assigned here. For the time being, we only set a query name here. We can set a custom SPARQL query to $config['sparql_query']['resource'] and use the index name 'dbpr' at $config['entity']['dbpr']['query'] = 'resource';
+We use entity ids to determine how to respond back to the request. The entity set id is determined from the requested URI. The example below uses 'site_foo' as the entity set id. The entity set id is also reused in HTML templates < body = "site_foo" >. The path is assigned to '/foo', if there is a request for http://site/foo. The query is also assigned here. For the time being, we only set a query name here. We can set a custom SPARQL query to $config['sparql_query']['site_foo'] and use the index name 'site_foo' at $config['entity']['site_foo']['query'] = 'site_foo';
 
 <nowiki><pre>
-$config['entity']['dbpr']['path']     = '/resource';      /* '/resource' is the path to entity 'dbpr'
-$config['entity']['dbpr']['query']    = 'resource';       /* defaults to cbd i.e., DESCRIBE <$uri> WHERE { GRAPH { <$uri> ?p ?o . } }*/
-$config['entity']['dbpr']['template'] = 'page.default.html';    /* template used for this entity set */
-</pre></nowiki>
+/* SPARQL query to use for this entity e.g., $config['sparql_query']['cso_home'] */
+$config['sparql_query']['site_foo'] = "
+DESCRIBE <URI>
+"
 
-
-===== Property URI =====
-These settings are used for your own needs. They are not required.
-
-<nowiki><pre>
-$config['property']['birthplace']     = 'http://dbpedia.org/property/birthplace';
+/* URI path for this entity */
+$config['entity']['site_foo']['path']     = "/foo";
+/* SPARQL query to use for this entity e.g., $config['sparql_query']['site_foo'] */
+$config['entity']['site_foo']['query']    = 'site_foo';
+/* HTML template to use for this entity */
+$config['entity']['site_foo']['template'] = 'page.foo.html';
 </pre></nowiki>
 
 
