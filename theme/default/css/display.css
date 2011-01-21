@@ -42,6 +42,9 @@ margin-right:5.3%;
 box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
 -moz-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
 -webkit-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
+background-image:url(../../default/images/illustrations/illu_node-connections-2.gif);
+background-repeat:no-repeat;
+background-position:100% 0;
 }
 #content,
 #site_nav_local_sections a,
