@@ -21,9 +21,7 @@
   xmlns:doap="http://usefulinc.com/ns/doap#"
   xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
     <head>
-        <title>data-gov.ie</title>
-    <head>
-        <title><?php e($title); echo " &#8212; ".$c['site']['name'];?></title>
+        <title><?php echo $c['site']['name'];?></title>
 <?php
     $fileVersion = 'version=0.0.2';
 
@@ -59,52 +57,17 @@
             <div id="core">
 
                 <div id="content">
-                    <h1>Welcome to Data Gov.ie</h1>
+                    <h1>Welcome!</h1>
 
                     <div id="content_inner">
                         <div id="launch-info" class="entry-content">
-                            <h2>Launching in early 2011!</h2>
-                            <p><a href="http://opendata.ie/"><img src="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/images/illustrations/screenshot_opendataie.png'; ?>" alt="OpenData.ie screenshot"/></a></p>
+                            <h2>Looks like things are in order!</h2>
+                            <p>But, don't just stop here, make your Linked Data site better:</p>
+                            <ul>
+                                <li>Create templates</li>
+                                <li>Create new queries for those templates</li>
+                            </ul>
                         </div>
-
-                        <div id="resource_data">
-<?php
-        $triples = $this->getTriplesOfType('http://'.$c['server']['geo.govdata.ie'].'/City');
-?>
-                            <dl id="cities" class="related">
-                                <dt>Cities</dt>
-                                <dd>
-                                    <ul>
-<?php
-        foreach($triples as $s=> $po) {
-            $label = $sC->object('skos:prefLabel', $po);
-            echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
-        }
-?>
-                                    </ul>
-                                </dd>
-                            </dl>
-
-<?php
-        $triples = $this->getTriplesOfType('http://'.$c['server']['geo.govdata.ie'].'/Province');
-?>
-
-                            <dl id="provinces" class="related">
-                                <dt>Provinces</dt>
-                                <dd>
-                                    <ul>
-<?php
-        foreach($triples as $s=> $po) {
-            $label = $sC->object('skos:prefLabel', $po);
-            echo "\n".'<li><a href="'.$s.'">'.$label.'</a></li>';
-        }
-?>
-                                    </ul>
-                                </dd>
-                            </dl>
-
-                        </div>
-
                     </div>
                 </div>
 
@@ -112,7 +75,7 @@
                     <dt>Page notice</dt>
                     <dd>
                         <ul>
-                            <li class="notice_updated">Last update on <abbr property="dcterms:date" datatype="xsd:date" class="updated" title="2010-11-28T00:00:00-00:00">2010-12-15</abbr>.</li>
+                            <li class="notice_updated">Last updated on <abbr property="dcterms:date" datatype="xsd:date" class="updated" title="2011-01-21T00:00:00-00:00">2011-01-21</abbr>.</li>
                             <li class="notice_valid">Valid <a href="http://validator.w3.org/check?uri=referer" rel="dcterms:conformsTo" resource="http://www.w3.org/TR/rdfa-syntax">XHTML+RDFa</a>.</li>
                             <li class="notice_badge_lod-stars"><a href="http://www.w3.org/DesignIssues/LinkedData.html"><abbr class="badge_lod lod-stars-5" title="Five star Open Web data">&#9733;&#9733;&#9733;&#9733;&#9733;</abbr></a></li>
                         </ul>
