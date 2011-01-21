@@ -127,12 +127,7 @@ EOD;
                 <legend>Configuration</legend>
 
                 <div class="form_instructions">
-                    <p>Please make sure to give write access to directories:</p>
-                    <ul>
-                        <li>Site</li>
-                        <li>LATC</li>
-                    </ul>
-                    <p>so we can copy files around, and configure the directory settings for you.</p>
+                    <p>This installation process temporarily requires write access to the installation (site) directory. Please make sure to give write access to the user that's running this installation script.</p>
                 </div>
 
                 <fieldset id="settings_directories">
@@ -141,13 +136,12 @@ EOD;
                     <ul class="form_data">
 EOD;
                         foreach($formDataItems as $k => $v) {
-                            $class = '';
-                            $class = (isset($this->errorMessages[$k])) ? 'form_error' : '';
+                            $class = (isset($this->errorMessages[$k])) ? ' class="form_error"' : '';
 
                             $formInstall .= "\n\t\t\t<li$class>";
                             $formInstall .= $formDataItems[$k];
                             if (isset($this->errorMessages[$k])) {
-                                $formInstall .= '<p class="form_error">'.$this->errorMessages[$k].'</p>';
+                                $formInstall .= '<p class="note_error">'.$this->errorMessages[$k].'</p>';
                             }
                             $formInstall .= "\t\t</li>";
                         }
@@ -166,6 +160,8 @@ EOD;
 
     function successInstallation()
     {
+        unset($_POST);
+
         $o = <<<EOD
             <dl class="installation_results">
                 <dt>Results</dt>
@@ -231,7 +227,9 @@ EOD;
             case 'dir_site':
                 if (is_writable($directory)) {
                     $this->writeToFile($directory.'index.php', $this->fileContents['index.php']);
-        //                    $this->writeToFile($directory.'config.php', $this->fileContents['config.php']);
+                    /**
+                     * TODO: $this->writeToFile($directory.'config.php', $this->fileContents['config.php']);
+                     */
                     return true;
                 }
                 else {
