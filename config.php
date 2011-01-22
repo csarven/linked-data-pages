@@ -1,13 +1,13 @@
 <?php
 
-$config['site']['name']   = 'My LATC site'; /*Name of your site. Appears in page title, address etc. */
+$config['site']['name']   = 'My LATC site'; /* Name of your site. Appears in page title, address etc. */
 $config['site']['server'] = 'site';     /* 'site' in http://site */
 $config['site']['path']   = '';         /* 'foo' in http://site/foo */
 $config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];
 $config['site']['theme']  = 'default';      /* 'default' in /var/www/site/theme/cso */
 $config['site']['logo']   = 'logo_latc.png';  /* logo.png in /var/www/site/theme/default/images/logo.jpg */
 
-$config['server']['govdata.ie']       = 'site';
+$config['server']['site'] = 'site';
 
 /*
  * Common prefixes for this dataset
@@ -19,10 +19,9 @@ $config['prefixes'] = array(
     'skos'              => 'http://www.w3.org/2004/02/skos/core#'
 );
 
-/** 
+/**
  * SPARQL Queries
  * '<URI>' value is auto-assigned from current request URI
- * 
  */
 $config['sparql_query']['empty'] = "";
 $config['sparql_query']['default'] = "
