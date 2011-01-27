@@ -35,7 +35,7 @@ define('PAGET_DIR', '{$this->post['dir_paget']}');
 define('MORIARTY_DIR', '{$this->post['dir_moriarty']}');
 define('MORIARTY_ARC_DIR', '{$this->post['dir_arc2']}');
 
-define('STORE_URI', 'http://localhost:3030/cso/query');
+define('STORE_URI', '{$this->post['sparql_endpoint']}');
 
 require_once LATC_DIR . 'classes/LATC_Config.php';
 require_once LATC_DIR . 'classes/LATC.php';
@@ -67,7 +67,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
             <div id="core">
                 <div id="content">
                      <div id="content_inner">
-                        <h1>Install</h1>
+                        <h1>Linked Data Pages installation</h1>
 {$this->handleInstall()}
                    </div>
                 </div>
@@ -102,7 +102,7 @@ EOD;
             'dir_latc' => '
                             <label for="dir_latc">LATC (this framework)</label>
                             <input type="text" id="dir_latc" name="dir_latc" value="'.$this->post['dir_latc'].'"/>
-                            <p class="form_guide">e.g., <code>/var/www/site/</code></p>
+                            <p class="form_guide">e.g., <code>/var/www/lib/linked-data-pages/</code></p>
             ',
             'dir_paget' => '
                             <label for="dir_paget">Paget</label>
@@ -118,6 +118,11 @@ EOD;
                             <label for="dir_arc2">ARC2</label>
                             <input type="text" id="dir_arc2" name="dir_arc2" value="'.$this->post['dir_arc2'].'"/>
                             <p class="form_guide">e.g., <code>/var/www/lib/arc2/</code></p>
+            ',
+            'sparql_endpoint' => '
+                            <label for="sparql_endpoint">SPARQL Endpoint</label>
+                            <input type="text" id="sparql_endpoint" name="sparql_endpoint" value="'.$this->post['sparql_endpoint'].'"/>
+                            <p class="form_guide">e.g., <code>http://localhost:3030/dataset/query</code></p>
             '
         );
 
