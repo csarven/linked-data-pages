@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  * @category  Config
- * @package   LATC
+ * @package   LDP
  * @author    Sarven Capadisli <sarven.capadisli@deri.org>
  * @copyright 2010 Digital Enterprise Research Institute
  * @license   http://www.fsf.org/licensing/licenses/gpl-3.0.html GNU General Public License version 3.0
@@ -24,7 +24,7 @@
  */
 
 
-class LATC_Config
+class LDP_Config
 {
     var $config = array();
 

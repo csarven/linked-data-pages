@@ -22,7 +22,7 @@ class Install
  * PHP version 5
  *
  * @category  Base
- * @package   LATC
+ * @package   LDP
  * @author    Sarven Capadisli <sarven.capadisli@deri.org>
  * @copyright 2010 Digital Enterprise Research Institute
  * @license   http://www.fsf.org/licensing/licenses/gpl-3.0.html GNU General Public License version 3.0
@@ -30,19 +30,19 @@ class Install
  */
 
 define('SITE_DIR', '{$this->post['dir_site']}'); /* Site directory */
-define('LATC_DIR', '{$this->post['dir_latc']}'); /* This package's directory */
+define('LDP_DIR', '{$this->post['dir_LDP']}'); /* This package's directory */
 define('PAGET_DIR', '{$this->post['dir_paget']}');
 define('MORIARTY_DIR', '{$this->post['dir_moriarty']}');
 define('MORIARTY_ARC_DIR', '{$this->post['dir_arc2']}');
 
 define('STORE_URI', '{$this->post['sparql_endpoint']}');
 
-require_once LATC_DIR . 'classes/LATC_Config.php';
-require_once LATC_DIR . 'classes/LATC.php';
-require_once LATC_DIR . 'classes/SITE_Template.php';
+require_once LDP_DIR . 'classes/LDP_Config.php';
+require_once LDP_DIR . 'classes/LDP.php';
+require_once LDP_DIR . 'classes/SITE_Template.php';
 
-\$config = new LATC_Config(); /* Grabs configuration values from this site */
-\$space = new LATC(\$config);  /* Starts to bulid the request */
+\$config = new LDP_Config(); /* Grabs configuration values from this site */
+\$space = new LDP(\$config);  /* Starts to bulid the request */
 \$space->dispatch();          /* Dispatches the requested URI */
 ?>
 
@@ -99,9 +99,9 @@ EOD;
                             <input type="text" id="dir_site" name="dir_site" value="'.$this->post['dir_site'].'"/>
                             <p class="form_guide">e.g., <code>/var/www/site/</code></p>
             ',
-            'dir_latc' => '
-                            <label for="dir_latc">LATC (this framework)</label>
-                            <input type="text" id="dir_latc" name="dir_latc" value="'.$this->post['dir_latc'].'"/>
+            'dir_LDP' => '
+                            <label for="dir_LDP">LDP (this framework)</label>
+                            <input type="text" id="dir_LDP" name="dir_LDP" value="'.$this->post['dir_LDP'].'"/>
                             <p class="form_guide">e.g., <code>/var/www/lib/linked-data-pages/</code></p>
             ',
             'dir_paget' => '
@@ -251,7 +251,7 @@ EOD;
 
     function copyFiles()
     {
-        $source = $this->post['dir_latc'];
+        $source = $this->post['dir_LDP'];
         $dest =   $this->post['dir_site'];
 
         $this->recurse_copy($source, $dest);

@@ -1,6 +1,6 @@
 <?php
 
-$config['site']['name']   = 'My LATC site'; /* Name of your site. Appears in page title, address etc. */
+$config['site']['name']   = 'My LDP site'; /* Name of your site. Appears in page title, address etc. */
 $config['site']['server'] = 'site';     /* 'site' in http://site */
 $config['site']['path']   = '';         /* 'foo' in http://site/foo */
 $config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];

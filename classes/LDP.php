@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  * @category  Action
- * @package   LATC
+ * @package   LDP
  * @author    Sarven Capadisli <sarven.capadisli@deri.org>
  * @copyright 2010 Digital Enterprise Research Institute
  * @license   http://www.fsf.org/licensing/licenses/gpl-3.0.html GNU General Public License version 3.0
@@ -37,7 +37,7 @@ require_once PAGET_DIR . 'paget_storebackedurispace.class.php';
 /**
  * Primary class that figures out the request and prepares a response
  */
-class LATC_UriSpace extends PAGET_StoreBackedUriSpace
+class LDP_UriSpace extends PAGET_StoreBackedUriSpace
 {
     var $sC;
 
@@ -82,7 +82,7 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
                 if (isset($this->_static_data[$resource_uri])) {
                     $desc = new PAGET_FileBackedResourceDescription($request_uri, $resource_uri, $type, $this->_static_data[$resource_uri], 'rdfxml');
                 } else {
-                    $desc = new LATC_ResourceDescription($request_uri, $resource_uri, $type, $this->_store_uri, $this->sC);
+                    $desc = new LDP_ResourceDescription($request_uri, $resource_uri, $type, $this->_store_uri, $this->sC);
                 }
 
                 $desc->set_template($this->_description_template);
@@ -111,7 +111,7 @@ class LATC_UriSpace extends PAGET_StoreBackedUriSpace
  * reads the triples from the response, maps the URIs, 
  * assigns a template to be used for the HTML response
  */
-class LATC_ResourceDescription extends PAGET_ResourceDescription
+class LDP_ResourceDescription extends PAGET_ResourceDescription
 {
     var $sC;
 
@@ -132,7 +132,7 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
     {
         $eQ = $this->sC->getEntityQuery();
 
-        return array(new LATC_StoreDescribeGenerator(STORE_URI, $eQ, $this->sC));
+        return array(new LDP_StoreDescribeGenerator(STORE_URI, $eQ, $this->sC));
     }
 
 
@@ -231,7 +231,7 @@ class LATC_ResourceDescription extends PAGET_ResourceDescription
  * Figures out how to add the RDF triples to the index from the SPARQL query result.
  *
  */
-class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
+class LDP_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 {
     var $sC;
 
@@ -243,7 +243,7 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 
     function add_triples($resource_uri, &$desc)
     {
-        $store = new LATC_Store($this->_store_uri, $this->sC);
+        $store = new LDP_Store($this->_store_uri, $this->sC);
 
         $response = $store->describe($resource_uri, $this->_type, $desc->_type);
 
@@ -257,7 +257,7 @@ class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 
 
 
-class LATC_SimplePropertyLabeller extends PAGET_SimplePropertyLabeller
+class LDP_SimplePropertyLabeller extends PAGET_SimplePropertyLabeller
 {
     function __construct()
     {
@@ -267,11 +267,11 @@ class LATC_SimplePropertyLabeller extends PAGET_SimplePropertyLabeller
 
 
 /**
- * Used for LATC specific templates.
+ * Used for LDP specific templates.
  * TODO: render()
  *
  */
-class LATC_Template extends PAGET_Template
+class LDP_Template extends PAGET_Template
 {
     var $sC;
 
@@ -281,7 +281,7 @@ class LATC_Template extends PAGET_Template
 
         parent::__construct($template_filename, $desc, $urispace, $request);
 
-        $this->table_widget = new LATC_TableDataWidget($this->desc, $this, $urispace);
+        $this->table_widget = new LDP_TableDataWidget($this->desc, $this, $urispace);
     }
 
 
@@ -459,7 +459,7 @@ class LATC_Template extends PAGET_Template
         $triples = $this->getTriples($subjects, $properties, $objects);
 
 
-        //TODO: Make this a bit more generic. Perhaps use LATC_TableDataWidget::format_table ?
+        //TODO: Make this a bit more generic. Perhaps use LDP_TableDataWidget::format_table ?
         $r .= "\n".'<dl id="about-this-class">';
         foreach($triples as $s => $po) {
             if ($sC->hasProperty('rdfs:label', $po)) {
@@ -518,10 +518,10 @@ class LATC_Template extends PAGET_Template
 
 
 /**
- * LATC's lean table for basic key value pair output
+ * LDP's lean table for basic key value pair output
  *
  */
-class LATC_TableDataWidget extends PAGET_TableDataWidget
+class LDP_TableDataWidget extends PAGET_TableDataWidget
 {
     function format_table(&$data)
     {
@@ -549,7 +549,7 @@ class LATC_TableDataWidget extends PAGET_TableDataWidget
  * Overrides Moriarty's default store URI
  *
  */
-class LATC_Store extends Store
+class LDP_Store extends Store
 {
     var $sC;
 
@@ -567,7 +567,7 @@ class LATC_Store extends Store
     */
     function get_sparql_service()
     {
-        return new LATC_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->sC);
+        return new LDP_SparqlServiceBase($this->uri, $this->credentials, $this->request_factory, $this->sC);
     }
 }
 
@@ -577,7 +577,7 @@ class LATC_Store extends Store
  * Controls which SPARQL query to use
  * TODO: More query types
  */
-class LATC_SparqlServiceBase extends SparqlServiceBase
+class LDP_SparqlServiceBase extends SparqlServiceBase
 {
     var $sC;
 
@@ -613,9 +613,9 @@ class LATC_SparqlServiceBase extends SparqlServiceBase
 
 
 /**
- * Main utility class for LATC
+ * Main utility class for LDP
  */
-class LATC extends LATC_UriSpace
+class LDP extends LDP_UriSpace
 {
     var $sC;
     var $config = array();
@@ -690,7 +690,7 @@ class LATC extends LATC_UriSpace
 
 
     /**
-     * Returns all of the entity paths that was set in site and LATC configuration
+     * Returns all of the entity paths that was set in site and LDP configuration
      */
     function getEntityPaths()
     {
@@ -719,7 +719,7 @@ class LATC extends LATC_UriSpace
 
 
     /**
-     * Returns all of the configuration values that was set in site and LATC
+     * Returns all of the configuration values that was set in site and LDP
      */
     function getConfig()
     {
@@ -728,7 +728,7 @@ class LATC extends LATC_UriSpace
 
 
     /**
-     * Returns a namespace of prefix or the whole LATC and SITE prefix set
+     * Returns a namespace of prefix or the whole LDP and SITE prefix set
      */
     function getPrefix($prefix = null)
     {

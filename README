@@ -125,10 +125,10 @@ $nano /var/www/site/.htaccess
 * config.php contains URI mappings, entity URIs, query types and templates
 
 ===== Site settings =====
-The settings extend the base LATC config site settings. These values are used throughout the site, therefore make sure to configure them for your own needs.
+The settings extend the base LDP config site settings. These values are used throughout the site, therefore make sure to configure them for your own needs.
 
 <nowiki><pre>
-$config['site']['name']   = 'My LATC site'; /*Name of your site. Appears in page title, address etc. */
+$config['site']['name']   = 'My LDP site'; /*Name of your site. Appears in page title, address etc. */
 $config['site']['server'] = 'site';         /* 'site' in http://site */
 $config['site']['path']   = '';             /* 'foo' in http://site/foo */
 $config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];
@@ -164,7 +164,7 @@ $config['entity']['site_foo']['template'] = 'page.foo.html';
 ===== PHP Classes =====
 Classes are located in '/var/www/site/classes/':
 
-class LATC_Config
+class LDP_Config
 * Main configuration
 * Contains base methods for working with the configuration values
 * Allows entity set configuration; entities are identified by id, and contain sub properties for URI path, querying, and the templating to be triggered.
@@ -179,16 +179,16 @@ getEntityQuery()
 * Returns the query type based on the current request.
 
 getEntityPaths()
-* Returns all of the entity paths that was set in site (index.php) and LATC configuration (latc_config.php).
+* Returns all of the entity paths that was set in site (index.php) and LDP configuration (LDP_config.php).
 
 getRemoteURIFromCurrentRequest()
 * Transforms the current request URI to the URI found in the RDF store.
 
 getConfig()
-* Returns all of the configuration values that was set in site (index.php) and LATC configuration (latc_config.php).
+* Returns all of the configuration values that was set in site (index.php) and LDP configuration (LDP_config.php).
 
 getPrefix()
-* Returns a namespace of prefix or the whole LATC and SITE prefix set
+* Returns a namespace of prefix or the whole LDP and SITE prefix set
 
 getURI()
 * Given QName, returns an URI from configured prefix list
@@ -200,32 +200,32 @@ object()
 
 
 
-class LATC_UriSpace extends PAGET_StoreBackedUriSpace
+class LDP_UriSpace extends PAGET_StoreBackedUriSpace
 * Primary class that figures out the request and prepares a response
 
 
-class LATC_ResourceDescription extends PAGET_ResourceDescription
+class LDP_ResourceDescription extends PAGET_ResourceDescription
 * Figures out how to respond; prepares a SPARQL query to be used, reads the triples from the response, maps the URIs, assigns a template to be used for the HTML response
 
 
-class LATC_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
+class LDP_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
 * Figures out how to add the RDF triples to the index from the SPARQL query result.
 
 
-class LATC_Template extends PAGET_Template
-* LATC specific templates
+class LDP_Template extends PAGET_Template
+* LDP specific templates
 ** function getTriples($subjects = null, $properties = null, $objects = null, $index = null)
 ** function renderProperty()
 
-class LATC_TableDataWidget extends PAGET_TableDataWidget
+class LDP_TableDataWidget extends PAGET_TableDataWidget
 * Outputs a layout for tables
 
 
-class LATC_Store extends Store
+class LDP_Store extends Store
 * Overrides Moriarty's default store URI
 
 
-class LATC_SparqlServiceBase extends SparqlServiceBase
+class LDP_SparqlServiceBase extends SparqlServiceBase
 * Controls which SPARQL query to use
 
 
