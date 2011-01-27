@@ -212,6 +212,7 @@ EOD;
         }
         else {
             $this->copyFiles();
+            unlink(__FILE__);
             return $this->successInstallation();
         }
     }
