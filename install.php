@@ -18,7 +18,7 @@ class Install
 <?php
 /**
  * Base file where everything is configured and dispatched to
- * 
+ *
  * PHP version 5
  *
  * @category  Base
@@ -41,7 +41,7 @@ require_once LDP_DIR . 'classes/LDP_Config.php';
 require_once LDP_DIR . 'classes/LDP.php';
 require_once LDP_DIR . 'classes/SITE_Template.php';
 
-\$config = new LDP_Config(); /* Grabs configuration values from this site */
+\$config = new LDP_Config();  /* Grabs configuration values from this site */
 \$space = new LDP(\$config);  /* Starts to bulid the request */
 \$space->dispatch();          /* Dispatches the requested URI */
 ?>
