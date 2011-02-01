@@ -6,8 +6,6 @@ $config['site']['path']   = '';                    /* '/foo' in http://site/foo 
 $config['site']['theme']  = 'default';             /* 'default' in /var/www/site/theme/default */
 $config['site']['logo']   = 'logo_latc.png';       /* 'logo_latc.png' in /var/www/site/theme/default/images/logo_latc.png */
 
-$config['server']['site'] = 'site';
-
 /*
  * Common prefixes for this dataset
  */
