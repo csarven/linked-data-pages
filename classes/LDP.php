@@ -627,6 +627,8 @@ class LDP extends LDP_UriSpace
         $this->sC = $sC;
         $this->config = $sC->config;
 
+        $this->config['site']['base'] = 'http://'.$this->config['site']['server'].$this->config['site']['path'];
+
         /**
          * TODO:  if ($_SERVER["QUERY_STRING"]) { '?' . $_SERVER["QUERY_STRING"]) : ''
          */
