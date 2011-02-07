@@ -1,4 +1,6 @@
 == Package overview ==
+Majority of what's discussed here is written as a how-to article at http://csarven.ca/how-to-create-a-linked-data-site . If you want to dive into this project using steps, I suggest reading that. Naturally there is a lot of overlap with what's mentioned here.
+
 === Requirements ===
 * Paget framework
 * Moriarty library
@@ -62,10 +64,10 @@ theme/cso/css/display.css               #imports default stylesheet and adds CSO
 /* Essential requirements for Fuseki */
 $sudo apt-get install maven2
 $sudo apt-get install ruby
+$sudo apt-get install subversion
 
 /* Required to pull Moriarty, Paget, ARC2, and LiDRC_Paget */
 $sudo apt-get install git
-$sudo apt-get install subversion
 
 /* Setting up Fuseki triple store */
 $sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk /etc/fuseki
@@ -131,7 +133,6 @@ The settings extend the base LDP config site settings. These values are used thr
 $config['site']['name']   = 'My LDP site'; /*Name of your site. Appears in page title, address etc. */
 $config['site']['server'] = 'site';         /* 'site' in http://site */
 $config['site']['path']   = '';             /* 'foo' in http://site/foo */
-$config['site']['base']   = 'http://'.$config['site']['server'].$config['site']['path'];
 $config['site']['theme']  = 'default';      /* 'default' in /var/www/site/theme/default */
 $config['site']['logo']   = 'logo.png';  /* logo.png in /var/www/site/theme/default/images/logo.jpg */
 </pre></nowiki>
@@ -142,6 +143,13 @@ This setting is used to map server names that are found in the dataset to the on
 <nowiki><pre>
 $config['server']['dbpedia.org'] = 'site';  /* URI maps e.g., http://dbpedia.org/resource/Montreal to http://site/resource/Montreal */
 </pre></nowiki>
+
+There is a default mapping of:
+<pre>
+$config['server']['site'] = 'site';
+</pre>
+
+so, you don't have to repeat that. But you can add other ones as mentioned earlier.
 
 ===== Entity URIs, query types and templates =====
 We use entity ids to determine how to respond back to the request. The entity set id is determined from the requested URI. The example below uses 'site_foo' as the entity set id. The entity set id is also reused in HTML templates < body = "site_foo" >. The path is assigned to '/foo', if there is a request for http://site/foo. The query is also assigned here. For the time being, we only set a query name here. We can set a custom SPARQL query to $config['sparql_query']['site_foo'] and use the index name 'site_foo' at $config['entity']['site_foo']['query'] = 'site_foo';
