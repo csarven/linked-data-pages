@@ -30,7 +30,7 @@ class Install
  */
 
 define('SITE_DIR', '{$this->post['dir_site']}'); /* Site directory */
-define('LDP_DIR', '{$this->post['dir_LDP']}'); /* This package's directory */
+define('LDP_DIR', '{$this->post['dir_ldp']}'); /* This package's directory */
 define('PAGET_DIR', '{$this->post['dir_paget']}');
 define('MORIARTY_DIR', '{$this->post['dir_moriarty']}');
 define('MORIARTY_ARC_DIR', '{$this->post['dir_arc2']}');
@@ -39,7 +39,7 @@ define('STORE_URI', '{$this->post['sparql_endpoint']}');
 
 require_once LDP_DIR . 'classes/LDP_Config.php';
 require_once LDP_DIR . 'classes/LDP.php';
-require_once LDP_DIR . 'classes/SITE_Template.php';
+require_once SITE_DIR .'classes/SITE_Template.php';
 
 \$config = new LDP_Config();  /* Grabs configuration values from this site */
 \$space = new LDP(\$config);  /* Starts to bulid the request */
@@ -99,9 +99,9 @@ EOD;
                             <input type="text" id="dir_site" name="dir_site" value="'.$this->post['dir_site'].'"/>
                             <p class="form_guide">e.g., <code>/var/www/site/</code></p>
             ',
-            'dir_LDP' => '
-                            <label for="dir_LDP">LDP (this framework)</label>
-                            <input type="text" id="dir_LDP" name="dir_LDP" value="'.$this->post['dir_LDP'].'"/>
+            'dir_ldp' => '
+                            <label for="dir_ldp">LDP (this framework)</label>
+                            <input type="text" id="dir_ldp" name="dir_ldp" value="'.$this->post['dir_ldp'].'"/>
                             <p class="form_guide">e.g., <code>/var/www/lib/linked-data-pages/</code></p>
             ',
             'dir_paget' => '
@@ -252,7 +252,7 @@ EOD;
 
     function copyFiles()
     {
-        $source = $this->post['dir_LDP'];
+        $source = $this->post['dir_ldp'];
         $dest =   $this->post['dir_site'];
 
         $this->recurse_copy($source, $dest);
@@ -268,11 +268,12 @@ EOD;
         $filesSkip = array(
             '.',
             '..',
-            'classes',
             'COPYING',
-            'index.php.sample',
             '.git',
+            'index.php.sample',
             'install.php',
+            'LDP_Config.php',
+            'LDP.php',
             'patches',
             'scripts',
             'TODO'
