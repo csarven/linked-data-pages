@@ -66,7 +66,7 @@ $sudo apt-get install maven2
 $sudo apt-get install ruby
 $sudo apt-get install subversion
 
-/* Required to pull Moriarty, Paget, ARC2, and LiDRC_Paget */
+/* Required to pull Moriarty, Paget, ARC2, and Linked Data Pages */
 $sudo apt-get install git
 
 /* Setting up Fuseki triple store */
@@ -92,13 +92,13 @@ $sudo ./s-update --service http://localhost:3030/site/update 'CLEAR default'
 
 
 
-/* If you already have LiDRC_Paget, you can skip this. */
+/* If you already have Linked Data Pages, you can skip this. */
 $cd /var/www
 $sudo mkdir site
 $chown -R csarven site
-$git clone git://github.com/csarven/LiDRC_Paget.git site
+$git clone git://github.com/csarven/Linked Data Pages.git site
 
-/* Required libraries for LiDRC_Paget */
+/* Required libraries for Linked Data Pages */
 $svn checkout http://moriarty.googlecode.com/svn/trunk/ lib/moriarty
 $svn checkout http://paget.googlecode.com/svn/branches/2.0/ lib/paget
 $git clone git://github.com/semsol/arc2.git lib/arc2
