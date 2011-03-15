@@ -1,5 +1,5 @@
 == Package overview ==
-Majority of what's discussed here is written as a how-to article at http://csarven.ca/how-to-create-a-linked-data-site . If you want to dive into this project using steps, I suggest reading that. Naturally there is a lot of overlap with what's mentioned here.
+Majority of what's discussed here is written as a how-to article at http://csarven.ca/how-to-create-a-linked-data-site . If you want to dive into this project using steps, I suggest reading that first. Naturally there is a lot of overlap with what's mentioned here.
 
 === Requirements ===
 * Paget framework
@@ -70,8 +70,8 @@ $sudo apt-get install subversion
 $sudo apt-get install git
 
 /* Setting up Fuseki triple store */
-$sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk /etc/fuseki
-$cd /etc/fuseki
+$sudo svn co http://jena.svn.sourceforge.net/svnroot/jena/Fuseki/trunk /usr/lib/fuseki
+$cd /usr/lib/fuseki
 $sudo mvn clean package
 
 /* Fuseki configuration for a DESCRIBE query for resources as subject and object. Optinal. */
