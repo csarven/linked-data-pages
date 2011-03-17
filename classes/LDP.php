@@ -408,6 +408,17 @@ class LDP_Template extends PAGET_Template
     }
 
 
+    function render($resource_info = null, $inline = FALSE, $brief = FALSE) {
+        if (is_null($resource_info)) {
+            $widget = $this->table_widget;
+            return $widget->render();
+        }
+        else {
+            return parent::render($resource_info, $inline, $brief);
+        }
+    }
+
+
     /**
      * A generic method to render properties.
      * XXX: Status: testing.
@@ -523,21 +534,71 @@ class LDP_Template extends PAGET_Template
  */
 class LDP_TableDataWidget extends PAGET_TableDataWidget
 {
+    function render($resource_info = null, $inline = FALSE, $brief = FALSE) {
+        if ($brief) return $this->render_brief($resource_info, $inline);
+
+        $index = $this->desc->get_index();
+
+        if (is_null($resource_info)) {
+            $resource_uris = array_keys($index);
+        }
+        else {
+            $resource_uris = array($resource_info['value']);
+        }
+
+        $r = '';
+        foreach($resource_uris as $resource_uri) {
+            if (array_key_exists($resource_uri, $index)) {
+                $used_properties = array_keys($index[$resource_uri]);
+                $properties = array_diff(array_merge($this->property_order, array_diff($used_properties, $this->property_order)), $this->ignore_properties);
+                $r .= $this->format_property_value_list($resource_uri, $properties);
+            }
+        }
+
+        return $r;
+    }
+
+
+    function format_property_value_list($resource_uri, $properties) {
+        $data = array();
+        foreach ($properties as $property) {
+            if (! $this->template->is_excluded($resource_uri, $property) ) {
+                $property_values = $this->desc->get_subject_property_values($resource_uri, $property);
+                if ( count($property_values) > 0) {
+                    if ( count($property_values) == 1) {
+                        $label = ucfirst($this->desc->get_first_literal($property, RDFS_LABEL));
+                    }
+                    else {
+                        $label = ucfirst($this->desc->get_first_literal($property, 'http://purl.org/net/vocab/2004/03/label#plural'));
+                    }
+
+                    $formatted_label = $this->format_property_label($property, $label);
+                    $formatted_value = $this->format_property_values($property, $property_values);
+
+                    $data[$resource_uri][$formatted_label] = $formatted_value;
+                    $this->template->exclude($resource_uri, $property);
+                }
+            }
+        }
+        return $this->format_table($data);
+    }
+
+
     function format_table(&$data)
     {
-        $resource_uri = $this->desc->get_primary_resource_uri();
-
         $ret = '';
         if (count($data) > 0) {
-            $ret .= "\n".'<table class="resource_about">';
-            $ret .= "\n".'<caption>About '.'<a href="'.$resource_uri.'">'.$this->desc->get_label($resource_uri).'</a></caption>';
-            $ret .= "\n".'<thead><tr><th>Property</th><th>Object</th></tr></thead>';
-            $ret .= "\n".'<tbody>';
-            foreach ($data as $item) {
-                $ret .= "\n".'<tr><td>' . $item['label'] . '</td><td>' . $item['value'] . '</td></tr>';
+            foreach ($data as $s => $po) {
+                $ret .= "\n".'<table class="resource_about">';
+                $ret .= "\n".'<caption>About '.'<a href="'.$s.'">'.$this->desc->get_label($s).'</a></caption>';
+                $ret .= "\n".'<thead><tr><th>Property</th><th>Value</th></tr></thead>';
+                $ret .= "\n".'<tbody>';
+                foreach ($po as $p => $o) {
+                    $ret .= "\n".'<tr><td>' . $p . '</td><td>' . $o . '</td></tr>';
+                }
+                $ret .= "\n".'</tbody>';
+                $ret .= "\n".'</table>';
             }
-            $ret .= "\n".'</tbody>';
-            $ret .= "\n".'</table>';
         }
 
         return $ret;
