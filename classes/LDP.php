@@ -162,6 +162,8 @@ class LDP_ResourceDescription extends PAGET_ResourceDescription
 
     /**
      * Takes the request URI and maps it to a local equivalent (in RDF store)
+     * If there is no local equivalent (e.g., includes the bnode case),
+     * it will return the same string.
      * 
      * @return string
      */
@@ -171,7 +173,7 @@ class LDP_ResourceDescription extends PAGET_ResourceDescription
             if (preg_match('#http://([^/]+)/#i', $uri, $m)) {
                 $c = $this->sC->getConfig();
 
-                if ( $_SERVER["HTTP_HOST"] != $m[1] && isset($c['server'][$m[1]])) {
+                if ($_SERVER["HTTP_HOST"] != $m[1] && isset($c['server'][$m[1]])) {
                     $r = str_replace($m[1], $c['server'][$m[1]], $uri);
                     return $r;
                 } else {
@@ -179,6 +181,8 @@ class LDP_ResourceDescription extends PAGET_ResourceDescription
                 }
             }
         }
+
+        return $uri;
     }
 
 
