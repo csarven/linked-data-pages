@@ -384,6 +384,21 @@ class LDP_Template extends PAGET_Template
 
 
     /**
+     * Returns a list of subject resources in given index of triples.
+     * If no index given, returns index from query result.
+     */
+
+    function getSubjects($i = null)
+    {
+        if (!is_null($i)) {
+            return array_keys($i);
+        }
+
+        return $this->desc->get_subjects();
+    }
+
+
+    /**
      * Returns object value given subject and property.
      * This method returns the first matching object from triple.
      *
