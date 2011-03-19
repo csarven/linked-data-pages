@@ -604,7 +604,6 @@ class LDP_TableDataWidget extends PAGET_TableDataWidget
                 $ret .= "\n".'</table>';
             }
         }
-
         return $ret;
     }
 }
@@ -739,11 +738,11 @@ class LDP extends LDP_UriSpace
          * store responds with.
          */
 
-        if ($this->currentRequest[4] == '/' && !empty($this->currentRequest[5])) {
-            return $this->getKeyFromValue($this->config['entity']['resource']['path'], $this->config['entity']);
-        } else {
+        if ($this->currentRequest[4] != '/' || empty($this->currentRequest[5])) {
             return $this->getKeyFromValue($this->currentRequest[4], $this->config['entity']);
         }
+
+        return 'default';
     }
 
 
@@ -897,6 +896,6 @@ class LDP extends LDP_UriSpace
             }
         }
 
-        return 'resource';
+        return 'default';
     }
 }

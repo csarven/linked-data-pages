@@ -20,23 +20,31 @@ $config['prefixes'] = array(
 
 /**
  * SPARQL Queries
+ */
+/* Empty query (temporary) */
+$config['sparql_query']['empty'] = '';
+
+/**
+ * Default query is DESCRIBE
  * '<URI>' value is auto-assigned from current request URI
  */
-$config['sparql_query']['empty'] = "";
 $config['sparql_query']['default'] = "
     DESCRIBE <URI>
 ";
-
 /**
- * Entity sets can be configured here:
+ * Entity Set
  */
-$config['sparql_query']['site_home'] = "";
-
 /* URI path for this entity */
-$config['entity']['site_home']['path']     = "/";
-/* SPARQL query to use for this entity e.g., $config['sparql_query']['site_home'] */
-$config['entity']['site_home']['query']    = 'site_home';
+$config['entity']['default']['path']     = '';
+/* SPARQL query to use for this entity e.g., $config['sparql_query']['default'] */
+$config['entity']['default']['query']    = 'default';
 /* HTML template to use for this entity */
+$config['entity']['default']['template'] = 'page.default.html';
+
+
+$config['sparql_query']['site_home'] = "";
+$config['entity']['site_home']['path']     = "/";
+$config['entity']['site_home']['query']    = 'site_home';
 $config['entity']['site_home']['template'] = 'page.home.html';
 
 $config['entity']['site_about']['path']     = "/about";
