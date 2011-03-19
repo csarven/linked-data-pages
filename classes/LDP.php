@@ -595,21 +595,21 @@ class LDP_TableDataWidget extends PAGET_TableDataWidget
 
     function format_table(&$data)
     {
-        $ret = '';
+        $r = '';
         if (count($data) > 0) {
             foreach ($data as $s => $po) {
-                $ret .= "\n".'<table class="resource_about">';
-                $ret .= "\n".'<caption>About '.'<a href="'.$s.'">'.$this->desc->get_label($s).'</a></caption>';
-                $ret .= "\n".'<thead><tr><th>Property</th><th>Value</th></tr></thead>';
-                $ret .= "\n".'<tbody>';
+                $r .= "\n".'<table class="resource_about">';
+                $r .= "\n".'<caption>About '.'<a href="'.$s.'">'.$this->desc->get_label($s).'</a></caption>';
+                $r .= "\n".'<thead><tr><th>Property</th><th>Value</th></tr></thead>';
+                $r .= "\n".'<tbody>';
                 foreach ($po as $p => $o) {
-                    $ret .= "\n".'<tr><td>' . $p . '</td><td>' . $o . '</td></tr>';
+                    $r .= "\n".'<tr><td>' . $p . '</td><td>' . $o . '</td></tr>';
                 }
-                $ret .= "\n".'</tbody>';
-                $ret .= "\n".'</table>';
+                $r .= "\n".'</tbody>';
+                $r .= "\n".'</table>';
             }
         }
-        return $ret;
+        return $r;
     }
 }
 
