@@ -566,6 +566,7 @@ class LDP_TableDataWidget extends PAGET_TableDataWidget
                 $resource_uris = array($resource_info['value']);
             }
             else {
+                $index = $resource_info; /* Works with given triples index instead */
                 $resource_uris = array_keys($resource_info);
             }
         }
