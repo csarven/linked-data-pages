@@ -438,6 +438,13 @@ class LDP_Template extends PAGET_Template
     }
 
 
+    function renderClear()
+    {
+        $this->table_widget->ignore_properties(array());
+        $this->excludes = array();
+    }
+
+
     /**
      * A generic method to render properties.
      * XXX: Status: testing.
