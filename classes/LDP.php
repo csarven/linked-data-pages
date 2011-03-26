@@ -432,9 +432,12 @@ class LDP_Template extends PAGET_Template
             $widget = $this->table_widget;
             return $widget->render();
         }
-        else {
-            return parent::render($resource_info, $inline, $brief);
+        else if (is_array(current($resource_info))) {
+            $widget = $this->table_widget;
+            return $widget->render($resource_info);
         }
+
+        return parent::render($resource_info, $inline, $brief);
     }
 
 
