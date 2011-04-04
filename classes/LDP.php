@@ -398,6 +398,22 @@ class LDP_Template extends PAGET_Template
     }
 
 
+    function getProperties($i = null)
+    {
+        $properties = array();
+
+        if (is_null($i)) {
+            $i = $this->desc->get_index();
+        }
+
+        foreach($i as $s => $po) {
+            $properties[] = array_keys($po);
+        }
+
+        return $properties;
+    }
+
+
     /**
      * Returns object value given subject and property.
      * This method returns the first matching object from triple.
