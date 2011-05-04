@@ -98,4 +98,10 @@ background-image:url(../../base/images/badges/badge_lod-stars-5.png);
 background-color:#EEEEEE;
 }
 
+
+.warning {
+background-color:#FFFFCC;
+border-color:#AAAAAA;
+}
+
 } /*end of @media screen, projection, tv*/

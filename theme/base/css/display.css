@@ -76,12 +76,15 @@ border:0;
 }
 
 .error,
-.success {
+.success,
+.warning {
 padding:4px 1.55%;
 border-radius:4px;
 -moz-border-radius:4px;
 -webkit-border-radius:4px;
 margin-bottom:18px;
+border-width:2px;
+border-style:solid;
 }
 
 .dn { display:none; }
