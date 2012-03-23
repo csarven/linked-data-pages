@@ -16,7 +16,7 @@
         <link rel="shortcut icon" href="<?php echo $favicon; ?>"/>
         <link rel="stylesheet" type="text/css" href="<?php echo $c['site']['base'].'/theme/'.$c['site']['theme'].'/css/display.css?'.$fileVersion; ?>" media="screen, projection, tv, print"/>
 
-        <meta name="description" content="<?php e($this->get_description($resource_uri));?>"/>
+        <meta name="description" content="<?php echo $description;?>"/>
 
 <?php
     $formats = $this->desc->get_resource_triple_values($this->desc->get_uri(), 'http://purl.org/dc/terms/hasFormat');
