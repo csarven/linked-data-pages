@@ -473,8 +473,15 @@ class LDP_Template extends PAGET_Template
             return $widget->render($resource_info);
         }
 
-        return parent::render($resource_info, $inline, $brief);
+        if ($resource_info['type'] == 'bnode' || $resource_info['type'] == 'uri') {
+            $widget = $this->table_widget;
+        }
+        else {
+            $widget = $this->literal_widget;
+        }
+        return $widget->render($resource_info, $inline, $brief);
     }
+
 
 
     function renderClear()
