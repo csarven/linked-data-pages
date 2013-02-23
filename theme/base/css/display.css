@@ -444,6 +444,13 @@ margin-right:18px;
 }
 
 
+.lit {
+margin-bottom:1em;
+}
+.lit .lang {
+font-weight:bold;
+}
+
 
 
 } /*end of screen, projection, tv*/
