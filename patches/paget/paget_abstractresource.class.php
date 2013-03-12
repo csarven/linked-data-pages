@@ -21,7 +21,7 @@ class PAGET_AbstractResource {
         $extension = 'json';
         break;          
       }
-      else if ($accept == 'text/plain') {
+      else if ($accept == 'text/turtle') {
         $extension = 'turtle';
         break;          
       }

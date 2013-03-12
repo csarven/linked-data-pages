@@ -15,7 +15,7 @@ class PAGET_ResourceDescription extends SimpleGraph {
                           'rdf' => array('type' => 'application/rdf+xml', 'label' => 'RDF/XML'), 
                           'html' => array('type' => 'text/html',  'label' => 'HTML'),
                           'json' => array('type' => 'application/json',  'label' => 'JSON'),
-                          'turtle' => array('type' => 'text/plain', 'label' => 'Turtle'),
+                          'turtle' => array('type' => 'text/turtle', 'label' => 'Turtle'),
                       );  
   function __construct($desc_uri, $resource_uri, $type) {
     $this->_uri = $desc_uri;
