@@ -222,10 +222,10 @@ class LDP_ResourceDescription extends PAGET_ResourceDescription
             }
         }
 
-        $augmentors = $this->get_augmentors();
-        foreach ($augmentors as $augmentor) {
-            $augmentor->process($this);
-        }
+#        $augmentors = $this->get_augmentors();
+#        foreach ($augmentors as $augmentor) {
+#            $augmentor->process($this);
+#        }
     }
 }
 
