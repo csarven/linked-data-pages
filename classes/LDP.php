@@ -249,9 +249,10 @@ class LDP_StoreDescribeGenerator extends PAGET_StoreDescribeGenerator
     {
         $store = new LDP_Store($this->_store_uri, $this->sC);
 
+        $type = $desc->_type;
 	if ($desc->_type == 'html' | $desc->_type == 'rdf') { $type = 'rdf/xml'; }
 
-        $response = $store->describe($resource_uri, $this->_type, $desc->_type);
+        $response = $store->describe($resource_uri, $this->_type, $type);
 
         if ($response->is_success()) {
             //XXX: This is sort of another place to map URIs. Revisit after paget issues
