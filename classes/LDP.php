@@ -53,7 +53,7 @@ class LDP_UriSpace extends PAGET_StoreBackedUriSpace
     {
         $request_uri = $request->uri;
 
-        if (preg_match('~^(.+)\.(html|rdf|json|turtle|csv)$~', $request->full_path, $m)) {
+        if (preg_match('~^(.+)\.(html|rdf|json|ttl|csv)$~', $request->full_path, $m)) {
             $base_path = $m[1];
             $type      = $m[2];
 
@@ -790,7 +790,7 @@ class LDP extends LDP_UriSpace
     {
         $ePs = implode("|", array_reverse($this->getEntityPaths()));
 
-        $search = '#^(http://)('.$_SERVER['SERVER_NAME'].')('.$this->config['site']['path'].')('.$ePs.')?(.+)?\.(html|rdf|json|turtle)$#i';
+        $search = '#^(http://)('.$_SERVER['SERVER_NAME'].')('.$this->config['site']['path'].')('.$ePs.')?(.+)?\.(html|rdf|json|ttl)$#i';
 
         if (preg_match($search, $this->requestURI, $matches)) {
             $this->currentRequest = $matches;
