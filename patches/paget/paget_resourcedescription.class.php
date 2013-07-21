@@ -15,7 +15,7 @@ class PAGET_ResourceDescription extends SimpleGraph {
                           'rdf' => array('type' => 'application/rdf+xml', 'label' => 'RDF/XML'), 
                           'html' => array('type' => 'text/html',  'label' => 'HTML'),
                           'json' => array('type' => 'application/json',  'label' => 'JSON'),
-                          'turtle' => array('type' => 'text/turtle', 'label' => 'Turtle'),
+                          'ttl' => array('type' => 'text/turtle', 'label' => 'Turtle'),
                       );  
   function __construct($desc_uri, $resource_uri, $type) {
     $this->_uri = $desc_uri;
@@ -70,7 +70,7 @@ class PAGET_ResourceDescription extends SimpleGraph {
 
     $parts = parse_url($this->_uri);
 
-    if ( preg_match('~^(.+)\.(html|rdf|json|turtle)$~', $parts['path'], $m)) {
+    if ( preg_match('~^(.+)\.(html|rdf|json|ttl)$~', $parts['path'], $m)) {
       $base_uri = $parts['scheme'] . '://' . $parts['host'] . $m[1];
       $suffix = '';
       if (array_key_exists('query', $parts) && strlen($parts['query']) > 0) $suffix = '?' . $parts['query']; 
@@ -172,7 +172,7 @@ class PAGET_ResourceDescription extends SimpleGraph {
     else if ($this->_type == 'json') {
       $response = new PAGET_Response(200, $this->to_json(), array('content-type'=>'application/json') );
     }
-    else if ($this->_type == 'turtle') {
+    else if ($this->_type == 'ttl') {
       $response = new PAGET_Response(200, $this->to_turtle(), array('content-type'=>'text/turtle') );
     }
     else if ($this->_type == 'html') {

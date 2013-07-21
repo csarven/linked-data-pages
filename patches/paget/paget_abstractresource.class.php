@@ -22,7 +22,7 @@ class PAGET_AbstractResource {
         break;          
       }
       else if ($accept == 'text/turtle') {
-        $extension = 'turtle';
+        $extension = 'ttl';
         break;          
       }
       else if ($accept == 'text/html') {
