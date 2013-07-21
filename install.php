@@ -23,7 +23,7 @@ class Install
  *
  * @category  Base
  * @package   LDP
- * @author    Sarven Capadisli <sarven.capadisli@deri.org>
+ * @author    Sarven Capadisli <info@csarven.ca>
  * @copyright 2010 Digital Enterprise Research Institute
  * @license   http://www.fsf.org/licensing/licenses/gpl-3.0.html GNU General Public License version 3.0
  * @link      http://deri.org/
