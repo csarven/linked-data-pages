@@ -132,7 +132,7 @@ address .fn {
 font-weight:bold;
 }
 address img + .fn {
-display:none;
+/*display:none;*/
 }
 address a {
 text-decoration:none;
