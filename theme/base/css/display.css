@@ -29,13 +29,15 @@ overflow:hidden;
 }
 h1 {
 font-size:1.8em;
-margin-bottom:2em;
+margin-bottom:1em;
 }
-h2 { font-size:1.3em; }
-h3 { font-size:1.2em; }
+h2 { font-size:1.6em; }
+h3 { font-size:1.3em; }
 h4 { font-size:1.1em; }
 h5 { font-size:1em; }
 h6 { font-size:0.9em; }
+
+code { font-size:1.2em; }
 
 legend {
 font-weight:bold;
@@ -123,7 +125,8 @@ address {
 float:left;
 margin-bottom:18px;
 margin-left:18px;
-width:70%;
+font-style:normal;
+width:70%
 }
 address.vcard img.logo {
 margin-right:0;
@@ -137,6 +140,20 @@ address img + .fn {
 address a {
 text-decoration:none;
 }
+
+address img,
+address span {
+float:left;
+}
+
+address img {
+margin-right:18px;
+}
+address span {
+float:left;
+width:85%;
+}
+
 
 #header {
 width:100%;
@@ -154,7 +171,7 @@ margin-left:18px;
 }
 #site_nav_global_primary li {
 display:inline;
-margin-left:18px;
+margin-right:18px;
 }
 
 
@@ -264,13 +281,15 @@ border-style:solid;
 }
 
 
-#content p {
+#content p,
+#content ul,
+#content ol,
+#content table {
 margin-bottom:1em;
 }
 
 #content ul {
 list-style-position:inside;
-margin-bottom:1em;
 }
 
 
@@ -337,7 +356,9 @@ font-weight:bold;
 margin-bottom:0.5em;
 }
 
-
+dd {
+margin-bottom:1.25em;
+}
 
 #this_uri {
 margin-bottom:3em;
@@ -445,22 +466,49 @@ margin-right:18px;
 }
 
 
-.lit {
-margin-bottom:1em;
-}
-.lit .lang {
-font-weight:bold;
+#chart_about-dataset tbody th {
+width:40%;
 }
 
+#chart_about-dataset tbody td {
+width:25%;
+}
 
 
 } /*end of screen, projection, tv*/
 
 
 
+#observation #form_search {
+clear:both;
+float:left;
+width:100%;
+}
 
+#observation #form_search li {
+list-style-type:none;
+}
 
+#observation #form_indicator,
+#observation #form_country,
+#observation #form_year {
+float:left;
+margin-right:1em;
+}
 
+#observation #form_search legend,
+#observation #form_search label  {
+display:none;
+}
+#observation #form_indicator select {
+width:23em;
+}
+#observation #form_country select {
+width:17em;
+}
+#observation #form_country {
+
+}
 
 
 
