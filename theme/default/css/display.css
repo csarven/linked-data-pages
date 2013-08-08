@@ -34,7 +34,7 @@ font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 font-size:1em;
 }
 address {
-margin-right:5.3%;
+margin-right:2%;
 }
 
 
@@ -94,6 +94,13 @@ background-image:url(../../base/images/badges/badge_lod-stars-5.png);
 }
 
 
+
+.processing {
+width:16px;
+height:16px;
+background:url(../../base/images/icons/icon_processing.gif) no-repeat 0 0;
+}
+
 #aside_primary {
 background-color:#EEEEEE;
 }
@@ -102,6 +109,11 @@ background-color:#EEEEEE;
 .warning {
 background-color:#FFFFCC;
 border-color:#AAAAAA;
+}
+
+
+#datasets-from-source tbody td:first-child {
+width:45%;
 }
 
 } /*end of @media screen, projection, tv*/
