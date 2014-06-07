@@ -133,6 +133,7 @@ font-weight:bold;
 }
 address img + .fn {
 /*display:none;*/
+margin-top:11px;
 }
 address a {
 text-decoration:none;
