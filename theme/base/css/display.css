@@ -588,10 +588,6 @@ background-color:#F0F0F0;
 }
 
 
-} /*end of screen, projection, tv*/
-
-
-
 #observation #form_search {
 clear:both;
 float:left;
@@ -622,6 +618,28 @@ width:17em;
 #observation #form_country {
 
 }
+
+#figure_270a-dataspaces,
+#dataspaces {
+float:left;
+}
+
+#figure_270a-dataspaces {
+width:auto;
+margin-right:2%;
+}
+#dataspaces {
+width:30%;
+margin-top:8em;
+}
+
+#stats-analysis {
+clear:both;
+}
+
+
+
+} /*end of screen, projection, tv*/
 
 
 
