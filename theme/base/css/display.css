@@ -1,10 +1,7 @@
 /** theme:    base
  *
- * @package   
  * @author    Sarven Capadisli <info@csarven.ca>
- * @copyright 2010 Digital Enterprise Research Institute
  * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
- * @link      http://deri.org/
  */
 
 @media screen, projection, tv {
@@ -179,8 +176,8 @@ margin-right:18px;
 float:left;
 width:64%;
 padding:18px;
-
 width:96.42%;
+margin-bottom:1em;
 }
 
 #site_nav_local_sections {
@@ -348,6 +345,8 @@ margin-bottom:0.5em;
 
 .entry-content {
 margin-bottom:3em;
+float:left;
+width:100%;
 }
 
 
@@ -472,6 +471,119 @@ width:40%;
 
 #chart_about-dataset tbody td {
 width:25%;
+}
+
+
+.lit {
+margin-bottom:1em;
+}
+.lit .lang {
+font-weight:bold;
+}
+
+
+#form_analysis {
+float:left;
+width:33%;
+margin-right:5%;
+}
+
+#form_analysis select {
+/*width:325px;*/
+width:100%;
+margin-bottom:18px;
+}
+
+#form_analysis optgroup,
+#form_analysis option {
+/*width:100%;*/
+}
+
+#form_analysis optgroup {
+font-size:120%;
+margin-top:11px;
+}
+#form_analysis option {
+font-size:85%;
+}
+
+#plot {
+float:left;
+/*width:45%;*/
+margin-bottom:2.5em;
+}
+
+#statsSummary {
+clear:both;
+float:left;
+margin-left:33.5%;
+width:65.5%;
+}
+
+#submit {
+font-weight:bold;
+padding:4px;
+float:right;
+margin-top:18px;
+}
+
+#lsd-analysis-results {
+margin-bottom:18px;
+width:100%;
+}
+#lsd-analysis-results caption {
+display:none;
+}
+
+#content #download-csv {
+float:right;
+margin-right:1.25em;
+margin-bottom:0;
+padding-left:21px;
+background:url(../../default/images/icons/icon_diskette.gif) no-repeat 0 50%;
+}
+
+#oh-yeah {
+text-align:right;
+}
+
+body.disconnected {
+background-color:#E5E5E5 !important;
+opacity:1 !important;
+}
+
+
+
+/*Bootstrap stuff*/
+.tab-content > .tab-pane {
+display:none;
+}
+.tab-content > .active {
+display:block;
+}
+
+#content .nav-tabs {
+float:left;
+width:100%;
+margin-bottom:2em;
+}
+
+.nav-tabs li {
+float:left;
+list-style-type:none;
+}
+.nav-tabs li a {
+border-bottom:1px solid #E5E5E5;
+padding:0.5em 1em;
+display:block;
+text-decoration:none;
+}
+.nav-tabs > .active > a {
+border:1px solid #E5E5E5;
+border-bottom:0;
+border-top-left-radius:10px;
+border-top-right-radius:10px;
+background-color:#F0F0F0;
 }
 
 
