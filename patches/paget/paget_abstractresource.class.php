@@ -33,7 +33,12 @@ class PAGET_AbstractResource {
 
     $parts = parse_url($this->_uri);
 
-    $base_uri = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+    $port = '';
+    if($parts['port'] != '80' || $parts['port'] != '') {
+        $port = ":" . $parts['port'];
+    }
+
+    $base_uri = $parts['scheme'] . '://' . $parts['host'] . $port . $parts['path'];
     $suffix = '';
     if (!empty($parts['query'])) $suffix = '?' . $parts['query']; 
   
