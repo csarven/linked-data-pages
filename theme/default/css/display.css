@@ -1,10 +1,7 @@
 /** theme:    default
  *
- * @package   
  * @author    Sarven Capadisli <info@csarven.ca>
- * @copyright 2010 Digital Enterprise Research Institute
- * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
- * @link      http://deri.org/
+ * @license   http://creativecommons.org/licenses/by/4.0/ Creative Commons Attribution 3.0 Unported
  */
 
 @import url(../../base/css/display.css);
@@ -42,7 +39,7 @@ margin-right:2%;
 box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
 -moz-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
 -webkit-box-shadow:5px 7px 7px rgba(194, 194, 194, 0.3);
-background-image:url(../../default/images/illustrations/illu_node-connections-2.gif);
+background-image:url(../images/illustrations/illu_node-connections-2.gif);
 background-repeat:no-repeat;
 background-position:100% 0;
 }
@@ -73,33 +70,20 @@ text-shadow: rgba(194,194,194,0.5) 1px 1px 1px;
 }
 
 
-.badge_lod {
-background-repeat:no-repeat;
-}
-
-.lod-stars-1 {
-background-image:url(../../base/images/badges/badge_lod-stars-1.png);
-}
-.lod-stars-2 {
-background-image:url(../../base/images/badges/badge_lod-stars-2.png);
-}
-.lod-stars-3 {
-background-image:url(../../base/images/badges/badge_lod-stars-3.png);
-}
-.lod-stars-4 {
-background-image:url(../../base/images/badges/badge_lod-stars-4.png);
-}
-.lod-stars-5 {
-background-image:url(../../base/images/badges/badge_lod-stars-5.png);
-}
 
 
 
 .processing {
 width:16px;
 height:16px;
-background:url(../../base/images/icons/icon_processing.gif) no-repeat 0 0;
+background:url(../images/icons/icon_processing.gif) no-repeat 0 0;
 }
+
+#content #download-csv {
+background:url(../images/icons/icon_diskette.gif) no-repeat 0 50%;
+}
+
+
 
 #aside_primary {
 background-color:#EEEEEE;
