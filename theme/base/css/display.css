@@ -1,7 +1,7 @@
 /** theme:    base
  *
  * @author    Sarven Capadisli <info@csarven.ca>
- * @license   http://creativecommons.org/licenses/by/4.0/ Creative Commons Attribution 3.0 Unported
+ * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
  */
 
 @media screen, projection, tv {
@@ -131,7 +131,8 @@ margin-right:0;
 address .fn {
 font-weight:bold;
 }
-address img + .fn {
+address img + .fn,
+address object + .fn {
 /*display:none;*/
 margin-top:11px;
 }
@@ -140,11 +141,13 @@ text-decoration:none;
 }
 
 address img,
+address object,
 address span {
 float:left;
 }
 
-address img {
+address img,
+address object {
 margin-right:18px;
 }
 address span {
@@ -541,6 +544,7 @@ float:right;
 margin-right:1.25em;
 margin-bottom:0;
 padding-left:21px;
+background:url(../../default/images/icons/icon_diskette.gif) no-repeat 0 50%;
 }
 
 #oh-yeah {
