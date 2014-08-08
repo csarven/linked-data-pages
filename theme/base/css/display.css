@@ -120,7 +120,6 @@ border-bottom:0;
 
 address {
 float:left;
-margin-bottom:18px;
 margin-left:18px;
 font-style:normal;
 width:70%
@@ -161,7 +160,7 @@ width:100%;
 position:relative;
 float:left;
 padding-top:18px;
-margin-bottom:29px;
+margin-bottom:18px;
 }
 
 #site_nav_global_primary {
