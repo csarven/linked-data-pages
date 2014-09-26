@@ -40,10 +40,8 @@ legend {
 font-weight:bold;
 font-size:1.3em;
 }
-input, textarea, select, option {
+input, textarea, select, option, button {
 padding:4px;
-font-family:sans-serif;
-font-size:1em;
 }
 input.submit {
 font-weight:bold;
