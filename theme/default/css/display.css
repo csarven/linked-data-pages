@@ -18,12 +18,17 @@ color:#0000E4;
 }
 
 h1,h2,h3,h4,h5,h6,
-caption, dt {
+caption, dt
+button {
 text-shadow:1px 1px 1px #CCCCCC;
 }
 
 tr {
 border-color:#EEEEEE;
+}
+
+kbd {
+border-color:#CCCCCC;
 }
 
 body {

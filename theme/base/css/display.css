@@ -71,6 +71,23 @@ top:2px;
 left:auto;
 border:0;
 }
+button {
+font-weight:bold;
+font-family: monospace;
+padding:0 4px;
+width:36px;
+}
+
+kbd {
+font-weight:bold;
+padding:2px 6px;
+border-width:1px;
+border-style: solid
+border-radius:4px;
+-moz-border-radius:4px;
+-webkit-border-radius:4px;
+}
+
 
 .error,
 .success,
