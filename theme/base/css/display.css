@@ -4,6 +4,32 @@
  * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
  */
 
+@font-face {
+font-family: "CMU Sans Serif Medium";
+src: local("CMU Sans Serif Medium"), url("http://linked-research.270a.info/cmunss.otf");
+}
+@font-face {
+font-family: "CMU Sans Serif Bold";
+src: local("CMU Sans Serif Bold"), url("http://linked-research.270a.info/cmunsx.otf");
+font-weight: bold !important;
+}
+@font-face {
+font-family: "CMU Sans Serif Italic";
+src: local("CMU Sans Serif Italic"), url("http://linked-research.270a.info/cmunsi.otf");
+font-style: italic, oblique !important;
+}
+@font-face {
+font-family: "CMU Sans Serif Bold Italic";
+src: local("CMU Sans Serif Bold Italic"), url("http://linked-research.270a.info/cmunbxo.otf");
+font-weight: bold;
+font-style: italic, oblique;
+}
+@font-face {
+font-family: "CMU Sans Serif Monospace";
+src: local("CMU Sans Serif Monospace"), url("http://linked-research.270a.info/cmuntt.otf");
+}
+
+
 @media screen, projection, tv {
 * { margin:0; padding:0; }
 img { display:block; border:0; }
@@ -15,8 +41,8 @@ ol { list-style-position:inside; }
 body {
 background-color:#FFFFFF;
 color:#000000;
-font-family:sans-serif;
-font-size:1em;
+font-family: "CMU Sans Serif", serif !important;
+font-size:1.3em !important;
 line-height:1.65;
 position:relative;
 }
@@ -35,6 +61,18 @@ h5 { font-size:1em; }
 h6 { font-size:0.9em; }
 
 code { font-size:1.2em; }
+
+h1,h2,h3,h4,h5,h6,b,strong, input[type="submit"], dt {
+font-family: "CMU Sans Serif Bold", sans-serif !important;
+}
+i, em, address {
+font-family: "CMU Sans Serif Italic", sans-serif !important;
+font-style:normal !important;
+}
+
+code, pre, kbd {
+font-family: "CMU Sans Serif Monospace", monospace !important;
+}
 
 legend {
 font-weight:bold;
@@ -341,7 +379,7 @@ margin-right:8%;
 }
 
 
-#resource_data .related table {
+#resource_data table {
 width:100%;
 }
 
@@ -641,18 +679,26 @@ width:17em;
 
 }
 
-#figure_270a-dataspaces,
-#dataspaces {
-float:left;
-}
+/*#figure_270a-dataspaces,*/
+/*#dataspaces {*/
+/*float:left;*/
+/*}*/
 
-#figure_270a-dataspaces {
-width:auto;
-margin-right:2%;
+#figure_270a-dataspaces object {
+/*width:auto;*/
+/*margin-right:2%;*/
+width:100%;
+margin:0 auto;
 }
 #dataspaces {
-width:29.25%;
-margin-top:3.5em;
+/*width:29.25%;*/
+/*margin-top:3.5em;*/
+column-count: 2;
+column-gap: 1em;
+-moz-column-count: 2;
+-moz-column-gap: 1em;
+-webkit-column-count: 2;
+-webkit-column-gap: 1em;
 }
 
 #stats-analysis {
