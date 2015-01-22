@@ -41,7 +41,7 @@ ol { list-style-position:inside; }
 body {
 background-color:#FFFFFF;
 color:#000000;
-font-family: "CMU Sans Serif", serif !important;
+font-family: "CMU Sans Serif Medium", sans-serif !important;
 font-size:1.3em !important;
 line-height:1.65;
 position:relative;
