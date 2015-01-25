@@ -6,27 +6,27 @@
 
 @font-face {
 font-family: "CMU Sans Serif Medium";
-src: local("CMU Sans Serif Medium"), url("http://linked-research.270a.info/cmunss.otf");
+src: local("CMU Sans Serif Medium"), url("http://linked-research.270a.info/media/fonts/cmunss.otf");
 }
 @font-face {
 font-family: "CMU Sans Serif Bold";
-src: local("CMU Sans Serif Bold"), url("http://linked-research.270a.info/cmunsx.otf");
+src: local("CMU Sans Serif Bold"), url("http://linked-research.270a.info/media/fonts/cmunsx.otf");
 font-weight: bold !important;
 }
 @font-face {
 font-family: "CMU Sans Serif Italic";
-src: local("CMU Sans Serif Italic"), url("http://linked-research.270a.info/cmunsi.otf");
+src: local("CMU Sans Serif Italic"), url("http://linked-research.270a.info/media/fonts/cmunsi.otf");
 font-style: italic, oblique !important;
 }
 @font-face {
 font-family: "CMU Sans Serif Bold Italic";
-src: local("CMU Sans Serif Bold Italic"), url("http://linked-research.270a.info/cmunbxo.otf");
+src: local("CMU Sans Serif Bold Italic"), url("http://linked-research.270a.info/media/fonts/cmunbxo.otf");
 font-weight: bold;
 font-style: italic, oblique;
 }
 @font-face {
 font-family: "CMU Sans Serif Monospace";
-src: local("CMU Sans Serif Monospace"), url("http://linked-research.270a.info/cmuntt.otf");
+src: local("CMU Sans Serif Monospace"), url("http://linked-research.270a.info/media/fonts/cmuntt.otf");
 }
 
 
